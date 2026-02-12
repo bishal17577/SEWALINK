@@ -387,6 +387,23 @@
       color: #0f172a;
       font-size: 0.9rem;
       margin-bottom: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .friend-badge {
+      color: #22c55e;
+      font-size: 0.7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .stranger-badge {
+      color: #64748b;
+      font-size: 0.65rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
     }
     .chat-preview {
       font-size: 0.75rem;
@@ -445,6 +462,21 @@
       font-size: 0.95rem;
       font-weight: 600;
       color: #0f172a;
+      margin-bottom: 0.2rem;
+    }
+    .friend-status {
+      color: #22c55e;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .stranger-status {
+      color: #64748b;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.2rem;
     }
     .back-btn {
       display: none;
@@ -539,9 +571,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .send-btn:disabled {
-      background: #94a3b8;
     }
 
     .discover-grid {
@@ -950,7 +979,7 @@
       });
     }
 
-    // ========== CHATS - REAL-TIME ==========
+    // ========== CHATS - REAL-TIME - SHOWS ALL CHATS WITH LATEST FIRST ==========
     function setupChatsListener() {
       if (!currentUser) return;
       
@@ -997,6 +1026,13 @@
             }
           });
         }
+        
+        // Sort by lastMessageTime (already sorted by Firestore, but ensure it's correct)
+        conversations.sort((a, b) => {
+          const timeA = a.lastMessageTime?.toDate?.() || new Date(0);
+          const timeB = b.lastMessageTime?.toDate?.() || new Date(0);
+          return timeB - timeA;
+        });
         
         // Update badges
         if (navMessagesBadge) {
@@ -1102,13 +1138,14 @@
           friends: arrayUnion(currentUser.uid)
         });
         
-        // 4. Create notification (optional)
+        // 4. Create notification
         try {
           await addDoc(collection(db, 'notifications'), {
             userId: fromId,
             type: 'friend_accepted',
             message: `${currentUser.displayName || 'Someone'} accepted your friend request`,
             fromUserId: currentUser.uid,
+            fromUserName: currentUser.displayName || 'User',
             read: false,
             createdAt: serverTimestamp()
           });
@@ -1225,7 +1262,7 @@
           userId: userId,
           name: userData.displayName || 'User',
           photo: userData.photoURL,
-          isFriend: friendIds.has(userId) // Check if friends, but don't block chat
+          isFriend: friendIds.has(userId)
         };
         
         sidebarEl.style.display = 'none';
@@ -1316,10 +1353,10 @@
       }
     }
 
-    // ========== RENDER FUNCTIONS ==========
+    // ========== RENDER CHAT LIST - SHOWS ALL CHATS WITH LATEST AT TOP ==========
     function renderChatList() {
       if (conversations.length === 0) {
-        chatListEl.innerHTML = '<div class="empty-state"><i class="fas fa-comments"></i><h4>No chats yet</h4><p>Go to Discover to find people</p></div>';
+        chatListEl.innerHTML = '<div class="empty-state"><i class="fas fa-comments"></i><h4>No chats yet</h4><p>Go to Discover to start a conversation</p></div>';
         return;
       }
       
@@ -1327,7 +1364,13 @@
       conversations.forEach(chat => {
         const time = chat.lastMessageTime?.toDate?.();
         const isFriend = friendIds.has(chat.other.id);
-        const friendBadge = isFriend ? '<span style="color: #22c55e; margin-left: 0.5rem; font-size: 0.65rem;"><i class="fas fa-check-circle"></i></span>' : '';
+        
+        let badgeHtml = '';
+        if (isFriend) {
+          badgeHtml = '<span class="friend-badge"><i class="fas fa-check-circle"></i> Friend</span>';
+        } else {
+          badgeHtml = '<span class="stranger-badge"><i class="fas fa-user"></i> Stranger</span>';
+        }
         
         html += `
           <div class="chat-item ${currentChat?.id === chat.id ? 'active' : ''}" onclick="window.startChat('${chat.other.id}')">
@@ -1336,7 +1379,10 @@
             </div>
             <div class="chat-info">
               <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="chat-name">${escapeHTML(chat.other.name)}${friendBadge}</span>
+                <span class="chat-name">
+                  ${escapeHTML(chat.other.name)}
+                  ${badgeHtml}
+                </span>
                 <span class="chat-time">${time ? timeAgo(time) : ''}</span>
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1350,6 +1396,7 @@
       chatListEl.innerHTML = html;
     }
 
+    // ========== RENDER FRIENDS ==========
     function renderFriends() {
       if (friends.length === 0) {
         chatListEl.innerHTML = '<div class="empty-state"><i class="fas fa-user-friends"></i><h4>No friends yet</h4><p>Add people from Discover</p></div>';
@@ -1364,8 +1411,13 @@
               <img src="${f.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(f.displayName || 'User') + '&background=2563eb&color=fff&size=44'}">
             </div>
             <div class="chat-info">
-              <span class="chat-name">${escapeHTML(f.displayName || 'User')}</span>
-              <span class="chat-preview">Friend</span>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span class="chat-name">
+                  ${escapeHTML(f.displayName || 'User')}
+                  <span class="friend-badge"><i class="fas fa-check-circle"></i> Friend</span>
+                </span>
+              </div>
+              <span class="chat-preview">Click to chat</span>
             </div>
           </div>
         `;
@@ -1373,6 +1425,7 @@
       chatListEl.innerHTML = html;
     }
 
+    // ========== RENDER REQUESTS ==========
     function renderRequests() {
       if (requests.length === 0) {
         chatListEl.innerHTML = '<div class="empty-state"><i class="fas fa-user-plus"></i><h4>No pending requests</h4></div>';
@@ -1405,6 +1458,7 @@
       chatListEl.innerHTML = html;
     }
 
+    // ========== RENDER DISCOVER ==========
     function renderDiscover() {
       if (discover.length === 0) {
         chatListEl.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i><h4>No users found</h4><p>Try a different search</p></div>';
@@ -1435,6 +1489,7 @@
       chatListEl.innerHTML = html;
     }
 
+    // ========== RENDER CHAT ==========
     function renderChat(messages) {
       if (!currentChat) return;
       
@@ -1464,7 +1519,10 @@
                 <img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=40'}">
                 <div>
                   <h3>${escapeHTML(currentChat.name)}</h3>
-                  ${isFriend ? '<span style="color: #22c55e; font-size: 0.7rem;"><i class="fas fa-check-circle"></i> Friend</span>' : ''}
+                  ${isFriend ? 
+                    '<span class="friend-status"><i class="fas fa-check-circle"></i> Friend</span>' : 
+                    '<span class="stranger-status"><i class="fas fa-user"></i> Stranger</span>'
+                  }
                 </div>
               </div>
             </div>
