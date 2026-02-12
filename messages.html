@@ -377,16 +377,6 @@
       object-fit: cover;
       border: 2px solid white;
     }
-    .online-dot {
-      position: absolute;
-      bottom: 2px;
-      right: 2px;
-      width: 10px;
-      height: 10px;
-      background: #22c55e;
-      border: 2px solid white;
-      border-radius: 50%;
-    }
 
     .chat-info {
       flex: 1;
@@ -723,10 +713,10 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import {
       getFirestore, collection, query, where, orderBy, getDocs, getDoc, doc,
-      addDoc, updateDoc, setDoc, onSnapshot, serverTimestamp, deleteDoc, limit, arrayUnion, arrayRemove
+      addDoc, updateDoc, setDoc, onSnapshot, serverTimestamp, deleteDoc, limit, arrayUnion, arrayRemove, writeBatch
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -809,7 +799,7 @@
       if (user) {
         currentUser = user;
         
-        // Ensure user doc exists with all fields
+        // Ensure user doc exists with friends array
         const userRef = doc(db, 'users', user.uid);
         const userSnap = await getDoc(userRef);
         
@@ -820,9 +810,13 @@
             email: user.email || '',
             photoURL: user.photoURL || '',
             friends: [],
-            friendRequests: [],
             createdAt: serverTimestamp()
           });
+        } else {
+          // Ensure friends field exists
+          if (!userSnap.data().friends) {
+            await updateDoc(userRef, { friends: [] });
+          }
         }
 
         authUI.innerHTML = `
@@ -884,12 +878,11 @@
       }
     }
 
-    // ========== LOAD FRIENDS (ACCEPTED REQUESTS) ==========
+    // ========== LOAD FRIENDS ==========
     async function loadFriends() {
       if (!currentUser) return;
       
       try {
-        // Get user's friends array
         const userRef = doc(db, 'users', currentUser.uid);
         const userSnap = await getDoc(userRef);
         const userData = userSnap.data() || {};
@@ -911,7 +904,7 @@
       }
     }
 
-    // ========== FRIEND REQUESTS - REAL-TIME LISTENER ==========
+    // ========== FRIEND REQUESTS - REAL-TIME ==========
     function setupRequestsListener() {
       if (!currentUser) return;
       
@@ -942,7 +935,7 @@
           });
         }
         
-        // Update badges
+        // Update badge
         if (requestsTabBadge) {
           if (requests.length > 0) {
             requestsTabBadge.textContent = requests.length > 9 ? '9+' : requests.length;
@@ -957,7 +950,7 @@
       });
     }
 
-    // ========== CHATS - REAL-TIME LISTENER ==========
+    // ========== CHATS - REAL-TIME ==========
     function setupChatsListener() {
       if (!currentUser) return;
       
@@ -1089,7 +1082,7 @@
       if (!currentUser) return;
       
       try {
-        console.log('Accepting request:', requestId);
+        console.log('Accepting friend request:', requestId, 'from:', fromId);
         
         // 1. Update request status
         await updateDoc(doc(db, 'friendRequests', requestId), {
@@ -1097,39 +1090,43 @@
           respondedAt: serverTimestamp()
         });
         
-        // 2. Add to current user's friends array
+        // 2. Update current user's friends array
         const userRef = doc(db, 'users', currentUser.uid);
         await updateDoc(userRef, {
           friends: arrayUnion(fromId)
         });
         
-        // 3. Add to other user's friends array
+        // 3. Update other user's friends array
         const otherRef = doc(db, 'users', fromId);
         await updateDoc(otherRef, {
           friends: arrayUnion(currentUser.uid)
         });
         
-        // 4. Create notification
-        await addDoc(collection(db, 'notifications'), {
-          userId: fromId,
-          type: 'friend_accepted',
-          message: `${currentUser.displayName || 'Someone'} accepted your friend request`,
-          fromUserId: currentUser.uid,
-          read: false,
-          createdAt: serverTimestamp()
-        });
+        // 4. Create notification (optional)
+        try {
+          await addDoc(collection(db, 'notifications'), {
+            userId: fromId,
+            type: 'friend_accepted',
+            message: `${currentUser.displayName || 'Someone'} accepted your friend request`,
+            fromUserId: currentUser.uid,
+            read: false,
+            createdAt: serverTimestamp()
+          });
+        } catch (notifError) {
+          console.error('Notification error (non-critical):', notifError);
+        }
         
-        showAlert('✅ Friend request accepted');
+        showAlert('✅ Friend request accepted!');
         
-        // Reload friends
+        // Reload data
         await loadFriends();
         
-        // Refresh UI
+        // Update UI
         if (activeTab === 'friends') renderFriends();
         if (activeTab === 'requests') renderRequests();
         if (activeTab === 'discover') loadDiscover();
         
-        // If currently in chat with this user, update chat UI
+        // Update current chat if open
         if (currentChat && currentChat.userId === fromId) {
           currentChat.isFriend = true;
           if (chatAreaEl.classList.contains('active')) {
@@ -1185,9 +1182,12 @@
       }
     }
 
-    // ========== CHAT FUNCTIONS ==========
+    // ========== CHAT FUNCTIONS - NO FRIEND REQUIRED ==========
     window.startChat = async function(userId) {
-      if (!currentUser || userId === currentUser.uid) return;
+      if (!currentUser || userId === currentUser.uid) {
+        showAlert('Cannot chat with yourself', 'error');
+        return;
+      }
       
       try {
         // Find existing chat
@@ -1210,6 +1210,7 @@
             createdAt: serverTimestamp()
           });
           chatId = newChat.id;
+          console.log('✅ New chat created:', chatId);
         }
         
         // Mark messages as read
@@ -1224,7 +1225,7 @@
           userId: userId,
           name: userData.displayName || 'User',
           photo: userData.photoURL,
-          isFriend: friendIds.has(userId)
+          isFriend: friendIds.has(userId) // Check if friends, but don't block chat
         };
         
         sidebarEl.style.display = 'none';
@@ -1291,9 +1292,8 @@
         
         usersSnap.forEach(doc => {
           if (doc.id !== currentUser.uid) {
-            // Only show users who are NOT friends and have NO pending requests
             const isFriend = friendIds.has(doc.id);
-            const hasPendingFromMe = requests.some(r => r.fromUser.id === doc.id);
+            const hasPendingFromMe = requests.some(r => r.fromUser?.id === doc.id);
             
             if (!isFriend && !hasPendingFromMe) {
               discover.push({ id: doc.id, ...doc.data() });
@@ -1326,6 +1326,9 @@
       let html = '';
       conversations.forEach(chat => {
         const time = chat.lastMessageTime?.toDate?.();
+        const isFriend = friendIds.has(chat.other.id);
+        const friendBadge = isFriend ? '<span style="color: #22c55e; margin-left: 0.5rem; font-size: 0.65rem;"><i class="fas fa-check-circle"></i></span>' : '';
+        
         html += `
           <div class="chat-item ${currentChat?.id === chat.id ? 'active' : ''}" onclick="window.startChat('${chat.other.id}')">
             <div class="chat-avatar">
@@ -1333,7 +1336,7 @@
             </div>
             <div class="chat-info">
               <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="chat-name">${escapeHTML(chat.other.name)}</span>
+                <span class="chat-name">${escapeHTML(chat.other.name)}${friendBadge}</span>
                 <span class="chat-time">${time ? timeAgo(time) : ''}</span>
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1461,6 +1464,7 @@
                 <img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=40'}">
                 <div>
                   <h3>${escapeHTML(currentChat.name)}</h3>
+                  ${isFriend ? '<span style="color: #22c55e; font-size: 0.7rem;"><i class="fas fa-check-circle"></i> Friend</span>' : ''}
                 </div>
               </div>
             </div>
@@ -1474,15 +1478,14 @@
             }
           </div>
           <div class="messages" id="messagesContainer">
-            ${msgs || '<div style="text-align:center; color:#64748b; padding:2rem;">No messages yet</div>'}
+            ${msgs || '<div style="text-align:center; color:#64748b; padding:2rem;">No messages yet. Say hello! 👋</div>'}
           </div>
           <div class="message-input-area">
-            <input type="text" id="messageInput" class="message-input" placeholder="Type a message..." ${!isFriend ? 'disabled' : ''}>
-            <button class="send-btn" id="sendBtn" ${!isFriend ? 'disabled' : ''} onclick="sendMessage()">
+            <input type="text" id="messageInput" class="message-input" placeholder="Type a message...">
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">
               <i class="fas fa-paper-plane"></i>
             </button>
           </div>
-          ${!isFriend ? '<p style="color:#ef4444; font-size:0.7rem; padding:0 1rem 0.5rem;">Add as friend to start chatting</p>' : ''}
         </div>
       `;
 
