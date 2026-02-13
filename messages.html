@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   
-  <title>SewaLink · Messages</title>
+  <title>SewaLink · Messenger</title>
   <meta name="description" content="Real-time messaging with freelancers and clients.">
   
   <!-- PWA / App-like settings -->
@@ -14,9 +14,10 @@
   
   <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232563eb'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%232563eb'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%232563eb'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
-    /* ========== MOBILE-FIRST APP STYLES ========== */
+    /* ========== INDEX.HTML UI STYLES ========== */
     * {
       margin: 0;
       padding: 0;
@@ -149,8 +150,8 @@
       display: inline-block;
     }
     .profile-avatar {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       cursor: pointer;
       border: 2px solid white;
@@ -159,12 +160,12 @@
     }
     .dropdown-menu {
       position: absolute;
-      top: 45px;
+      top: 50px;
       right: 0;
       background: white;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      width: 240px;
+      width: 260px;
       padding: 0.5rem;
       display: none;
       z-index: 101;
@@ -174,13 +175,13 @@
       display: block;
     }
     .user-info {
-      padding: 0.8rem;
+      padding: 1rem;
       border-bottom: 1px solid #f1f5f9;
     }
     .user-name {
       font-weight: 600;
       color: #0f172a;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
     .user-email {
       font-size: 0.75rem;
@@ -190,10 +191,10 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      padding: 0.6rem 0.8rem;
+      padding: 0.75rem 1rem;
       text-decoration: none;
       color: #1e293b;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       border-radius: 10px;
     }
     .dropdown-item:hover {
@@ -204,7 +205,7 @@
       background: none;
       border: none;
       text-align: left;
-      padding: 0.6rem 0.8rem;
+      padding: 0.75rem 1rem;
       color: #b91c1c;
       border-top: 1px solid #f1f5f9;
       margin-top: 0.25rem;
@@ -213,7 +214,7 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
     }
 
     /* ========== MAIN MESSENGER LAYOUT ========== */
@@ -262,19 +263,20 @@
       align-items: center;
       background: #f8fafc;
       border-radius: 40px;
-      padding: 0.5rem 1rem;
+      padding: 0.6rem 1rem;
       border: 1px solid #e2e8f0;
+      margin-bottom: 0.5rem;
     }
     .search-box i {
       color: #94a3b8;
       margin-right: 0.5rem;
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
     .search-box input {
       width: 100%;
       border: none;
       background: transparent;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
     }
     .search-box input:focus {
       outline: none;
@@ -283,17 +285,20 @@
     .chat-list {
       flex: 1;
       overflow-y: auto;
-      background: white;
+      padding: 0.5rem;
     }
 
+    /* ========== CHAT ITEM ========== */
     .chat-item {
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 0.8rem 1rem;
+      padding: 0.8rem;
+      border-radius: 16px;
       cursor: pointer;
+      margin-bottom: 0.2rem;
       transition: background 0.2s;
-      border-bottom: 1px solid #f1f5f9;
+      position: relative;
     }
     .chat-item:hover {
       background: #f8fafc;
@@ -306,8 +311,8 @@
       position: relative;
     }
     .chat-avatar img {
-      width: 48px;
-      height: 48px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid white;
@@ -317,8 +322,8 @@
       position: absolute;
       bottom: 2px;
       right: 2px;
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       background: #22c55e;
       border: 2px solid white;
       border-radius: 50%;
@@ -328,40 +333,100 @@
       flex: 1;
       min-width: 0;
     }
+    .chat-name-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.2rem;
+    }
     .chat-name {
       font-weight: 600;
       color: #0f172a;
-      font-size: 0.95rem;
-      margin-bottom: 0.2rem;
+      font-size: 1rem;
+    }
+    .chat-nickname {
+      color: #2563eb;
+      font-size: 0.7rem;
+      background: #dbeafe;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+    }
+    .pin-icon {
+      color: #eab308;
+      font-size: 0.8rem;
+      margin-left: auto;
+    }
+    .chat-preview-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .chat-preview {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #64748b;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-    }
-    .chat-meta {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.3rem;
+      max-width: 200px;
     }
     .chat-time {
       font-size: 0.65rem;
       color: #94a3b8;
     }
-    .unread-badge {
+    .chat-badge {
       background: #2563eb;
       color: white;
-      font-size: 0.6rem;
-      min-width: 18px;
-      height: 18px;
-      border-radius: 9px;
+      font-size: 0.7rem;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 4px;
+      padding: 0 6px;
+    }
+
+    /* ========== ALL USERS SECTION ========== */
+    .all-users-header {
+      padding: 1rem 0.5rem 0.5rem;
+      color: #64748b;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .user-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem;
+      border-radius: 16px;
+      cursor: pointer;
+      margin-bottom: 0.2rem;
+      transition: background 0.2s;
+    }
+    .user-item:hover {
+      background: #f8fafc;
+    }
+    .user-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .user-info {
+      flex: 1;
+    }
+    .user-name {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+    .user-email {
+      font-size: 0.8rem;
+      color: #64748b;
     }
 
     /* ========== CHAT AREA ========== */
@@ -382,7 +447,7 @@
       padding: 0.8rem 1rem;
       background: white;
       border-bottom: 1px solid #f1f5f9;
-      height: 60px;
+      height: 70px;
     }
 
     .chat-user {
@@ -392,12 +457,10 @@
       cursor: pointer;
     }
     .chat-user img {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
     .chat-user-info h3 {
       font-size: 1rem;
@@ -409,9 +472,21 @@
       font-size: 0.7rem;
       color: #64748b;
     }
+    .status-online {
+      color: #22c55e;
+    }
+    .chat-actions {
+      display: flex;
+      gap: 1rem;
+    }
+    .chat-actions i {
+      font-size: 1.2rem;
+      color: #64748b;
+      cursor: pointer;
+    }
     .back-btn {
       display: block;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: #2563eb;
       cursor: pointer;
       margin-right: 0.5rem;
@@ -449,9 +524,9 @@
       cursor: pointer;
     }
     .message-bubble {
-      padding: 0.7rem 1rem;
+      padding: 0.8rem 1rem;
       border-radius: 18px;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       line-height: 1.4;
       word-break: break-word;
       white-space: pre-wrap;
@@ -471,36 +546,64 @@
       font-size: 0.6rem;
       color: #94a3b8;
       margin-top: 0.2rem;
-      text-align: right;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .message-status {
+      color: #22c55e;
+    }
+
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.8rem 1rem;
+      background: white;
+      border-radius: 18px;
+      width: fit-content;
+      border: 1px solid #e2e8f0;
+    }
+    .typing-indicator span {
+      width: 6px;
+      height: 6px;
+      background: #94a3b8;
+      border-radius: 50%;
+      animation: typing 1.4s infinite;
+    }
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
     }
 
     .message-input-area {
-      padding: 0.8rem 1rem;
+      padding: 1rem;
       background: white;
       border-top: 1px solid #f1f5f9;
       display: flex;
       gap: 0.5rem;
-      align-items: center;
+      align-items: flex-end;
     }
-    .message-input {
+    .message-input-wrapper {
       flex: 1;
       background: #f8fafc;
       border-radius: 24px;
-      padding: 0.7rem 1rem;
+      padding: 0.5rem 1rem;
       border: 1px solid #e2e8f0;
+    }
+    .message-input {
+      width: 100%;
+      border: none;
+      background: transparent;
       font-size: 0.95rem;
       resize: none;
       max-height: 100px;
       outline: none;
       font-family: inherit;
     }
-    .message-input:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
-    }
     .send-btn {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       background: #2563eb;
       color: white;
       border: none;
@@ -513,46 +616,6 @@
     }
     .send-btn:active {
       transform: scale(0.95);
-    }
-
-    /* ========== SEARCH RESULTS ========== */
-    .search-results {
-      padding: 0.5rem;
-    }
-    .user-card {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      background: white;
-      border-radius: 16px;
-      border: 1px solid #f1f5f9;
-      margin-bottom: 0.5rem;
-      cursor: pointer;
-    }
-    .user-card:hover {
-      background: #f8fafc;
-    }
-    .user-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .user-info {
-      flex: 1;
-    }
-    .user-name {
-      font-weight: 600;
-      color: #0f172a;
-      font-size: 1rem;
-      margin-bottom: 0.2rem;
-    }
-    .user-email {
-      font-size: 0.75rem;
-      color: #64748b;
     }
 
     /* ========== NEW CHAT BUTTON ========== */
@@ -580,7 +643,7 @@
       color: #64748b;
     }
     .empty-state i {
-      font-size: 3rem;
+      font-size: 4rem;
       color: #cbd5e1;
       margin-bottom: 1rem;
     }
@@ -594,6 +657,18 @@
       text-align: center;
       padding: 2rem;
       color: #64748b;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #f1f5f9;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     /* ========== ALERTS ========== */
@@ -611,15 +686,12 @@
       align-items: center;
       gap: 1rem;
       z-index: 9999;
-      font-size: 0.9rem;
-      animation: slideIn 0.2s ease;
+      font-size: 0.95rem;
+      max-width: 400px;
+      margin: 0 auto;
     }
     .alert.error {
       border-left-color: #ef4444;
-    }
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
     }
 
     /* ========== BOTTOM PADDING ========== */
@@ -661,7 +733,7 @@
         </div>
         <div class="search-box">
           <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Search people...">
+          <input type="text" id="searchInput" placeholder="Search messages...">
         </div>
       </div>
 
@@ -669,7 +741,7 @@
 
       <div class="new-chat-btn" id="newChatBtn">
         <i class="fas fa-plus-circle"></i>
-        <span>New Chat</span>
+        <span>All Users</span>
       </div>
     </div>
 
@@ -679,34 +751,25 @@
 
   <!-- Bottom Navigation -->
   <nav class="bottom-nav">
-    <a href="index.html" class="nav-item">
-      <i class="fas fa-home"></i>
-      <span>Home</span>
-    </a>
-    <a href="services.html" class="nav-item">
-      <i class="fas fa-cogs"></i>
-      <span>Services</span>
-    </a>
-    <a href="jobs.html" class="nav-item">
-      <i class="fas fa-briefcase"></i>
-      <span>Jobs</span>
-    </a>
-    <a href="messenger.html" class="nav-item active">
-      <i class="fas fa-comment"></i>
-      <span>Chat</span>
+    <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="services.html" class="nav-item"><i class="fas fa-cogs"></i><span>Services</span></a>
+    <a href="jobs.html" class="nav-item"><i class="fas fa-briefcase"></i><span>Jobs</span></a>
+    <a href="messenger.html" class="nav-item active"><i class="fas fa-comment"></i><span>Chat</span>
       <span id="navMessagesBadge" class="notification-badge" style="display: none;">0</span>
     </a>
-    <a href="profile.html" class="nav-item" id="profileNavLink">
-      <i class="fas fa-user"></i>
-      <span>Profile</span>
-    </a>
+    <a href="profile.html" class="nav-item" id="profileNavLink"><i class="fas fa-user"></i><span>Profile</span></a>
   </nav>
   
   <div class="bottom-padding"></div>
 
   <script type="module">
+    // ========== FIREBASE CONFIGURATION ==========
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged, 
+      signOut 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import {
       getFirestore,
       collection,
@@ -722,7 +785,6 @@
       onSnapshot,
       serverTimestamp,
       writeBatch,
-      arrayUnion,
       limit
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -744,9 +806,10 @@
     let currentChat = null;
     let conversations = [];
     let allUsers = [];
-    let searchMode = false;
+    let showAllUsers = false;
     let messagesUnsub = null;
     let chatsUnsub = null;
+    let typingTimeouts = new Map();
     let lastMessageTime = 0;
     const MESSAGE_DELAY = 500;
 
@@ -776,14 +839,12 @@
         const minutes = Math.floor(seconds / 60);
         const hours = Math.floor(minutes / 60);
         const days = Math.floor(hours / 24);
-
-        if (days > 0) return days === 1 ? '1d' : `${days}d`;
-        if (hours > 0) return hours === 1 ? '1h' : `${hours}h`;
-        if (minutes > 0) return minutes === 1 ? '1m' : `${minutes}m`;
+        
+        if (days > 0) return days === 1 ? 'yesterday' : `${days}d ago`;
+        if (hours > 0) return `${hours}h ago`;
+        if (minutes > 0) return `${minutes}m ago`;
         return 'now';
-      } catch {
-        return '';
-      }
+      } catch { return ''; }
     }
 
     function showAlert(msg, type = 'success') {
@@ -803,7 +864,6 @@
     async function renderAuthUI(user) {
       if (user) {
         currentUser = user;
-        
         const userRef = doc(db, 'users', user.uid);
         const userSnap = await getDoc(userRef);
         
@@ -823,7 +883,7 @@
 
         authUI.innerHTML = `
           <div class="profile-container">
-            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=36'}" class="profile-avatar" id="avatarTrigger">
+            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=40'}" class="profile-avatar" id="avatarTrigger">
             <div class="dropdown-menu" id="dropdownMenu">
               <div class="user-info">
                 <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
@@ -832,7 +892,7 @@
               <a href="profile.html" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
               <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
               <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
-              <a href="messenger.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+              <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
               <a href="settings.html" class="dropdown-item"><i class="fas fa-cog"></i> Settings</a>
               <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
@@ -900,7 +960,7 @@
       }
     }
 
-    // ========== CHATS LISTENER ==========
+    // ========== CHATS LISTENER - SHOWS ALL CONVERSATIONS AUTOMATICALLY ==========
     function setupChatsListener() {
       if (!currentUser) return;
       if (chatsUnsub) chatsUnsub();
@@ -920,7 +980,6 @@
           const otherId = chat.participants.find(id => id !== currentUser.uid);
           if (!otherId) continue;
           
-          // Get unread count
           let unreadCount = 0;
           try {
             const messagesRef = collection(db, 'chats', d.id, 'messages');
@@ -950,46 +1009,33 @@
           });
         }
         
-        // Update badges
         navMessagesBadge.style.display = totalUnread ? 'flex' : 'none';
         if (totalUnread) navMessagesBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
         
+        // Always show chats, not all users
+        showAllUsers = false;
         renderChatList();
       });
     }
 
-    // ========== SEARCH USERS ==========
-    async function searchUsers(term) {
-      if (!term.trim() || !currentUser) {
-        searchMode = false;
-        renderChatList();
-        return;
-      }
-      
-      searchMode = true;
-      term = term.toLowerCase();
-      
-      const filtered = allUsers.filter(user => 
-        user.displayName?.toLowerCase().includes(term) || 
-        user.email?.toLowerCase().includes(term)
-      );
-      
-      if (filtered.length === 0) {
+    // ========== SHOW ALL USERS ==========
+    function showAllUsersList() {
+      showAllUsers = true;
+      if (!allUsers || allUsers.length === 0) {
         chatListEl.innerHTML = `
           <div class="empty-state">
-            <i class="fas fa-search"></i>
+            <i class="fas fa-users"></i>
             <h4>No users found</h4>
-            <p>Try a different search</p>
           </div>
         `;
         return;
       }
-      
-      let html = '<div class="search-results">';
-      filtered.forEach(user => {
+
+      let html = '<div class="all-users-header">ALL USERS</div>';
+      allUsers.forEach(user => {
         html += `
-          <div class="user-card" onclick="startChat('${user.id}')">
-            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=48'}" class="user-avatar">
+          <div class="user-item" onclick="startChat('${user.id}')">
+            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=56'}" class="user-avatar">
             <div class="user-info">
               <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
               <div class="user-email">${escapeHTML(user.email || '')}</div>
@@ -997,7 +1043,67 @@
           </div>
         `;
       });
-      html += '</div>';
+      chatListEl.innerHTML = html;
+    }
+
+    // ========== SEARCH MESSAGES ==========
+    async function searchMessages(term) {
+      if (!term.trim()) {
+        showAllUsers = false;
+        renderChatList();
+        return;
+      }
+
+      showAllUsers = false;
+      term = term.toLowerCase();
+      
+      const messageResults = [];
+      for (const chat of conversations) {
+        try {
+          const messagesRef = collection(db, 'chats', chat.id, 'messages');
+          const q = query(
+            messagesRef,
+            where('text', '>=', term),
+            where('text', '<=', term + '\uf8ff'),
+            limit(5)
+          );
+          const snap = await getDocs(q);
+          snap.forEach(doc => {
+            messageResults.push({
+              chatId: chat.id,
+              userId: chat.other.id,
+              name: chat.other.name,
+              photo: chat.other.photo,
+              text: doc.data().text,
+              time: doc.data().timestamp?.toDate?.()
+            });
+          });
+        } catch (e) {}
+      }
+
+      if (messageResults.length === 0) {
+        chatListEl.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <h4>No messages found</h4>
+            <p>Try a different search</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '<div class="all-users-header">SEARCH RESULTS</div>';
+      messageResults.forEach(msg => {
+        html += `
+          <div class="user-item" onclick="startChat('${msg.userId}')">
+            <img src="${msg.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(msg.name) + '&background=2563eb&color=fff&size=56'}" class="user-avatar">
+            <div class="user-info">
+              <div class="user-name">${escapeHTML(msg.name)}</div>
+              <div class="user-email">"${escapeHTML(msg.text.substring(0, 30))}..."</div>
+            </div>
+          </div>
+        `;
+      });
       chatListEl.innerHTML = html;
     }
 
@@ -1006,13 +1112,12 @@
       if (!currentUser || userId === currentUser.uid) return;
       
       try {
-        chatAreaEl.innerHTML = `<div class="loading"><i class="fas fa-spinner fa-pulse"></i><p>Opening chat...</p></div>`;
+        chatAreaEl.innerHTML = `<div class="loading"><div class="spinner"></div><p>Opening chat...</p></div>`;
         chatAreaEl.classList.add('active');
         sidebarEl.style.display = 'none';
-        searchMode = false;
+        showAllUsers = false;
         searchInput.value = '';
         
-        // Find existing chat
         const chatsRef = collection(db, 'chats');
         const q = query(chatsRef, where('participants', 'array-contains', currentUser.uid));
         const snap = await getDocs(q);
@@ -1022,7 +1127,6 @@
           if (doc.data().participants.includes(userId)) chatId = doc.id;
         });
         
-        // Create new chat if needed
         if (!chatId) {
           const newChat = await addDoc(chatsRef, {
             participants: [currentUser.uid, userId],
@@ -1033,10 +1137,8 @@
           chatId = newChat.id;
         }
         
-        // Mark messages as read
         await markMessagesAsRead(chatId, userId);
         
-        // Get user data
         const userSnap = await getDoc(doc(db, 'users', userId));
         const userData = userSnap.data() || {};
         
@@ -1058,6 +1160,16 @@
           snap.forEach(d => msgs.push({ id: d.id, ...d.data() }));
           renderChat(msgs);
         });
+
+        // Typing listener
+        const typingRef = doc(db, 'chats', chatId, 'typing', userId);
+        onSnapshot(typingRef, (doc) => {
+          if (doc.exists() && doc.data().isTyping) {
+            showTypingIndicator();
+          } else {
+            hideTypingIndicator();
+          }
+        });
         
       } catch (error) {
         console.error('Start chat error:', error);
@@ -1077,10 +1189,6 @@
       }
       
       const messageText = input.value.trim();
-      if (messageText.length > 5000) {
-        showAlert('Message too long', 'error');
-        return;
-      }
       
       try {
         lastMessageTime = now;
@@ -1100,24 +1208,46 @@
         input.value = '';
         input.style.height = 'auto';
         
+        // Stop typing
+        setTyping(false);
+        
       } catch (error) {
         console.error('Send message error:', error);
       }
     };
 
-    // Handle Enter key
-    window.handleMessageKey = function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
+    // ========== TYPING INDICATOR ==========
+    async function setTyping(isTyping) {
+      if (!currentChat) return;
+      const typingRef = doc(db, 'chats', currentChat.id, 'typing', currentUser.uid);
+      
+      if (isTyping) {
+        await setDoc(typingRef, { isTyping: true, timestamp: serverTimestamp() });
+        if (typingTimeouts.has(currentChat.id)) {
+          clearTimeout(typingTimeouts.get(currentChat.id));
+        }
+        const timeout = setTimeout(async () => {
+          await setDoc(typingRef, { isTyping: false, timestamp: serverTimestamp() });
+        }, 2000);
+        typingTimeouts.set(currentChat.id, timeout);
+      } else {
+        await setDoc(typingRef, { isTyping: false, timestamp: serverTimestamp() });
       }
+    }
+
+    window.handleTyping = function() {
+      setTyping(true);
     };
 
-    // Auto-resize textarea
-    window.resizeTextarea = function(textarea) {
-      textarea.style.height = 'auto';
-      textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
-    };
+    function showTypingIndicator() {
+      const indicator = document.getElementById('typingIndicator');
+      if (indicator) indicator.style.display = 'flex';
+    }
+
+    function hideTypingIndicator() {
+      const indicator = document.getElementById('typingIndicator');
+      if (indicator) indicator.style.display = 'none';
+    }
 
     // ========== MARK MESSAGES AS READ ==========
     async function markMessagesAsRead(chatId, otherId) {
@@ -1150,48 +1280,66 @@
       renderChatList();
     };
 
-    // ========== VIEW PROFILE ==========
     window.viewProfile = function(userId) {
       window.location.href = `viewer.html?id=${userId}`;
     };
 
+    window.handleMessageKey = function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    };
+
+    window.resizeTextarea = function(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+    };
+
     // ========== RENDER CHAT LIST ==========
     function renderChatList() {
-      if (searchMode) return;
+      if (showAllUsers) {
+        showAllUsersList();
+        return;
+      }
       
-      if (!conversations.length) {
+      if (!conversations || conversations.length === 0) {
         chatListEl.innerHTML = `
           <div class="empty-state">
             <i class="fas fa-comments"></i>
             <h4>No chats yet</h4>
-            <p>Click "New Chat" to start a conversation</p>
+            <p>Click "All Users" to start a conversation</p>
           </div>
         `;
         return;
       }
+
+      let html = '<div class="all-users-header">RECENT CHATS</div>';
       
-      let html = '';
       conversations.forEach(chat => {
         const time = chat.lastMessageTime?.toDate?.();
-        const statusDot = chat.other.online ? '<span class="online-dot"></span>' : '';
         
         html += `
-          <div class="chat-item ${currentChat?.id === chat.id ? 'active' : ''}" onclick="startChat('${chat.other.id}')">
+          <div class="chat-item ${currentChat?.id === chat.id ? 'active' : ''}" 
+               onclick="startChat('${chat.other.id}')">
             <div class="chat-avatar">
-              <img src="${chat.other.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(chat.other.name) + '&background=2563eb&color=fff&size=48'}">
-              ${statusDot}
+              <img src="${chat.other.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(chat.other.name) + '&background=2563eb&color=fff&size=56'}">
+              ${chat.other.online ? '<span class="online-dot"></span>' : ''}
             </div>
             <div class="chat-info">
-              <div class="chat-name">${escapeHTML(chat.other.name)}</div>
-              <div class="chat-preview">${escapeHTML(chat.lastMessage || 'No messages')}</div>
-            </div>
-            <div class="chat-meta">
-              <span class="chat-time">${time ? timeAgo(time) : ''}</span>
-              ${chat.unread > 0 ? `<span class="unread-badge">${chat.unread}</span>` : ''}
+              <div class="chat-name-row">
+                <span class="chat-name">${escapeHTML(chat.other.name)}</span>
+              </div>
+              <div class="chat-preview-row">
+                <span class="chat-preview">${escapeHTML(chat.lastMessage || 'No messages')}</span>
+                <span class="chat-time">${time ? timeAgo(time) : ''}</span>
+              </div>
+              ${chat.unread > 0 ? `<span class="chat-badge">${chat.unread}</span>` : ''}
             </div>
           </div>
         `;
       });
+
       chatListEl.innerHTML = html;
     }
 
@@ -1208,7 +1356,10 @@
             ${!sent ? `<img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=28'}" class="message-avatar" onclick="viewProfile('${currentChat.userId}')">` : ''}
             <div>
               <div class="message-bubble">${escapeHTML(m.text).replace(/\n/g, '<br>')}</div>
-              <div class="message-time">${time ? timeAgo(time) : ''}</div>
+              <div class="message-time">
+                ${time ? timeAgo(time) : ''}
+                ${sent ? `<span class="message-status"><i class="fas fa-check${m.read ? '-double' : ''}"></i></span>` : ''}
+              </div>
             </div>
           </div>
         `;
@@ -1219,10 +1370,10 @@
           <div style="display:flex; align-items:center; gap:0.5rem;">
             <i class="fas fa-arrow-left back-btn" onclick="backToSidebar()"></i>
             <div class="chat-user" onclick="viewProfile('${currentChat.userId}')">
-              <img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=40'}">
+              <img src="${currentChat.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentChat.name) + '&background=2563eb&color=fff&size=44'}">
               <div class="chat-user-info">
                 <h3>${escapeHTML(currentChat.name)}</h3>
-                <div class="user-status">
+                <div class="user-status ${currentChat.online ? 'status-online' : ''}">
                   ${currentChat.online ? '🟢 Online' : '⚪ Offline'}
                 </div>
               </div>
@@ -1230,17 +1381,23 @@
           </div>
         </div>
         <div class="messages" id="messagesContainer">
-          ${msgs || '<div style="text-align:center; color:#64748b; padding:2rem;">No messages yet. Say hello! 👋</div>'}
+          ${msgs || '<div class="empty-state"><i class="fas fa-comment-dots"></i><h4>No messages yet</h4><p>Say hello! 👋</p></div>'}
+          <div id="typingIndicator" style="display: none;" class="typing-indicator">
+            <span></span><span></span><span></span>
+          </div>
         </div>
         <div class="message-input-area">
-          <textarea 
-            id="messageInput" 
-            class="message-input" 
-            placeholder="Type a message..." 
-            onkeydown="handleMessageKey(event)"
-            oninput="resizeTextarea(this)"
-            rows="1"
-          ></textarea>
+          <div class="message-input-wrapper">
+            <textarea 
+              id="messageInput" 
+              class="message-input" 
+              placeholder="Type a message..." 
+              onkeydown="handleMessageKey(event)"
+              onkeyup="handleTyping()"
+              oninput="resizeTextarea(this)"
+              rows="1"
+            ></textarea>
+          </div>
           <button class="send-btn" onclick="sendMessage()">
             <i class="fas fa-paper-plane"></i>
           </button>
@@ -1255,13 +1412,13 @@
 
     // ========== NEW CHAT BUTTON ==========
     newChatBtn.addEventListener('click', () => {
-      searchInput.focus();
-      showAlert('Type a name to search', 'success');
+      showAllUsers = true;
+      showAllUsersList();
     });
 
     // ========== SEARCH ==========
     searchInput.addEventListener('input', debounce(async () => {
-      await searchUsers(searchInput.value);
+      await searchMessages(searchInput.value);
     }, 300));
 
     // ========== AUTH STATE ==========
@@ -1280,6 +1437,7 @@
     window.startChat = startChat;
     window.sendMessage = sendMessage;
     window.handleMessageKey = handleMessageKey;
+    window.handleTyping = handleTyping;
     window.resizeTextarea = resizeTextarea;
     window.backToSidebar = backToSidebar;
     window.viewProfile = viewProfile;
