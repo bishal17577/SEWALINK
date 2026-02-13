@@ -258,6 +258,50 @@
       color: #2563eb;
     }
 
+    /* ========== TABS ========== */
+    .tabs {
+      display: flex;
+      padding: 0.5rem;
+      gap: 0.5rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .tab {
+      flex: 1;
+      padding: 0.6rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #64748b;
+      cursor: pointer;
+      border-radius: 30px;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .tab i {
+      margin-right: 0.3rem;
+    }
+    .tab.active {
+      background: #2563eb;
+      color: white;
+    }
+    .tab-badge {
+      position: absolute;
+      top: -5px;
+      right: 5px;
+      background: #ef4444;
+      color: white;
+      font-size: 0.6rem;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 4px;
+      border: 2px solid white;
+    }
+
+    /* ========== SEARCH BOX ========== */
     .search-box {
       display: flex;
       align-items: center;
@@ -265,7 +309,7 @@
       border-radius: 40px;
       padding: 0.6rem 1rem;
       border: 1px solid #e2e8f0;
-      margin-bottom: 0.5rem;
+      margin: 1rem 1rem 0.5rem;
     }
     .search-box i {
       color: #94a3b8;
@@ -288,6 +332,24 @@
       padding: 0.5rem;
     }
 
+    /* ========== PINNED SECTION ========== */
+    .pinned-section {
+      margin-bottom: 1rem;
+    }
+    .pinned-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      color: #eab308;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .pinned-header i {
+      font-size: 0.9rem;
+    }
+
     /* ========== CHAT ITEM ========== */
     .chat-item {
       display: flex;
@@ -305,6 +367,9 @@
     }
     .chat-item.active {
       background: #eff6ff;
+    }
+    .chat-item.pinned {
+      background: #fef9c3;
     }
 
     .chat-avatar {
@@ -337,29 +402,21 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 0.2rem;
     }
     .chat-name {
       font-weight: 600;
       color: #0f172a;
       font-size: 1rem;
     }
-    .chat-nickname {
-      color: #2563eb;
-      font-size: 0.7rem;
-      background: #dbeafe;
-      padding: 0.2rem 0.5rem;
-      border-radius: 12px;
-    }
-    .pin-icon {
+    .pin-badge {
       color: #eab308;
       font-size: 0.8rem;
-      margin-left: auto;
     }
     .chat-preview-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-top: 0.2rem;
     }
     .chat-preview {
       font-size: 0.85rem;
@@ -367,7 +424,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 200px;
+      max-width: 180px;
     }
     .chat-time {
       font-size: 0.65rem;
@@ -384,18 +441,35 @@
       align-items: center;
       justify-content: center;
       padding: 0 6px;
+      margin-left: auto;
     }
 
-    /* ========== ALL USERS SECTION ========== */
-    .all-users-header {
-      padding: 1rem 0.5rem 0.5rem;
-      color: #64748b;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+    /* ========== PIN/FAVORITE BUTTON ========== */
+    .pin-btn, .fav-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.2s;
+      z-index: 10;
+    }
+    .pin-btn:hover, .fav-btn:hover {
+      background: #f1f5f9;
+    }
+    .pin-btn.active, .fav-btn.active {
+      color: #eab308;
+    }
+    .fav-btn {
+      color: #94a3b8;
+    }
+    .fav-btn.active {
+      color: #eab308;
     }
 
+    /* ========== USER ITEM FOR ALL USERS ========== */
     .user-item {
       display: flex;
       align-items: center;
@@ -427,6 +501,16 @@
     .user-email {
       font-size: 0.8rem;
       color: #64748b;
+    }
+
+    /* ========== LETTER HEADER ========== */
+    .letter-header {
+      padding: 0.5rem;
+      color: #2563eb;
+      font-weight: 600;
+      background: #f8fafc;
+      border-radius: 8px;
+      margin-top: 0.5rem;
     }
 
     /* ========== CHAT AREA ========== */
@@ -474,15 +558,6 @@
     }
     .status-online {
       color: #22c55e;
-    }
-    .chat-actions {
-      display: flex;
-      gap: 1rem;
-    }
-    .chat-actions i {
-      font-size: 1.2rem;
-      color: #64748b;
-      cursor: pointer;
     }
     .back-btn {
       display: block;
@@ -618,24 +693,6 @@
       transform: scale(0.95);
     }
 
-    /* ========== NEW CHAT BUTTON ========== */
-    .new-chat-btn {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 1rem;
-      background: #f8fafc;
-      border: 1px dashed #94a3b8;
-      border-radius: 16px;
-      margin: 0.5rem 1rem;
-      cursor: pointer;
-      color: #2563eb;
-      font-weight: 600;
-    }
-    .new-chat-btn i {
-      font-size: 1.2rem;
-    }
-
     /* ========== EMPTY STATES ========== */
     .empty-state {
       text-align: center;
@@ -731,18 +788,26 @@
           <i class="fas fa-comment-dots" style="color: #2563eb;"></i>
           <span>Messages</span>
         </div>
+        
+        <!-- Tabs -->
+        <div class="tabs">
+          <div class="tab active" id="sewaTab" onclick="switchTab('sewa')">
+            <i class="fas fa-thumbtack"></i> Sewa
+            <span id="sewaTabBadge" class="tab-badge" style="display: none;">0</span>
+          </div>
+          <div class="tab" id="usersTab" onclick="switchTab('users')">
+            <i class="fas fa-users"></i> All Users
+          </div>
+        </div>
+
+        <!-- Search Box -->
         <div class="search-box">
           <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Search messages...">
+          <input type="text" id="searchInput" placeholder="Search users by name, phone or email...">
         </div>
       </div>
 
       <div id="chatList" class="chat-list"></div>
-
-      <div class="new-chat-btn" id="newChatBtn">
-        <i class="fas fa-plus-circle"></i>
-        <span>All Users</span>
-      </div>
     </div>
 
     <!-- Chat Area -->
@@ -754,7 +819,7 @@
     <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
     <a href="services.html" class="nav-item"><i class="fas fa-cogs"></i><span>Services</span></a>
     <a href="jobs.html" class="nav-item"><i class="fas fa-briefcase"></i><span>Jobs</span></a>
-    <a href="messenger.html" class="nav-item active"><i class="fas fa-comment"></i><span>Chat</span>
+    <a href="messenger.html" class="nav-item active"><i class="fas fa-thumbtack"></i><span>Sewa</span>
       <span id="navMessagesBadge" class="notification-badge" style="display: none;">0</span>
     </a>
     <a href="profile.html" class="nav-item" id="profileNavLink"><i class="fas fa-user"></i><span>Profile</span></a>
@@ -785,7 +850,8 @@
       onSnapshot,
       serverTimestamp,
       writeBatch,
-      limit
+      arrayUnion,
+      arrayRemove
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -806,7 +872,11 @@
     let currentChat = null;
     let conversations = [];
     let allUsers = [];
-    let showAllUsers = false;
+    let pinnedChats = new Set();
+    let pinnedUserIds = new Set(); // Store pinned user IDs for permanent display
+    let favoriteUsers = new Set(); // Users marked as favorite without chat
+    let activeTab = 'sewa';
+    let isSearching = false;
     let messagesUnsub = null;
     let chatsUnsub = null;
     let typingTimeouts = new Map();
@@ -819,10 +889,12 @@
     const chatAreaEl = document.getElementById('chatArea');
     const sidebarEl = document.getElementById('sidebar');
     const searchInput = document.getElementById('searchInput');
-    const newChatBtn = document.getElementById('newChatBtn');
     const alertContainer = document.getElementById('alertContainer');
     const profileNavLink = document.getElementById('profileNavLink');
     const navMessagesBadge = document.getElementById('navMessagesBadge');
+    const sewaTab = document.getElementById('sewaTab');
+    const usersTab = document.getElementById('usersTab');
+    const sewaTabBadge = document.getElementById('sewaTabBadge');
 
     // ========== HELPERS ==========
     function escapeHTML(str) {
@@ -840,9 +912,9 @@
         const hours = Math.floor(minutes / 60);
         const days = Math.floor(hours / 24);
         
-        if (days > 0) return days === 1 ? 'yesterday' : `${days}d ago`;
-        if (hours > 0) return `${hours}h ago`;
-        if (minutes > 0) return `${minutes}m ago`;
+        if (days > 0) return days === 1 ? '1d' : `${days}d`;
+        if (hours > 0) return `${hours}h`;
+        if (minutes > 0) return `${minutes}m`;
         return 'now';
       } catch { return ''; }
     }
@@ -860,6 +932,24 @@
       return function() { clearTimeout(t); t = setTimeout(() => fn(), ms); };
     }
 
+    // ========== SWITCH TAB ==========
+    window.switchTab = function(tab) {
+      activeTab = tab;
+      if (tab === 'sewa') {
+        sewaTab.classList.add('active');
+        usersTab.classList.remove('active');
+        isSearching = false;
+        searchInput.value = '';
+        renderSewaList();
+      } else {
+        usersTab.classList.add('active');
+        sewaTab.classList.remove('active');
+        isSearching = false;
+        searchInput.value = '';
+        showAllUsers();
+      }
+    };
+
     // ========== AUTH UI ==========
     async function renderAuthUI(user) {
       if (user) {
@@ -873,12 +963,38 @@
             displayName: user.displayName || 'User',
             email: user.email || '',
             photoURL: user.photoURL || '',
+            phoneNumber: user.phoneNumber || '',
             online: true,
             lastSeen: serverTimestamp(),
-            createdAt: serverTimestamp()
+            createdAt: serverTimestamp(),
+            pinnedChats: [],
+            favoriteUsers: []
           });
         } else {
           await updateDoc(userRef, { online: true, lastSeen: serverTimestamp() });
+          // Load pinned chats
+          const data = userSnap.data();
+          if (data.pinnedChats) {
+            pinnedChats = new Set(data.pinnedChats);
+            
+            // Load pinned user IDs from pinned chats
+            const chatsRef = collection(db, 'chats');
+            for (const chatId of pinnedChats) {
+              const chatSnap = await getDoc(doc(db, 'chats', chatId));
+              if (chatSnap.exists()) {
+                const chat = chatSnap.data();
+                const otherId = chat.participants.find(id => id !== currentUser.uid);
+                if (otherId) {
+                  pinnedUserIds.add(otherId);
+                }
+              }
+            }
+          }
+          
+          // Load favorite users
+          if (data.favoriteUsers) {
+            favoriteUsers = new Set(data.favoriteUsers);
+          }
         }
 
         authUI.innerHTML = `
@@ -955,12 +1071,18 @@
             allUsers.push({ id: doc.id, ...doc.data() });
           }
         });
+        // Sort alphabetically by name
+        allUsers.sort((a, b) => {
+          const nameA = (a.displayName || 'User').toLowerCase();
+          const nameB = (b.displayName || 'User').toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
       } catch (error) {
         console.error('Load users error:', error);
       }
     }
 
-    // ========== CHATS LISTENER - SHOWS ALL CONVERSATIONS AUTOMATICALLY ==========
+    // ========== CHATS LISTENER ==========
     function setupChatsListener() {
       if (!currentUser) return;
       if (chatsUnsub) chatsUnsub();
@@ -1004,23 +1126,95 @@
               id: otherId, 
               name: user.displayName || 'User', 
               photo: user.photoURL,
-              online: user.online || false
+              online: user.online || false,
+              phoneNumber: user.phoneNumber || '',
+              email: user.email || ''
             }
           });
         }
         
+        // Update badges
         navMessagesBadge.style.display = totalUnread ? 'flex' : 'none';
         if (totalUnread) navMessagesBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
         
-        // Always show chats, not all users
-        showAllUsers = false;
-        renderChatList();
+        sewaTabBadge.style.display = totalUnread ? 'flex' : 'none';
+        if (totalUnread) sewaTabBadge.textContent = totalUnread > 9 ? '9+' : totalUnread;
+        
+        if (activeTab === 'sewa' && !isSearching) {
+          renderSewaList();
+        }
       });
     }
 
+    // ========== TOGGLE FAVORITE (PIN WITHOUT CHAT) ==========
+    window.toggleFavorite = async function(userId, e) {
+      e.stopPropagation();
+      if (!currentUser || !userId) return;
+
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        
+        if (favoriteUsers.has(userId)) {
+          favoriteUsers.delete(userId);
+          await updateDoc(userRef, {
+            favoriteUsers: arrayRemove(userId)
+          });
+          showAlert('Removed from favorites');
+        } else {
+          favoriteUsers.add(userId);
+          await updateDoc(userRef, {
+            favoriteUsers: arrayUnion(userId)
+          });
+          showAlert('Added to favorites ⭐');
+        }
+        
+        // Refresh current view
+        if (isSearching) {
+          await performSearch(searchInput.value);
+        } else if (activeTab === 'sewa') {
+          renderSewaList();
+        }
+      } catch (error) {
+        console.error('Favorite error:', error);
+        showAlert('Error updating favorite', 'error');
+      }
+    };
+
+    // ========== PIN CHAT ==========
+    window.togglePin = async function(chatId, userId, e) {
+      e.stopPropagation();
+      if (!currentUser || !chatId) return;
+
+      try {
+        const userRef = doc(db, 'users', currentUser.uid);
+        
+        if (pinnedChats.has(chatId)) {
+          pinnedChats.delete(chatId);
+          pinnedUserIds.delete(userId);
+          await updateDoc(userRef, {
+            pinnedChats: arrayRemove(chatId)
+          });
+          showAlert('Chat unpinned');
+        } else {
+          pinnedChats.add(chatId);
+          pinnedUserIds.add(userId);
+          await updateDoc(userRef, {
+            pinnedChats: arrayUnion(chatId)
+          });
+          showAlert('Chat pinned');
+        }
+        
+        if (activeTab === 'sewa') {
+          renderSewaList();
+        }
+      } catch (error) {
+        console.error('Pin error:', error);
+        showAlert('Error toggling pin', 'error');
+      }
+    };
+
     // ========== SHOW ALL USERS ==========
-    function showAllUsersList() {
-      showAllUsers = true;
+    function showAllUsers() {
       if (!allUsers || allUsers.length === 0) {
         chatListEl.innerHTML = `
           <div class="empty-state">
@@ -1031,79 +1225,128 @@
         return;
       }
 
-      let html = '<div class="all-users-header">ALL USERS</div>';
+      let html = '';
+      
+      // Group by first letter
+      const grouped = {};
       allUsers.forEach(user => {
-        html += `
-          <div class="user-item" onclick="startChat('${user.id}')">
-            <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=56'}" class="user-avatar">
-            <div class="user-info">
-              <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
-              <div class="user-email">${escapeHTML(user.email || '')}</div>
-            </div>
-          </div>
-        `;
+        const firstLetter = (user.displayName || 'User').charAt(0).toUpperCase();
+        if (!grouped[firstLetter]) {
+          grouped[firstLetter] = [];
+        }
+        grouped[firstLetter].push(user);
       });
+
+      // Sort letters
+      const letters = Object.keys(grouped).sort();
+
+      letters.forEach(letter => {
+        html += `<div class="letter-header">${letter}</div>`;
+        
+        grouped[letter].forEach(user => {
+          const isFavorite = favoriteUsers.has(user.id);
+          html += `
+            <div class="user-item" onclick="startChat('${user.id}')">
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=56'}" class="user-avatar">
+              <div class="user-info">
+                <div class="user-name">${escapeHTML(user.displayName || 'User')}</div>
+                <div class="user-email">${escapeHTML(user.email || '')}</div>
+                ${user.phoneNumber ? `<div class="user-email">📞 ${escapeHTML(user.phoneNumber)}</div>` : ''}
+              </div>
+              <button class="fav-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${user.id}', event)">
+                <i class="fas fa-star"></i>
+              </button>
+            </div>
+          `;
+        });
+      });
+
       chatListEl.innerHTML = html;
     }
 
-    // ========== SEARCH MESSAGES ==========
-    async function searchMessages(term) {
+    // ========== SEARCH FUNCTION ==========
+    async function performSearch(term) {
       if (!term.trim()) {
-        showAllUsers = false;
-        renderChatList();
+        isSearching = false;
+        if (activeTab === 'sewa') {
+          renderSewaList();
+        } else {
+          showAllUsers();
+        }
         return;
       }
 
-      showAllUsers = false;
+      isSearching = true;
       term = term.toLowerCase();
       
-      const messageResults = [];
-      for (const chat of conversations) {
-        try {
-          const messagesRef = collection(db, 'chats', chat.id, 'messages');
-          const q = query(
-            messagesRef,
-            where('text', '>=', term),
-            where('text', '<=', term + '\uf8ff'),
-            limit(5)
-          );
-          const snap = await getDocs(q);
-          snap.forEach(doc => {
-            messageResults.push({
-              chatId: chat.id,
-              userId: chat.other.id,
-              name: chat.other.name,
-              photo: chat.other.photo,
-              text: doc.data().text,
-              time: doc.data().timestamp?.toDate?.()
-            });
-          });
-        } catch (e) {}
-      }
+      // Search in ALL USERS from Firebase
+      const filteredUsers = allUsers.filter(user => 
+        (user.displayName && user.displayName.toLowerCase().includes(term)) ||
+        (user.email && user.email.toLowerCase().includes(term)) ||
+        (user.phoneNumber && user.phoneNumber.replace(/\s/g, '').includes(term.replace(/\s/g, '')))
+      );
 
-      if (messageResults.length === 0) {
+      if (filteredUsers.length === 0) {
         chatListEl.innerHTML = `
           <div class="empty-state">
             <i class="fas fa-search"></i>
-            <h4>No messages found</h4>
+            <h4>No users found</h4>
             <p>Try a different search</p>
           </div>
         `;
         return;
       }
 
-      let html = '<div class="all-users-header">SEARCH RESULTS</div>';
-      messageResults.forEach(msg => {
+      // Sort filtered results alphabetically
+      filteredUsers.sort((a, b) => {
+        const nameA = (a.displayName || 'User').toLowerCase();
+        const nameB = (b.displayName || 'User').toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+
+      let html = '<div style="margin-bottom: 0.5rem; color: #2563eb; font-weight: 600;">SEARCH RESULTS</div>';
+      
+      filteredUsers.forEach(user => {
+        // Check if this user has an existing chat
+        const existingChat = conversations.find(c => c.other.id === user.id);
+        const isPinned = existingChat ? pinnedChats.has(existingChat.id) : false;
+        const isFavorite = favoriteUsers.has(user.id);
+        const unreadCount = existingChat ? existingChat.unread : 0;
+        const lastMessage = existingChat ? existingChat.lastMessage : '';
+        const lastMessageTime = existingChat?.lastMessageTime?.toDate?.();
+        
         html += `
-          <div class="user-item" onclick="startChat('${msg.userId}')">
-            <img src="${msg.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(msg.name) + '&background=2563eb&color=fff&size=56'}" class="user-avatar">
-            <div class="user-info">
-              <div class="user-name">${escapeHTML(msg.name)}</div>
-              <div class="user-email">"${escapeHTML(msg.text.substring(0, 30))}..."</div>
+          <div class="chat-item" onclick="startChat('${user.id}')">
+            <div class="chat-avatar">
+              <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=56'}">
+              ${user.online ? '<span class="online-dot"></span>' : ''}
+            </div>
+            <div class="chat-info">
+              <div class="chat-name-row">
+                <span class="chat-name">${escapeHTML(user.displayName || 'User')}</span>
+                ${isFavorite ? '<i class="fas fa-star" style="color: #eab308; font-size: 0.9rem;"></i>' : ''}
+                ${isPinned ? '<i class="fas fa-thumbtack pin-badge"></i>' : ''}
+              </div>
+              <div class="chat-preview-row">
+                <span class="chat-preview">${existingChat ? (escapeHTML(lastMessage) || 'Click to chat') : 'Click to start conversation'}</span>
+                ${lastMessageTime ? `<span class="chat-time">${timeAgo(lastMessageTime)}</span>` : ''}
+              </div>
+              ${unreadCount > 0 ? `<span class="chat-badge">${unreadCount}</span>` : ''}
+            </div>
+            <div style="display: flex; gap: 0.2rem;">
+              <button class="fav-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${user.id}', event)">
+                <i class="fas fa-star"></i>
+              </button>
+              ${existingChat ? `
+                <button class="pin-btn ${isPinned ? 'active' : ''}" onclick="togglePin('${existingChat.id}', '${user.id}', event)">
+                  <i class="fas fa-thumbtack"></i>
+                </button>
+              ` : ''}
             </div>
           </div>
         `;
       });
+
       chatListEl.innerHTML = html;
     }
 
@@ -1115,7 +1358,7 @@
         chatAreaEl.innerHTML = `<div class="loading"><div class="spinner"></div><p>Opening chat...</p></div>`;
         chatAreaEl.classList.add('active');
         sidebarEl.style.display = 'none';
-        showAllUsers = false;
+        isSearching = false;
         searchInput.value = '';
         
         const chatsRef = collection(db, 'chats');
@@ -1208,7 +1451,6 @@
         input.value = '';
         input.style.height = 'auto';
         
-        // Stop typing
         setTyping(false);
         
       } catch (error) {
@@ -1277,7 +1519,11 @@
         messagesUnsub = null;
       }
       currentChat = null;
-      renderChatList();
+      if (activeTab === 'sewa') {
+        renderSewaList();
+      } else {
+        showAllUsers();
+      }
     };
 
     window.viewProfile = function(userId) {
@@ -1296,31 +1542,97 @@
       textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
     };
 
-    // ========== RENDER CHAT LIST ==========
-    function renderChatList() {
-      if (showAllUsers) {
-        showAllUsersList();
-        return;
+    // ========== RENDER SEWA LIST ==========
+    function renderSewaList() {
+      // Get favorite users data
+      const favoriteUsersList = [];
+      favoriteUsers.forEach(userId => {
+        const user = allUsers.find(u => u.id === userId);
+        if (user) {
+          favoriteUsersList.push({
+            id: userId,
+            ...user,
+            isFavorite: true
+          });
+        }
+      });
+
+      // Get regular conversations
+      const regularChats = conversations.filter(chat => !pinnedChats.has(chat.id));
+
+      let html = '';
+
+      // FAVORITE USERS SECTION (pinned without chat)
+      if (favoriteUsersList.length > 0) {
+        html += '<div class="pinned-section">';
+        html += '<div class="pinned-header"><i class="fas fa-star" style="color: #eab308;"></i> FAVORITES</div>';
+        favoriteUsersList.forEach(user => {
+          const existingChat = conversations.find(c => c.other.id === user.id);
+          const time = existingChat?.lastMessageTime?.toDate?.();
+          
+          html += `
+            <div class="chat-item pinned" onclick="startChat('${user.id}')">
+              <div class="chat-avatar">
+                <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=56'}">
+                ${user.online ? '<span class="online-dot"></span>' : ''}
+              </div>
+              <div class="chat-info">
+                <div class="chat-name-row">
+                  <span class="chat-name">${escapeHTML(user.displayName || 'User')}</span>
+                  <i class="fas fa-star" style="color: #eab308; font-size: 0.9rem;"></i>
+                </div>
+                <div class="chat-preview-row">
+                  <span class="chat-preview">${existingChat ? (escapeHTML(existingChat.lastMessage) || 'Click to chat') : 'Click to start conversation'}</span>
+                  ${time ? `<span class="chat-time">${timeAgo(time)}</span>` : ''}
+                </div>
+              </div>
+              <button class="fav-btn active" onclick="toggleFavorite('${user.id}', event)">
+                <i class="fas fa-star"></i>
+              </button>
+            </div>
+          `;
+        });
+        html += '</div>';
       }
-      
-      if (!conversations || conversations.length === 0) {
+
+      // PINNED CHATS SECTION
+      const pinned = conversations.filter(chat => pinnedChats.has(chat.id));
+      if (pinned.length > 0) {
+        html += '<div class="pinned-section">';
+        html += '<div class="pinned-header"><i class="fas fa-thumbtack"></i> PINNED</div>';
+        pinned.forEach(chat => {
+          renderChatItem(chat, true);
+        });
+        html += '</div>';
+      }
+
+      // ALL CHATS SECTION
+      if (regularChats.length > 0) {
+        if (pinned.length > 0 || favoriteUsersList.length > 0) {
+          html += '<div style="margin: 0.5rem 0;"></div>';
+        }
+        regularChats.forEach(chat => {
+          renderChatItem(chat, false);
+        });
+      }
+
+      // If nothing at all
+      if (favoriteUsersList.length === 0 && pinned.length === 0 && regularChats.length === 0) {
         chatListEl.innerHTML = `
           <div class="empty-state">
-            <i class="fas fa-comments"></i>
-            <h4>No chats yet</h4>
-            <p>Click "All Users" to start a conversation</p>
+            <i class="fas fa-thumbtack"></i>
+            <h4>No Sewa yet</h4>
+            <p>Search for users above and star them to add to favorites</p>
           </div>
         `;
         return;
       }
 
-      let html = '<div class="all-users-header">RECENT CHATS</div>';
-      
-      conversations.forEach(chat => {
+      function renderChatItem(chat, isPinned) {
         const time = chat.lastMessageTime?.toDate?.();
         
         html += `
-          <div class="chat-item ${currentChat?.id === chat.id ? 'active' : ''}" 
+          <div class="chat-item ${isPinned ? 'pinned' : ''} ${currentChat?.id === chat.id ? 'active' : ''}" 
                onclick="startChat('${chat.other.id}')">
             <div class="chat-avatar">
               <img src="${chat.other.photo || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(chat.other.name) + '&background=2563eb&color=fff&size=56'}">
@@ -1329,16 +1641,20 @@
             <div class="chat-info">
               <div class="chat-name-row">
                 <span class="chat-name">${escapeHTML(chat.other.name)}</span>
+                ${isPinned ? '<i class="fas fa-thumbtack pin-badge"></i>' : ''}
               </div>
               <div class="chat-preview-row">
-                <span class="chat-preview">${escapeHTML(chat.lastMessage || 'No messages')}</span>
+                <span class="chat-preview">${escapeHTML(chat.lastMessage || 'Start a conversation')}</span>
                 <span class="chat-time">${time ? timeAgo(time) : ''}</span>
               </div>
-              ${chat.unread > 0 ? `<span class="chat-badge">${chat.unread}</span>` : ''}
             </div>
+            ${chat.unread > 0 ? `<span class="chat-badge">${chat.unread}</span>` : ''}
+            <button class="pin-btn ${isPinned ? 'active' : ''}" onclick="togglePin('${chat.id}', '${chat.other.id}', event)">
+              <i class="fas fa-thumbtack"></i>
+            </button>
           </div>
         `;
-      });
+      }
 
       chatListEl.innerHTML = html;
     }
@@ -1379,6 +1695,14 @@
               </div>
             </div>
           </div>
+          <div style="display: flex; gap: 0.2rem;">
+            <button class="fav-btn ${favoriteUsers.has(currentChat.userId) ? 'active' : ''}" onclick="toggleFavorite('${currentChat.userId}', event)">
+              <i class="fas fa-star"></i>
+            </button>
+            <button class="pin-btn ${pinnedChats.has(currentChat.id) ? 'active' : ''}" onclick="togglePin('${currentChat.id}', '${currentChat.userId}', event)">
+              <i class="fas fa-thumbtack"></i>
+            </button>
+          </div>
         </div>
         <div class="messages" id="messagesContainer">
           ${msgs || '<div class="empty-state"><i class="fas fa-comment-dots"></i><h4>No messages yet</h4><p>Say hello! 👋</p></div>'}
@@ -1410,15 +1734,9 @@
       }, 50);
     }
 
-    // ========== NEW CHAT BUTTON ==========
-    newChatBtn.addEventListener('click', () => {
-      showAllUsers = true;
-      showAllUsersList();
-    });
-
-    // ========== SEARCH ==========
+    // ========== SEARCH INPUT HANDLER ==========
     searchInput.addEventListener('input', debounce(async () => {
-      await searchMessages(searchInput.value);
+      await performSearch(searchInput.value);
     }, 300));
 
     // ========== AUTH STATE ==========
@@ -1441,6 +1759,9 @@
     window.resizeTextarea = resizeTextarea;
     window.backToSidebar = backToSidebar;
     window.viewProfile = viewProfile;
+    window.switchTab = switchTab;
+    window.togglePin = togglePin;
+    window.toggleFavorite = toggleFavorite;
   </script>
 </body>
 </html>
