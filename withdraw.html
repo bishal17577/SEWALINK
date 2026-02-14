@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <title>SewaLink · Withdraw Coins</title>
+  <meta name="description" content="Withdraw game coins to eSewa">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#10b981">
+  
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2310b981'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%2310b981'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%2310b981'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #f5f5f5;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #10b981;
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #10b981;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .container {
+      padding: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .withdraw-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 1rem;
+    }
+
+    .withdraw-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .withdraw-header i {
+      font-size: 3rem;
+      color: #10b981;
+      margin-bottom: 1rem;
+    }
+
+    .withdraw-header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+
+    .withdraw-header p {
+      color: #64748b;
+    }
+
+    .coin-balance {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      border-radius: 16px;
+      padding: 1.2rem;
+      color: white;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .balance-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .balance-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .conversion-box {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .conversion-rate {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .rate-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #10b981;
+    }
+
+    .withdraw-form {
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.4rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 0.95rem;
+    }
+
+    input:focus {
+      border-color: #10b981;
+      outline: none;
+    }
+
+    .input-hint {
+      font-size: 0.7rem;
+      color: #64748b;
+      margin-top: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .esewa-section {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .esewa-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .esewa-header i {
+      color: #10b981;
+      font-size: 1.5rem;
+    }
+
+    .esewa-header span {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .summary-box {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    .summary-value {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .summary-total {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #10b981;
+    }
+
+    .btn-withdraw {
+      width: 100%;
+      padding: 1rem;
+      background: #10b981;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-withdraw:active {
+      background: #059669;
+      transform: scale(0.98);
+    }
+
+    .btn-withdraw:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .secure-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: #64748b;
+      font-size: 0.8rem;
+    }
+
+    .secure-badge i {
+      color: #10b981;
+    }
+
+    .info-text {
+      background: #ecfdf5;
+      padding: 1rem;
+      border-radius: 12px;
+      color: #10b981;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .warning-text {
+      background: #fef2f2;
+      padding: 1rem;
+      border-radius: 12px;
+      color: #ef4444;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .transaction-history {
+      margin-top: 2rem;
+    }
+
+    .history-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .history-list {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #f1f5f9;
+    }
+
+    .history-item {
+      padding: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .history-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #d1fae5;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .history-details {
+      flex: 1;
+    }
+
+    .history-amount {
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.2rem;
+    }
+
+    .history-time {
+      font-size: 0.7rem;
+      color: #64748b;
+    }
+
+    .history-status {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      background: #f59e0b;
+      color: white;
+    }
+    .history-status.completed {
+      background: #10b981;
+    }
+
+    .empty-history {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <a href="profile.html" class="logo">Sewa<span>Link</span></a>
+  </header>
+
+  <div class="container">
+    <a href="profile.html" class="back-button">
+      <i class="fas fa-arrow-left"></i> Back to Profile
+    </a>
+
+    <div id="withdrawContent" class="withdraw-card">
+      <div class="loading">
+        <i class="fas fa-spinner fa-pulse"></i>
+        <p>Loading withdrawal options...</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      updateDoc,
+      addDoc,
+      collection,
+      query,
+      where,
+      getDocs,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const withdrawContent = document.getElementById('withdrawContent');
+    let currentUser = null;
+    let userCoins = 0;
+
+    // Load withdrawal history
+    async function loadWithdrawalHistory(userId) {
+      try {
+        const q = query(
+          collection(db, 'transactions'),
+          where('userId', '==', userId),
+          where('type', '==', 'withdrawal'),
+          orderBy('createdAt', 'desc'),
+          orderBy('__name__', 'desc')
+        );
+        const snap = await getDocs(q);
+        const transactions = [];
+        snap.forEach(doc => {
+          transactions.push({ id: doc.id, ...doc.data() });
+        });
+        return transactions;
+      } catch (error) {
+        console.error('Error loading withdrawals:', error);
+        return [];
+      }
+    }
+
+    // Format time
+    function formatTime(timestamp) {
+      if (!timestamp) return 'Just now';
+      try {
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+        const minutes = Math.floor(diff / 60000);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (minutes < 1) return 'Just now';
+        if (minutes < 60) return `${minutes} min ago`;
+        if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+        return date.toLocaleDateString();
+      } catch {
+        return 'Recently';
+      }
+    }
+
+    // Render withdrawal page
+    async function renderWithdraw() {
+      if (!currentUser) return;
+
+      const userRef = doc(db, 'users', currentUser.uid);
+      const userSnap = await getDoc(userRef);
+      userCoins = userSnap.exists() ? (userSnap.data().coins || 0) : 0;
+
+      const withdrawals = await loadWithdrawalHistory(currentUser.uid);
+
+      let historyHTML = '';
+      if (withdrawals.length === 0) {
+        historyHTML = '<div class="empty-history"><i class="fas fa-history"></i><p>No withdrawal history</p></div>';
+      } else {
+        historyHTML = withdrawals.map(w => `
+          <div class="history-item">
+            <div class="history-left">
+              <div class="history-icon">
+                <i class="fas fa-exchange-alt"></i>
+              </div>
+              <div class="history-details">
+                <div class="history-amount">${w.coins} coins → रु ${w.amount}</div>
+                <div class="history-time">${formatTime(w.createdAt)}</div>
+              </div>
+            </div>
+            <span class="history-status ${w.status}">${w.status}</span>
+          </div>
+        `).join('');
+      }
+
+      withdrawContent.innerHTML = `
+        <div class="withdraw-header">
+          <i class="fas fa-exchange-alt"></i>
+          <h1>Withdraw Coins</h1>
+          <p>Convert your game coins to eSewa cash</p>
+        </div>
+
+        <div class="coin-balance">
+          <span class="balance-label">Your Coins</span>
+          <span class="balance-value" id="currentCoins">${userCoins.toLocaleString()}</span>
+        </div>
+
+        <div class="conversion-box">
+          <div class="conversion-rate">Conversion Rate</div>
+          <div class="rate-value">100 Coins = रु 10</div>
+        </div>
+
+        <div class="info-text">
+          <i class="fas fa-info-circle"></i>
+          Minimum withdrawal: 100 coins (रु 10)
+        </div>
+
+        <div class="withdraw-form">
+          <div class="form-group">
+            <label>Coins to Withdraw</label>
+            <input type="number" id="withdrawAmount" placeholder="Enter amount" min="100" step="100" value="500" oninput="calculateWithdraw()">
+            <div class="input-hint">
+              <i class="fas fa-info-circle"></i>
+              Enter in multiples of 100
+            </div>
+          </div>
+        </div>
+
+        <div class="esewa-section">
+          <div class="esewa-header">
+            <i class="fas fa-university"></i>
+            <span>Withdraw to eSewa</span>
+          </div>
+
+          <div class="form-group">
+            <label>eSewa Number</label>
+            <input type="tel" id="esewaNumber" placeholder="98XXXXXXXX" value="9841234567">
+          </div>
+
+          <div class="form-group">
+            <label>Confirm eSewa Number</label>
+            <input type="tel" id="esewaConfirm" placeholder="98XXXXXXXX" value="9841234567">
+          </div>
+        </div>
+
+        <div class="summary-box">
+          <div class="summary-row">
+            <span class="summary-label">Withdraw Coins</span>
+            <span class="summary-value" id="displayCoins">500</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">You Receive</span>
+            <span class="summary-value summary-total" id="displayAmount">रु 50</span>
+          </div>
+        </div>
+
+        <button class="btn-withdraw" onclick="processWithdrawal()">
+          <i class="fas fa-exchange-alt"></i> Withdraw to eSewa
+        </button>
+
+        <div class="secure-badge">
+          <i class="fas fa-shield-alt"></i>
+          <span>Secure withdrawal to your eSewa account</span>
+        </div>
+
+        <div class="warning-text">
+          <i class="fas fa-exclamation-triangle"></i>
+          Withdrawals are processed within 24 hours
+        </div>
+
+        <div class="transaction-history">
+          <div class="history-title">
+            <i class="fas fa-history"></i> Withdrawal History
+          </div>
+          <div class="history-list">
+            ${historyHTML}
+          </div>
+        </div>
+      `;
+    }
+
+    // Global functions
+    window.calculateWithdraw = function() {
+      const amount = parseInt(document.getElementById('withdrawAmount').value) || 0;
+      const roundedAmount = Math.floor(amount / 100) * 100;
+      
+      if (roundedAmount !== amount) {
+        document.getElementById('withdrawAmount').value = roundedAmount;
+      }
+      
+      const cashAmount = (roundedAmount / 100) * 10;
+      
+      document.getElementById('displayCoins').textContent = roundedAmount || 0;
+      document.getElementById('displayAmount').textContent = `रु ${cashAmount}`;
+    };
+
+    window.processWithdrawal = async function() {
+      const amount = parseInt(document.getElementById('withdrawAmount').value) || 0;
+      const esewaNumber = document.getElementById('esewaNumber').value;
+      const esewaConfirm = document.getElementById('esewaConfirm').value;
+      
+      if (amount < 100) {
+        alert('Minimum withdrawal is 100 coins');
+        return;
+      }
+      
+      if (amount > userCoins) {
+        alert('Insufficient coins');
+        return;
+      }
+      
+      if (!esewaNumber || esewaNumber.length < 10) {
+        alert('Please enter a valid eSewa number');
+        return;
+      }
+      
+      if (esewaNumber !== esewaConfirm) {
+        alert('eSewa numbers do not match');
+        return;
+      }
+
+      const btn = document.querySelector('.btn-withdraw');
+      btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing...';
+      btn.disabled = true;
+
+      try {
+        const cashAmount = (amount / 100) * 10;
+
+        // Record withdrawal request
+        await addDoc(collection(db, 'transactions'), {
+          userId: currentUser.uid,
+          type: 'withdrawal',
+          amount: cashAmount,
+          coins: amount,
+          esewaNumber,
+          status: 'pending',
+          createdAt: serverTimestamp()
+        });
+
+        // Deduct coins
+        await updateDoc(doc(db, 'users', currentUser.uid), {
+          coins: userCoins - amount
+        });
+
+        alert(`✅ Withdrawal Request Submitted!\nYou will receive रु ${cashAmount} in your eSewa account within 24 hours.`);
+        window.location.href = 'profile.html';
+
+      } catch (error) {
+        console.error('Withdrawal error:', error);
+        alert('Withdrawal failed. Please try again.');
+        btn.innerHTML = '<i class="fas fa-exchange-alt"></i> Withdraw to eSewa';
+        btn.disabled = false;
+      }
+    };
+
+    // Auth listener
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = 'sign-in.html';
+        return;
+      }
+      currentUser = user;
+      await renderWithdraw();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <title>SewaLink · Buy Coins</title>
+  <meta name="description" content="Purchase game coins with eSewa">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#f59e0b">
+  
+  <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23f59e0b'/%3E%3Cpath d='M30 40 L70 40 L70 60 L30 60 Z' fill='white'/%3E%3Ccircle cx='40' cy='50' r='5' fill='%23f59e0b'/%3E%3Ccircle cx='60' cy='50' r='5' fill='%23f59e0b'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #f5f5f5;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .logo span {
+      color: #f59e0b;
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #f59e0b;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .container {
+      padding: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .payment-card {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 1rem;
+    }
+
+    .payment-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .payment-header i {
+      font-size: 3rem;
+      color: #f59e0b;
+      margin-bottom: 1rem;
+    }
+
+    .payment-header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+
+    .payment-header p {
+      color: #64748b;
+    }
+
+    .coin-balance {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      border-radius: 16px;
+      padding: 1.2rem;
+      color: white;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .balance-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .balance-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .package-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .package-card {
+      background: #f8fafc;
+      border: 2px solid #f1f5f9;
+      border-radius: 16px;
+      padding: 1.2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .package-card.selected {
+      border-color: #f59e0b;
+      background: #fef3c7;
+    }
+
+    .package-card:active {
+      transform: scale(0.98);
+    }
+
+    .package-coins {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #f59e0b;
+      margin-bottom: 0.3rem;
+    }
+
+    .package-coins i {
+      font-size: 1rem;
+      margin-right: 0.2rem;
+    }
+
+    .package-price {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.3rem;
+    }
+
+    .package-bonus {
+      background: #22c55e;
+      color: white;
+      font-size: 0.65rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 50px;
+      display: inline-block;
+    }
+
+    .company-qr-section {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .qr-image {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 12px;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #e2e8f0;
+    }
+
+    .qr-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .qr-info {
+      flex: 1;
+    }
+
+    .qr-title {
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.3rem;
+    }
+
+    .qr-desc {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 0.3rem;
+    }
+
+    .qr-number {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f59e0b;
+    }
+
+    .esewa-section {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .esewa-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .esewa-header i {
+      color: #f59e0b;
+      font-size: 1.5rem;
+    }
+
+    .esewa-header span {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.4rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 0.95rem;
+    }
+
+    input:focus {
+      border-color: #f59e0b;
+      outline: none;
+    }
+
+    .btn-pay {
+      width: 100%;
+      padding: 1rem;
+      background: #f59e0b;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-pay:active {
+      background: #d97706;
+      transform: scale(0.98);
+    }
+
+    .btn-pay:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .secure-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: #64748b;
+      font-size: 0.8rem;
+    }
+
+    .secure-badge i {
+      color: #22c55e;
+    }
+
+    .info-text {
+      background: #eff6ff;
+      padding: 1rem;
+      border-radius: 12px;
+      color: #2563eb;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .transaction-history {
+      margin-top: 2rem;
+    }
+
+    .history-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .history-list {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #f1f5f9;
+    }
+
+    .history-item {
+      padding: 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .history-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fef3c7;
+      color: #f59e0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .history-details {
+      flex: 1;
+    }
+
+    .history-amount {
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 0.2rem;
+    }
+
+    .history-time {
+      font-size: 0.7rem;
+      color: #64748b;
+    }
+
+    .history-status {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      background: #22c55e;
+      color: white;
+    }
+    .history-status.pending {
+      background: #f59e0b;
+    }
+
+    .empty-history {
+      text-align: center;
+      padding: 2rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <a href="profile.html" class="logo">Sewa<span>Link</span></a>
+  </header>
+
+  <div class="container">
+    <a href="profile.html" class="back-button">
+      <i class="fas fa-arrow-left"></i> Back to Profile
+    </a>
+
+    <div id="paymentContent" class="payment-card">
+      <div class="loading">
+        <i class="fas fa-spinner fa-pulse"></i>
+        <p>Loading payment options...</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      updateDoc,
+      addDoc,
+      collection,
+      query,
+      where,
+      getDocs,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVYHKeB4TXobILCAygM8JIVisKqUGiJ1s",
+      authDomain: "sewalink-ead02.firebaseapp.com",
+      projectId: "sewalink-ead02",
+      storageBucket: "sewalink-ead02.firebasestorage.app",
+      messagingSenderId: "682952754486",
+      appId: "1:682952754486:web:c0bba16496d78234aa1f97"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const paymentContent = document.getElementById('paymentContent');
+    let currentUser = null;
+    let userCoins = 0;
+    let selectedPackage = { coins: 100, price: 100, bonus: 10 };
+
+    // Load company QR code
+    async function loadCompanyQR() {
+      try {
+        const qrRef = doc(db, 'company', 'payment');
+        const qrSnap = await getDoc(qrRef);
+        if (qrSnap.exists()) {
+          return qrSnap.data();
+        }
+        return {
+          qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SewaLink',
+          accountName: 'SewaLink Company',
+          accountNumber: '9841234567',
+          instructions: 'Scan to pay with eSewa'
+        };
+      } catch (error) {
+        console.error('Error loading QR:', error);
+        return null;
+      }
+    }
+
+    // Load transaction history
+    async function loadTransactionHistory(userId) {
+      try {
+        const q = query(
+          collection(db, 'transactions'),
+          where('userId', '==', userId),
+          where('type', '==', 'purchase'),
+          orderBy('createdAt', 'desc'),
+          orderBy('__name__', 'desc')
+        );
+        const snap = await getDocs(q);
+        const transactions = [];
+        snap.forEach(doc => {
+          transactions.push({ id: doc.id, ...doc.data() });
+        });
+        return transactions;
+      } catch (error) {
+        console.error('Error loading transactions:', error);
+        return [];
+      }
+    }
+
+    // Format time
+    function formatTime(timestamp) {
+      if (!timestamp) return 'Just now';
+      try {
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        const now = new Date();
+        const diff = now - date;
+        const minutes = Math.floor(diff / 60000);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        if (minutes < 1) return 'Just now';
+        if (minutes < 60) return `${minutes} min ago`;
+        if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+        if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+        return date.toLocaleDateString();
+      } catch {
+        return 'Recently';
+      }
+    }
+
+    // Render payment page
+    async function renderPayment() {
+      if (!currentUser) return;
+
+      const userRef = doc(db, 'users', currentUser.uid);
+      const userSnap = await getDoc(userRef);
+      userCoins = userSnap.exists() ? (userSnap.data().coins || 0) : 0;
+
+      const qrData = await loadCompanyQR();
+      const transactions = await loadTransactionHistory(currentUser.uid);
+
+      let transactionsHTML = '';
+      if (transactions.length === 0) {
+        transactionsHTML = '<div class="empty-history"><i class="fas fa-receipt"></i><p>No transactions yet</p></div>';
+      } else {
+        transactionsHTML = transactions.map(t => `
+          <div class="history-item">
+            <div class="history-left">
+              <div class="history-icon">
+                <i class="fas fa-coins"></i>
+              </div>
+              <div class="history-details">
+                <div class="history-amount">+${t.coins} coins (रु ${t.amount})</div>
+                <div class="history-time">${formatTime(t.createdAt)}</div>
+              </div>
+            </div>
+            <span class="history-status">Completed</span>
+          </div>
+        `).join('');
+      }
+
+      paymentContent.innerHTML = `
+        <div class="payment-header">
+          <i class="fas fa-coins"></i>
+          <h1>Buy Coins</h1>
+          <p>Purchase game coins with eSewa</p>
+        </div>
+
+        <div class="coin-balance">
+          <span class="balance-label">Your Coins</span>
+          <span class="balance-value" id="currentCoins">${userCoins.toLocaleString()}</span>
+        </div>
+
+        <h3 style="margin-bottom: 0.8rem;">Select Package</h3>
+        <div class="package-grid">
+          <div class="package-card selected" onclick="selectPackage(this, 100, 100, 10)">
+            <div class="package-coins"><i class="fas fa-coins"></i> 100</div>
+            <div class="package-price">रु 100</div>
+            <span class="package-bonus">+10 bonus</span>
+          </div>
+          <div class="package-card" onclick="selectPackage(this, 300, 280, 40)">
+            <div class="package-coins"><i class="fas fa-coins"></i> 300</div>
+            <div class="package-price">रु 280</div>
+            <span class="package-bonus">+40 bonus</span>
+          </div>
+          <div class="package-card" onclick="selectPackage(this, 500, 450, 100)">
+            <div class="package-coins"><i class="fas fa-coins"></i> 500</div>
+            <div class="package-price">रु 450</div>
+            <span class="package-bonus">+100 bonus</span>
+          </div>
+          <div class="package-card" onclick="selectPackage(this, 1000, 850, 250)">
+            <div class="package-coins"><i class="fas fa-coins"></i> 1000</div>
+            <div class="package-price">रु 850</div>
+            <span class="package-bonus">+250 bonus</span>
+          </div>
+        </div>
+
+        <div class="company-qr-section">
+          <div class="qr-image">
+            <img src="${qrData?.qrUrl}" alt="Payment QR">
+          </div>
+          <div class="qr-info">
+            <div class="qr-title">${qrData?.accountName || 'SewaLink Company'}</div>
+            <div class="qr-desc">${qrData?.instructions || 'Scan to pay with eSewa'}</div>
+            <div class="qr-number">${qrData?.accountNumber || '9841234567'}</div>
+          </div>
+        </div>
+
+        <div class="esewa-section">
+          <div class="esewa-header">
+            <i class="fab fa-cc-visa"></i>
+            <span>Confirm Your eSewa</span>
+          </div>
+
+          <div class="form-group">
+            <label>Your eSewa Number</label>
+            <input type="tel" id="esewaNumber" placeholder="98XXXXXXXX" value="9841234567">
+          </div>
+
+          <div class="form-group">
+            <label>Transaction ID (from eSewa)</label>
+            <input type="text" id="transactionId" placeholder="Enter transaction ID">
+          </div>
+
+          <div class="info-text">
+            <i class="fas fa-shield-alt"></i>
+            After scanning QR and paying, enter the transaction ID
+          </div>
+        </div>
+
+        <button class="btn-pay" onclick="processPayment()">
+          <i class="fas fa-lock"></i> Pay रु <span id="payAmount">100</span>
+        </button>
+
+        <div class="secure-badge">
+          <i class="fas fa-shield-alt"></i>
+          <span>Secure payment via eSewa</span>
+        </div>
+
+        <div class="transaction-history">
+          <div class="history-title">
+            <i class="fas fa-history"></i> Recent Purchases
+          </div>
+          <div class="history-list">
+            ${transactionsHTML}
+          </div>
+        </div>
+      `;
+    }
+
+    // Global functions
+    window.selectPackage = function(element, coins, price, bonus) {
+      document.querySelectorAll('.package-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      element.classList.add('selected');
+      
+      selectedPackage = { coins, price, bonus };
+      document.getElementById('payAmount').textContent = price;
+    };
+
+    window.processPayment = async function() {
+      const esewaNumber = document.getElementById('esewaNumber').value;
+      const transactionId = document.getElementById('transactionId').value;
+      
+      if (!esewaNumber || esewaNumber.length < 10) {
+        alert('Please enter your eSewa number');
+        return;
+      }
+      
+      if (!transactionId) {
+        alert('Please enter the transaction ID from eSewa');
+        return;
+      }
+
+      const btn = document.querySelector('.btn-pay');
+      btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing...';
+      btn.disabled = true;
+
+      try {
+        // Record transaction
+        const totalCoins = selectedPackage.coins + selectedPackage.bonus;
+        
+        await addDoc(collection(db, 'transactions'), {
+          userId: currentUser.uid,
+          type: 'purchase',
+          amount: selectedPackage.price,
+          coins: totalCoins,
+          package: selectedPackage.coins,
+          bonus: selectedPackage.bonus,
+          esewaNumber,
+          transactionId,
+          status: 'completed',
+          createdAt: serverTimestamp()
+        });
+
+        // Update user coins
+        const userRef = doc(db, 'users', currentUser.uid);
+        await updateDoc(userRef, {
+          coins: userCoins + totalCoins
+        });
+
+        alert(`✅ Payment Successful!\nYou received ${totalCoins} coins (${selectedPackage.coins} + ${selectedPackage.bonus} bonus)`);
+        window.location.href = 'profile.html';
+
+      } catch (error) {
+        console.error('Payment error:', error);
+        alert('Payment failed. Please try again.');
+        btn.innerHTML = '<i class="fas fa-lock"></i> Pay रु ' + selectedPackage.price;
+        btn.disabled = false;
+      }
+    };
+
+    // Auth listener
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = 'sign-in.html';
+        return;
+      }
+      currentUser = user;
+      await renderPayment();
+    });
+  </script>
+</body>
+</html>
