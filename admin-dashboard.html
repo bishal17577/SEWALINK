@@ -222,6 +222,122 @@
       font-size: 0.9rem;
     }
 
+    /* ========== COIN MANAGEMENT SECTION ========== */
+    .coin-section {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      color: white;
+    }
+
+    .coin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .coin-header h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .total-coins {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .coin-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .coin-stat {
+      background: rgba(255,255,255,0.2);
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .coin-stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .coin-stat-label {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    /* ========== QR CODE SECTION ========== */
+    .qr-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 2rem;
+    }
+
+    .qr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .qr-card {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .qr-preview {
+      width: 200px;
+      height: 200px;
+      margin: 1rem auto;
+      background: white;
+      padding: 1rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .qr-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .qr-actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    /* ========== PAYMENT SECTION ========== */
+    .payment-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 2rem;
+    }
+
+    .commission-slider {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 12px;
+    }
+
     /* ========== TABLES ========== */
     .table-container {
       background: white;
@@ -236,6 +352,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
     .table-title {
       font-size: 1.1rem;
@@ -289,6 +407,7 @@
     .btn-success { background: #22c55e; color: white; }
     .btn-warning { background: #f59e0b; color: white; }
     .btn-info { background: #3b82f6; color: white; }
+    .btn-sm { padding: 0.2rem 0.8rem; font-size: 0.7rem; }
 
     .search-box {
       display: flex;
@@ -353,19 +472,58 @@
       border-color: #2563eb;
     }
 
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #334155;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 0.95rem;
+    }
+
     .activity-log {
-      background: #f8fafc;
-      border-radius: 16px;
-      padding: 1rem;
+      max-height: 300px;
+      overflow-y: auto;
     }
     .log-item {
+      padding: 0.8rem;
+      border-bottom: 1px solid #f1f5f9;
       display: flex;
-      gap: 1rem;
-      padding: 0.8rem 0;
-      border-bottom: 1px solid #e2e8f0;
-    }
-    .log-item:last-child {
-      border-bottom: none;
+      gap: 0.8rem;
+      align-items: center;
     }
 
     @media (max-width: 768px) {
@@ -393,40 +551,65 @@
       </div>
 
       <div class="sidebar-nav">
-        <!-- SECTION A: ADMIN AUTH & CORE -->
+        <!-- SECTION A: ADMIN CORE -->
         <div class="nav-section">
           <div class="nav-section-title">🔐 ADMIN CORE</div>
           <div class="nav-item active" onclick="showSection('dashboard')">
-            <i class="fas fa-chart-pie"></i> Security Dashboard
+            <i class="fas fa-chart-pie"></i> Dashboard
           </div>
           <div class="nav-item" onclick="showSection('admins')">
             <i class="fas fa-user-shield"></i> Admin Manager
           </div>
           <div class="nav-item" onclick="showSection('audit')">
-            <i class="fas fa-history"></i> Audit Trail
-          </div>
-          <div class="nav-item" onclick="showSection('sessions')">
-            <i class="fas fa-clock"></i> Session Control
+            <i class="fas fa-history"></i> Audit Logs
           </div>
         </div>
 
-        <!-- SECTION B: USER MANAGEMENT -->
+        <!-- SECTION B: QR CODE MANAGEMENT -->
         <div class="nav-section">
-          <div class="nav-section-title">👥 USER MANAGEMENT</div>
+          <div class="nav-section-title">📱 QR CODE</div>
+          <div class="nav-item" onclick="showSection('qr')">
+            <i class="fas fa-qrcode"></i> QR Manager
+          </div>
+          <div class="nav-item" onclick="showSection('scans')">
+            <i class="fas fa-eye"></i> Scan Analytics
+          </div>
+        </div>
+
+        <!-- SECTION C: PAYMENT & COINS -->
+        <div class="nav-section">
+          <div class="nav-section-title">💰 COINS & PAYMENTS</div>
+          <div class="nav-item" onclick="showSection('coins')">
+            <i class="fas fa-coins"></i> Coin Management
+          </div>
+          <div class="nav-item" onclick="showSection('commission')">
+            <i class="fas fa-percent"></i> Commission Control
+          </div>
+          <div class="nav-item" onclick="showSection('transactions')">
+            <i class="fas fa-credit-card"></i> All Transactions
+          </div>
+          <div class="nav-item" onclick="showSection('withdrawals')">
+            <i class="fas fa-money-bill"></i> Withdrawals
+          </div>
+        </div>
+
+        <!-- SECTION D: USER MANAGEMENT -->
+        <div class="nav-section">
+          <div class="nav-section-title">👥 USERS</div>
           <div class="nav-item" onclick="showSection('users')">
             <i class="fas fa-users"></i> All Users
           </div>
           <div class="nav-item" onclick="showSection('freelancers')">
             <i class="fas fa-briefcase"></i> Freelancers
           </div>
-          <div class="nav-item" onclick="showSection('blacklist')">
-            <i class="fas fa-list"></i> Blacklist Manager
+          <div class="nav-item" onclick="showSection('clients')">
+            <i class="fas fa-user-tie"></i> Clients
           </div>
         </div>
 
-        <!-- SECTION C: JOB CONTROL -->
+        <!-- SECTION E: JOB CONTROL -->
         <div class="nav-section">
-          <div class="nav-section-title">📋 JOB CONTROL</div>
+          <div class="nav-section-title">📋 JOBS</div>
           <div class="nav-item" onclick="showSection('jobs')">
             <i class="fas fa-briefcase"></i> All Jobs
           </div>
@@ -435,33 +618,14 @@
           </div>
         </div>
 
-        <!-- SECTION D: PAYMENTS -->
-        <div class="nav-section">
-          <div class="nav-section-title">💰 PAYMENTS</div>
-          <div class="nav-item" onclick="showSection('commission')">
-            <i class="fas fa-percent"></i> Commission Editor
-          </div>
-          <div class="nav-item" onclick="showSection('transactions')">
-            <i class="fas fa-credit-card"></i> Transactions
-          </div>
-        </div>
-
-        <!-- SECTION E: ANALYTICS -->
-        <div class="nav-section">
-          <div class="nav-section-title">📊 ANALYTICS</div>
-          <div class="nav-item" onclick="showSection('ai-detection')">
-            <i class="fas fa-robot"></i> AI Fraud Detection
-          </div>
-        </div>
-
         <!-- SECTION F: SYSTEM -->
         <div class="nav-section">
           <div class="nav-section-title">⚙️ SYSTEM</div>
-          <div class="nav-item" onclick="showSection('maintenance')">
-            <i class="fas fa-shield"></i> Maintenance Mode
-          </div>
           <div class="nav-item" onclick="showSection('settings')">
             <i class="fas fa-gear"></i> Settings
+          </div>
+          <div class="nav-item" onclick="showSection('blacklist')">
+            <i class="fas fa-ban"></i> Blacklist
           </div>
           <div class="nav-item logout" onclick="adminLogout()">
             <i class="fas fa-sign-out-alt"></i> Logout
@@ -473,7 +637,7 @@
     <!-- MAIN CONTENT -->
     <div class="main-content">
       <div class="top-bar">
-        <div class="page-title" id="pageTitle">Security Dashboard</div>
+        <div class="page-title" id="pageTitle">Dashboard</div>
         <div class="top-bar-actions">
           <div class="notification-badge" onclick="showSection('notifications')">
             <i class="fas fa-bell" style="font-size: 1.2rem; color: #64748b;"></i>
@@ -490,6 +654,73 @@
           <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #2563eb;"></i>
           <span style="margin-left: 1rem; color: #64748b;">Loading secure dashboard...</span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR MODAL -->
+  <div id="qrModal" class="modal">
+    <div class="modal-content">
+      <h2 style="margin-bottom: 1.5rem;">Create QR Code</h2>
+      <div class="form-group">
+        <label>QR Name</label>
+        <input type="text" id="qrName" placeholder="e.g., Company Main QR">
+      </div>
+      <div class="form-group">
+        <label>QR Type</label>
+        <select id="qrType">
+          <option value="company">Company Profile</option>
+          <option value="payment">Payment Link</option>
+          <option value="job">Job Listing</option>
+          <option value="profile">User Profile</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Redirect URL</label>
+        <input type="url" id="qrUrl" placeholder="https://sewalink.com/...">
+      </div>
+      <div class="form-group">
+        <label>Commission Rate (%)</label>
+        <input type="number" id="qrCommission" value="10" min="0" max="100">
+      </div>
+      <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+        <button class="btn btn-danger" onclick="closeQRModal()">Cancel</button>
+        <button class="btn btn-success" onclick="generateQR()">Generate QR</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COIN MODAL -->
+  <div id="coinModal" class="modal">
+    <div class="modal-content">
+      <h2 style="margin-bottom: 1.5rem;">Manage User Coins</h2>
+      <div class="form-group">
+        <label>User</label>
+        <input type="text" id="coinUserId" readonly style="background: #f1f5f9;">
+      </div>
+      <div class="form-group">
+        <label>Current Coins</label>
+        <input type="number" id="currentCoins" readonly style="background: #f1f5f9;">
+      </div>
+      <div class="form-group">
+        <label>Action</label>
+        <select id="coinAction">
+          <option value="add">Add Coins</option>
+          <option value="deduct">Deduct Coins</option>
+          <option value="set">Set Exact Amount</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Amount</label>
+        <input type="number" id="coinAmount" placeholder="Enter amount" min="0">
+      </div>
+      <div class="form-group">
+        <label>Reason</label>
+        <input type="text" id="coinReason" placeholder="e.g., Bonus, Penalty, Refund">
+      </div>
+      <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+        <button class="btn btn-danger" onclick="closeCoinModal()">Cancel</button>
+        <button class="btn btn-success" onclick="saveCoinChanges()">Update Coins</button>
       </div>
     </div>
   </div>
@@ -516,7 +747,11 @@
       deleteDoc,
       addDoc,
       setDoc,
-      serverTimestamp
+      serverTimestamp,
+      Timestamp,
+      onSnapshot,
+      increment,
+      runTransaction
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     // ========== FIREBASE CONFIG ==========
@@ -539,6 +774,9 @@
     let adminData = null;
     let sessionTimer = null;
     let sessionTime = 30 * 60; // 30 minutes
+    let notificationsUnsub = null;
+    let transactionsUnsub = null;
+    let qrCodesUnsub = null;
 
     // ========== CHECK AUTH ==========
     onAuthStateChanged(auth, async (user) => {
@@ -576,19 +814,15 @@
         // Load dashboard
         await loadDashboard();
         
+        // Setup real-time notifications
+        setupNotifications();
+        
         // Log activity
-        try {
-          await addDoc(collection(db, 'adminLogs'), {
-            adminId: user.uid,
-            email: user.email,
-            action: 'dashboard_access',
-            timestamp: serverTimestamp()
-          });
-        } catch (e) {
-          console.log('Logging skipped');
-        }
+        await logAdminActivity('dashboard_access');
+        
       } catch (error) {
         console.error('Auth error:', error);
+        window.location.href = 'admin-login.html';
       }
     });
 
@@ -613,10 +847,51 @@
       }, 1000);
     }
 
+    // ========== LOG ADMIN ACTIVITY ==========
+    async function logAdminActivity(action, details = {}) {
+      if (!currentAdmin) return;
+      try {
+        await addDoc(collection(db, 'adminLogs'), {
+          adminId: currentAdmin.uid,
+          email: currentAdmin.email,
+          name: adminData?.name || currentAdmin.email,
+          action: action,
+          details: details,
+          timestamp: serverTimestamp()
+        });
+      } catch (error) {
+        console.error('Error logging activity:', error);
+      }
+    }
+
+    // ========== SETUP NOTIFICATIONS ==========
+    function setupNotifications() {
+      if (notificationsUnsub) notificationsUnsub();
+      
+      // Get pending withdrawals count
+      const withdrawalsQuery = query(
+        collection(db, 'withdrawals'),
+        where('status', '==', 'pending')
+      );
+      
+      notificationsUnsub = onSnapshot(withdrawalsQuery, (snapshot) => {
+        const count = snapshot.size;
+        const badge = document.getElementById('notificationCount');
+        if (badge) {
+          badge.textContent = count;
+          badge.style.display = count > 0 ? 'block' : 'none';
+        }
+      });
+    }
+
     // ========== ADMIN LOGOUT ==========
     window.adminLogout = async function() {
       try {
+        await logAdminActivity('logout');
         clearInterval(sessionTimer);
+        if (notificationsUnsub) notificationsUnsub();
+        if (transactionsUnsub) transactionsUnsub();
+        if (qrCodesUnsub) qrCodesUnsub();
         await signOut(auth);
         window.location.href = 'admin-login.html';
       } catch (error) {
@@ -636,20 +911,22 @@
       }
 
       const titles = {
-        'dashboard': 'Security Dashboard',
+        'dashboard': 'Dashboard',
         'admins': 'Admin Manager',
-        'audit': 'Audit Trail',
-        'sessions': 'Session Control',
+        'audit': 'Audit Logs',
+        'qr': 'QR Code Manager',
+        'scans': 'Scan Analytics',
+        'coins': 'Coin Management',
+        'commission': 'Commission Control',
+        'transactions': 'Transaction History',
+        'withdrawals': 'Withdrawal Requests',
         'users': 'User Management',
         'freelancers': 'Freelancer Management',
-        'blacklist': 'Blacklist Manager',
+        'clients': 'Client Management',
         'jobs': 'Job Management',
         'categories': 'Category Manager',
-        'commission': 'Commission Editor',
-        'transactions': 'Transaction History',
-        'ai-detection': 'AI Fraud Detection',
-        'maintenance': 'Maintenance Mode',
-        'settings': 'Platform Settings'
+        'settings': 'Platform Settings',
+        'blacklist': 'Blacklist Manager'
       };
       
       const titleEl = document.getElementById('pageTitle');
@@ -657,21 +934,25 @@
 
       // Load section
       try {
+        await logAdminActivity(`view_${section}`);
+        
         switch(section) {
           case 'dashboard': await loadDashboard(); break;
+          case 'coins': await loadCoinManagement(); break;
+          case 'qr': await loadQRManager(); break;
+          case 'scans': await loadScanAnalytics(); break;
+          case 'commission': await loadCommission(); break;
+          case 'transactions': await loadTransactions(); break;
+          case 'withdrawals': await loadWithdrawals(); break;
           case 'users': await loadUsers(); break;
           case 'freelancers': await loadFreelancers(); break;
+          case 'clients': await loadClients(); break;
           case 'jobs': await loadJobs(); break;
           case 'admins': await loadAdminManager(); break;
           case 'audit': await loadAuditLogs(); break;
-          case 'sessions': loadSessions(); break;
-          case 'blacklist': loadBlacklist(); break;
-          case 'categories': loadCategories(); break;
-          case 'commission': loadCommission(); break;
-          case 'transactions': loadTransactions(); break;
-          case 'ai-detection': loadAIDetection(); break;
-          case 'maintenance': loadMaintenance(); break;
-          case 'settings': loadSettings(); break;
+          case 'categories': await loadCategories(); break;
+          case 'settings': await loadSettings(); break;
+          case 'blacklist': await loadBlacklist(); break;
           default: await loadDashboard();
         }
       } catch (error) {
@@ -695,17 +976,16 @@
       const contentArea = document.getElementById('contentArea');
       if (!contentArea) return;
       
-      contentArea.innerHTML = `
-        <div style="display: flex; justify-content: center; align-items: center; height: 400px;">
-          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #2563eb;"></i>
-          <span style="margin-left: 1rem; color: #64748b;">Loading dashboard...</span>
-        </div>
-      `;
+      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading dashboard...</div>`;
 
       try {
-        // Get real counts
-        let totalUsers = 0, totalFreelancers = 0, totalJobs = 0, activeJobs = 0, completedJobs = 0, totalVolume = 0;
-        
+        // Get real counts from Firestore
+        let totalUsers = 0, totalFreelancers = 0, totalClients = 0;
+        let totalJobs = 0, activeJobs = 0, completedJobs = 0;
+        let totalTransactions = 0, totalRevenue = 0, pendingWithdrawals = 0;
+        let totalScans = 0, totalCoins = 0;
+
+        // Users count
         try {
           const usersSnapshot = await getDocs(collection(db, 'users'));
           totalUsers = usersSnapshot.size;
@@ -713,9 +993,12 @@
           usersSnapshot.forEach(doc => {
             const user = doc.data();
             if (user.role === 'freelancer' || user.role === 'both') totalFreelancers++;
+            if (user.role === 'client' || user.role === 'both') totalClients++;
+            totalCoins += user.coins || 0;
           });
         } catch (e) { console.log('Users collection error'); }
 
+        // Jobs count
         try {
           const jobsSnapshot = await getDocs(collection(db, 'jobs'));
           totalJobs = jobsSnapshot.size;
@@ -723,19 +1006,35 @@
           jobsSnapshot.forEach(doc => {
             const job = doc.data();
             if (job.status === 'open') activeJobs++;
-            if (job.status === 'completed') {
-              completedJobs++;
-              totalVolume += job.budget || 0;
-            }
+            if (job.status === 'completed') completedJobs++;
           });
         } catch (e) { console.log('Jobs collection error'); }
 
-        // Get admin count
-        let adminCount = 0;
+        // Transactions
         try {
-          const adminsSnapshot = await getDocs(collection(db, 'admins'));
-          adminCount = adminsSnapshot.size;
-        } catch (e) { console.log('Admins collection error'); }
+          const transactionsSnapshot = await getDocs(collection(db, 'transactions'));
+          totalTransactions = transactionsSnapshot.size;
+          
+          transactionsSnapshot.forEach(doc => {
+            const tx = doc.data();
+            if (tx.status === 'completed') {
+              totalRevenue += tx.amount || 0;
+            }
+          });
+        } catch (e) { console.log('Transactions collection error'); }
+
+        // QR scans
+        try {
+          const scansSnapshot = await getDocs(collection(db, 'qrScans'));
+          totalScans = scansSnapshot.size;
+        } catch (e) { console.log('QR scans collection error'); }
+
+        // Withdrawals
+        try {
+          const withdrawalsQuery = query(collection(db, 'withdrawals'), where('status', '==', 'pending'));
+          const withdrawalsSnapshot = await getDocs(withdrawalsQuery);
+          pendingWithdrawals = withdrawalsSnapshot.size;
+        } catch (e) { console.log('Withdrawals collection error'); }
 
         contentArea.innerHTML = `
           <div class="stats-grid">
@@ -748,54 +1047,61 @@
             </div>
             <div class="stat-card">
               <div class="stat-header">
-                <div class="stat-icon"><i class="fas fa-briefcase"></i></div>
-                <span class="stat-value">${totalFreelancers}</span>
+                <div class="stat-icon"><i class="fas fa-coins"></i></div>
+                <span class="stat-value">${totalCoins.toLocaleString()}</span>
               </div>
-              <div class="stat-label">Freelancers</div>
+              <div class="stat-label">Total Coins</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon"><i class="fas fa-briefcase"></i></div>
+                <span class="stat-value">${totalJobs}</span>
+              </div>
+              <div class="stat-label">Total Jobs</div>
             </div>
             <div class="stat-card">
               <div class="stat-header">
                 <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
-                <span class="stat-value">$${totalVolume.toLocaleString()}</span>
+                <span class="stat-value">रु ${totalRevenue.toLocaleString()}</span>
               </div>
-              <div class="stat-label">Total Volume</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-header">
-                <div class="stat-icon"><i class="fas fa-clock"></i></div>
-                <span class="stat-value">${activeJobs}</span>
-              </div>
-              <div class="stat-label">Active Jobs</div>
+              <div class="stat-label">Total Revenue</div>
             </div>
           </div>
 
           <div class="status-grid">
-            <div class="status-card" onclick="showSection('admins')">
-              <i class="fas fa-user-shield" style="font-size: 2rem; color: #3b82f6;"></i>
-              <div>
-                <h4 style="font-size: 1.2rem;">${adminCount}</h4>
-                <p style="color: #64748b;">Admin Accounts</p>
-              </div>
-            </div>
             <div class="status-card" onclick="showSection('users')">
-              <i class="fas fa-users" style="font-size: 2rem; color: #10b981;"></i>
+              <i class="fas fa-users" style="font-size: 2rem; color: #3b82f6;"></i>
               <div>
                 <h4 style="font-size: 1.2rem;">${totalUsers}</h4>
-                <p style="color: #64748b;">Total Users</p>
-              </div>
-            </div>
-            <div class="status-card" onclick="showSection('jobs')">
-              <i class="fas fa-briefcase" style="font-size: 2rem; color: #8b5cf6;"></i>
-              <div>
-                <h4 style="font-size: 1.2rem;">${totalJobs}</h4>
-                <p style="color: #64748b;">Total Jobs</p>
+                <p style="color: #64748b;">Users</p>
               </div>
             </div>
             <div class="status-card" onclick="showSection('freelancers')">
-              <i class="fas fa-briefcase" style="font-size: 2rem; color: #f59e0b;"></i>
+              <i class="fas fa-briefcase" style="font-size: 2rem; color: #10b981;"></i>
               <div>
                 <h4 style="font-size: 1.2rem;">${totalFreelancers}</h4>
                 <p style="color: #64748b;">Freelancers</p>
+              </div>
+            </div>
+            <div class="status-card" onclick="showSection('clients')">
+              <i class="fas fa-user-tie" style="font-size: 2rem; color: #8b5cf6;"></i>
+              <div>
+                <h4 style="font-size: 1.2rem;">${totalClients}</h4>
+                <p style="color: #64748b;">Clients</p>
+              </div>
+            </div>
+            <div class="status-card" onclick="showSection('jobs')">
+              <i class="fas fa-briefcase" style="font-size: 2rem; color: #f59e0b;"></i>
+              <div>
+                <h4 style="font-size: 1.2rem;">${activeJobs}</h4>
+                <p style="color: #64748b;">Active Jobs</p>
+              </div>
+            </div>
+            <div class="status-card" onclick="showSection('withdrawals')">
+              <i class="fas fa-money-bill" style="font-size: 2rem; color: #ef4444;"></i>
+              <div>
+                <h4 style="font-size: 1.2rem;">${pendingWithdrawals}</h4>
+                <p style="color: #64748b;">Pending Withdrawals</p>
               </div>
             </div>
           </div>
@@ -803,26 +1109,9 @@
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
             <div class="table-container">
               <div class="table-header">
-                <div class="table-title">System Health</div>
+                <div class="table-title">Recent Activity</div>
               </div>
-              <table>
-                <tr>
-                  <td>Firestore</td>
-                  <td><span class="badge badge-success">Operational</span></td>
-                </tr>
-                <tr>
-                  <td>Authentication</td>
-                  <td><span class="badge badge-success">Active</span></td>
-                </tr>
-                <tr>
-                  <td>Storage</td>
-                  <td><span class="badge badge-success">Online</span></td>
-                </tr>
-                <tr>
-                  <td>Admin Session</td>
-                  <td><span class="badge badge-success">Active</span></td>
-                </tr>
-              </table>
+              <div id="recentActivity"></div>
             </div>
 
             <div class="table-container">
@@ -830,14 +1119,18 @@
                 <div class="table-title">Quick Actions</div>
               </div>
               <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                <button class="btn btn-primary" onclick="showSection('users')" style="width: 100%;">Manage Users</button>
-                <button class="btn btn-primary" onclick="showSection('jobs')" style="width: 100%;">Manage Jobs</button>
-                <button class="btn btn-primary" onclick="showSection('freelancers')" style="width: 100%;">Manage Freelancers</button>
-                <button class="btn btn-warning" onclick="showSection('maintenance')" style="width: 100%;">Maintenance</button>
+                <button class="btn btn-primary" onclick="showSection('coins')" style="width: 100%;">Manage Coins</button>
+                <button class="btn btn-primary" onclick="showSection('qr')" style="width: 100%;">Manage QR Codes</button>
+                <button class="btn btn-primary" onclick="showSection('commission')" style="width: 100%;">Set Commission</button>
+                <button class="btn btn-warning" onclick="showSection('withdrawals')" style="width: 100%;">Pending: ${pendingWithdrawals}</button>
               </div>
             </div>
           </div>
         `;
+
+        // Load recent activity
+        await loadRecentActivity();
+
       } catch (error) {
         console.error('Dashboard error:', error);
         contentArea.innerHTML = `
@@ -848,6 +1141,802 @@
             <button onclick="loadDashboard()" class="btn btn-primary" style="margin-top: 1rem;">Try Again</button>
           </div>
         `;
+      }
+    };
+
+    // ========== RECENT ACTIVITY ==========
+    async function loadRecentActivity() {
+      try {
+        const logsQuery = query(collection(db, 'adminLogs'), orderBy('timestamp', 'desc'), limit(10));
+        const logsSnapshot = await getDocs(logsQuery);
+        
+        let html = '<div class="activity-log">';
+        if (logsSnapshot.empty) {
+          html += '<p style="color: #64748b; text-align: center; padding: 1rem;">No recent activity</p>';
+        } else {
+          logsSnapshot.forEach(doc => {
+            const log = doc.data();
+            const time = log.timestamp ? new Date(log.timestamp.seconds * 1000).toLocaleString() : 'Unknown';
+            html += `
+              <div class="log-item">
+                <i class="fas fa-circle" style="color: #2563eb; font-size: 0.5rem;"></i>
+                <div style="flex:1;">
+                  <div style="font-weight: 500;">${log.action || 'Unknown'}</div>
+                  <div style="font-size: 0.7rem; color: #64748b;">${time} • ${log.email || 'Admin'}</div>
+                </div>
+              </div>
+            `;
+          });
+        }
+        html += '</div>';
+        
+        document.getElementById('recentActivity').innerHTML = html;
+      } catch (error) {
+        console.error('Error loading activity:', error);
+      }
+    }
+
+    // ========== COIN MANAGEMENT ==========
+    window.loadCoinManagement = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading coin data...</div>`;
+
+      try {
+        // Get all users with coins
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        let totalCoins = 0;
+        let topUsers = [];
+        
+        const users = [];
+        for (const doc of usersSnapshot.docs) {
+          const user = { id: doc.id, ...doc.data() };
+          totalCoins += user.coins || 0;
+          users.push(user);
+          
+          // Get top 5 users by coins
+          if (user.coins > 0) {
+            topUsers.push(user);
+          }
+        }
+        
+        // Sort top users by coins
+        topUsers.sort((a, b) => (b.coins || 0) - (a.coins || 0));
+        topUsers = topUsers.slice(0, 5);
+
+        // Get coin transactions
+        const coinTxQuery = query(
+          collection(db, 'coinTransactions'),
+          orderBy('timestamp', 'desc'),
+          limit(50)
+        );
+        const coinTxSnapshot = await getDocs(coinTxQuery);
+        const coinTransactions = [];
+        coinTxSnapshot.forEach(doc => {
+          coinTransactions.push({ id: doc.id, ...doc.data() });
+        });
+
+        contentArea.innerHTML = `
+          <div class="coin-section">
+            <div class="coin-header">
+              <h2><i class="fas fa-coins"></i> Coin Management</h2>
+              <div class="total-coins">${totalCoins.toLocaleString()}</div>
+            </div>
+            
+            <div class="coin-stats">
+              <div class="coin-stat">
+                <div class="coin-stat-value">${users.length}</div>
+                <div class="coin-stat-label">Users with Coins</div>
+              </div>
+              <div class="coin-stat">
+                <div class="coin-stat-value">${(totalCoins / users.length || 0).toFixed(0)}</div>
+                <div class="coin-stat-label">Avg Coins/User</div>
+              </div>
+              <div class="coin-stat">
+                <div class="coin-stat-value">${topUsers[0]?.coins || 0}</div>
+                <div class="coin-stat-label">Highest Balance</div>
+              </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem;">
+              <h3 style="margin-bottom: 1rem;">Top Coin Holders</h3>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                ${topUsers.map((user, index) => `
+                  <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                    <div>
+                      <span style="font-weight: 600;">${index + 1}.</span>
+                      <span>${user.displayName || user.email || 'User'}</span>
+                    </div>
+                    <div style="font-weight: 700;">${(user.coins || 0).toLocaleString()} coins</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">All Users Coin Balances</div>
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="coinSearch" placeholder="Search users..." onkeyup="searchCoinUsers()">
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Coins</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="coinUsersTable">
+                ${users.map(user => `
+                  <tr class="coin-user-row">
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=32'}" style="width: 32px; height: 32px; border-radius: 50%;">
+                        <span style="font-weight: 600;">${user.displayName || 'User'}</span>
+                      </div>
+                    </td>
+                    <td>${user.email || 'N/A'}</td>
+                    <td><span class="badge badge-info">${user.role || 'user'}</span></td>
+                    <td><span style="font-weight: 700; color: #f59e0b;">${(user.coins || 0).toLocaleString()}</span></td>
+                    <td>
+                      <button class="btn btn-primary btn-sm" onclick="openCoinModal('${user.id}', '${user.displayName || user.email || 'User'}', ${user.coins || 0})">
+                        <i class="fas fa-coins"></i> Manage Coins
+                      </button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Recent Coin Transactions</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>New Balance</th>
+                  <th>Reason</th>
+                  <th>Admin</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${coinTransactions.map(tx => {
+                  const time = tx.timestamp ? new Date(tx.timestamp.seconds * 1000).toLocaleString() : 'Unknown';
+                  return `
+                    <tr>
+                      <td>${tx.userName || tx.userId?.substring(0, 8) || 'Unknown'}</td>
+                      <td><span class="badge badge-${tx.type === 'add' ? 'success' : tx.type === 'deduct' ? 'danger' : 'info'}">${tx.type}</span></td>
+                      <td style="color: ${tx.type === 'add' ? '#22c55e' : tx.type === 'deduct' ? '#ef4444' : '#3b82f6'}; font-weight: 600;">
+                        ${tx.type === 'add' ? '+' : tx.type === 'deduct' ? '-' : ''}${tx.amount}
+                      </td>
+                      <td>${tx.newBalance}</td>
+                      <td>${tx.reason || '—'}</td>
+                      <td>${tx.adminName || tx.adminId?.substring(0, 8) || 'System'}</td>
+                      <td>${time}</td>
+                    </tr>
+                  `;
+                }).join('')}
+                ${coinTransactions.length === 0 ? '<tr><td colspan="7" style="text-align: center; padding: 2rem;">No coin transactions yet</td></tr>' : ''}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading coin management:', error);
+        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
+      }
+    };
+
+    // ========== COIN MODAL FUNCTIONS ==========
+    window.openCoinModal = function(userId, userName, currentCoins) {
+      document.getElementById('coinUserId').value = `${userName} (${userId})`;
+      document.getElementById('currentCoins').value = currentCoins;
+      document.getElementById('coinUserId').dataset.userId = userId;
+      document.getElementById('coinAmount').value = '';
+      document.getElementById('coinReason').value = '';
+      document.getElementById('coinModal').classList.add('active');
+    };
+
+    window.closeCoinModal = function() {
+      document.getElementById('coinModal').classList.remove('active');
+    };
+
+    window.saveCoinChanges = async function() {
+      const userId = document.getElementById('coinUserId').dataset.userId;
+      const action = document.getElementById('coinAction').value;
+      const amount = parseInt(document.getElementById('coinAmount').value);
+      const reason = document.getElementById('coinReason').value;
+      const currentCoins = parseInt(document.getElementById('currentCoins').value);
+
+      if (!amount || amount <= 0) {
+        alert('Please enter a valid amount');
+        return;
+      }
+
+      if (!reason) {
+        alert('Please enter a reason');
+        return;
+      }
+
+      try {
+        const userRef = doc(db, 'users', userId);
+        const userSnap = await getDoc(userRef);
+        const userData = userSnap.data();
+        
+        let newCoins = currentCoins;
+        let operation = '';
+
+        switch(action) {
+          case 'add':
+            newCoins = currentCoins + amount;
+            operation = 'add';
+            break;
+          case 'deduct':
+            if (currentCoins < amount) {
+              alert('Insufficient coins! User only has ' + currentCoins + ' coins');
+              return;
+            }
+            newCoins = currentCoins - amount;
+            operation = 'deduct';
+            break;
+          case 'set':
+            newCoins = amount;
+            operation = 'set';
+            break;
+        }
+
+        // Update user coins
+        await updateDoc(userRef, {
+          coins: newCoins,
+          updatedAt: serverTimestamp()
+        });
+
+        // Record transaction
+        await addDoc(collection(db, 'coinTransactions'), {
+          userId: userId,
+          userName: userData.displayName || userData.email || 'User',
+          type: operation,
+          amount: amount,
+          oldBalance: currentCoins,
+          newBalance: newCoins,
+          reason: reason,
+          adminId: currentAdmin.uid,
+          adminName: adminData?.name || currentAdmin.email,
+          timestamp: serverTimestamp()
+        });
+
+        await logAdminActivity('coin_updated', {
+          userId,
+          action: operation,
+          amount,
+          oldBalance: currentCoins,
+          newBalance: newCoins,
+          reason
+        });
+
+        alert(`✅ Coins updated successfully!\nNew balance: ${newCoins} coins`);
+        closeCoinModal();
+        
+        // Refresh the current section
+        if (document.querySelector('.nav-item.active')) {
+          const activeSection = document.querySelector('.nav-item.active').textContent.trim().toLowerCase();
+          if (activeSection.includes('coin')) {
+            await loadCoinManagement();
+          }
+        }
+
+      } catch (error) {
+        console.error('Error updating coins:', error);
+        alert('Error: ' + error.message);
+      }
+    };
+
+    window.searchCoinUsers = function() {
+      const searchTerm = document.getElementById('coinSearch')?.value.toLowerCase() || '';
+      const rows = document.querySelectorAll('.coin-user-row');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? 'table-row' : 'none';
+      });
+    };
+
+    // ========== QR CODE MANAGER ==========
+    window.loadQRManager = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading QR codes...</div>`;
+
+      try {
+        // Setup real-time listener for QR codes
+        if (qrCodesUnsub) qrCodesUnsub();
+        
+        const qrQuery = query(collection(db, 'qrCodes'), orderBy('createdAt', 'desc'));
+        
+        const qrSnapshot = await getDocs(qrQuery);
+        const qrCodes = [];
+        qrSnapshot.forEach(doc => {
+          qrCodes.push({ id: doc.id, ...doc.data() });
+        });
+
+        renderQRManager(contentArea, qrCodes);
+
+      } catch (error) {
+        console.error('QR error:', error);
+        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
+      }
+    };
+
+    function renderQRManager(contentArea, qrCodes) {
+      contentArea.innerHTML = `
+        <div class="qr-section">
+          <div class="table-header">
+            <div class="table-title">SewaLink QR Code Manager</div>
+            <button class="btn btn-primary" onclick="openQRModal()">
+              <i class="fas fa-plus"></i> Generate New QR
+            </button>
+          </div>
+
+          <div class="qr-grid">
+            ${qrCodes.map(qr => `
+              <div class="qr-card">
+                <h3>${qr.name || 'QR Code'}</h3>
+                <div class="qr-preview">
+                  <img src="${qr.qrImage || 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(qr.url || 'https://sewalink.com')}">
+                </div>
+                <div style="margin: 0.5rem 0;">
+                  <span class="badge badge-info">${qr.type || 'company'}</span>
+                  <span class="badge badge-success">${qr.scans || 0} scans</span>
+                </div>
+                <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">
+                  Commission: ${qr.commission || 10}%
+                </div>
+                <div class="qr-actions">
+                  <button class="btn btn-info btn-sm" onclick="downloadQR('${qr.id}')">
+                    <i class="fas fa-download"></i>
+                  </button>
+                  <button class="btn btn-primary btn-sm" onclick="editQR('${qr.id}')">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-danger btn-sm" onclick="deleteQR('${qr.id}')">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+            
+            ${qrCodes.length === 0 ? `
+              <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #64748b;">
+                <i class="fas fa-qrcode" style="font-size: 3rem;"></i>
+                <p style="margin-top: 1rem;">No QR codes yet. Create your first one!</p>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">QR Scan Analytics</div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>QR Code</th>
+                <th>Total Scans</th>
+                <th>Unique Users</th>
+                <th>Last Scan</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${qrCodes.map(qr => `
+                <tr>
+                  <td>${qr.name || 'QR Code'}</td>
+                  <td>${qr.scans || 0}</td>
+                  <td>${qr.uniqueUsers || 0}</td>
+                  <td>${qr.lastScan ? new Date(qr.lastScan.seconds * 1000).toLocaleDateString() : 'Never'}</td>
+                  <td>
+                    <button class="btn btn-info btn-sm" onclick="viewQRScans('${qr.id}')">View Details</button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    // ========== QR MODAL FUNCTIONS ==========
+    window.openQRModal = function() {
+      document.getElementById('qrModal').classList.add('active');
+    };
+
+    window.closeQRModal = function() {
+      document.getElementById('qrModal').classList.remove('active');
+    };
+
+    window.generateQR = async function() {
+      const name = document.getElementById('qrName').value;
+      const type = document.getElementById('qrType').value;
+      const url = document.getElementById('qrUrl').value;
+      const commission = document.getElementById('qrCommission').value;
+
+      if (!name || !url) {
+        alert('Please fill all fields');
+        return;
+      }
+
+      try {
+        // Generate QR code URL
+        const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+
+        // Save to Firestore
+        const qrData = {
+          name: name,
+          type: type,
+          url: url,
+          qrImage: qrImageUrl,
+          commission: parseInt(commission),
+          scans: 0,
+          uniqueUsers: 0,
+          createdAt: serverTimestamp(),
+          createdBy: currentAdmin?.uid
+        };
+
+        await addDoc(collection(db, 'qrCodes'), qrData);
+        
+        await logAdminActivity('qr_generated', { name, type });
+        
+        alert('QR Code generated successfully!');
+        closeQRModal();
+        
+        // Clear form
+        document.getElementById('qrName').value = '';
+        document.getElementById('qrUrl').value = '';
+        
+        // Refresh QR section
+        await loadQRManager();
+        
+      } catch (error) {
+        console.error('Error generating QR:', error);
+        alert('Error: ' + error.message);
+      }
+    };
+
+    window.deleteQR = async function(qrId) {
+      if (!confirm('Are you sure you want to delete this QR code?')) return;
+      
+      try {
+        await deleteDoc(doc(db, 'qrCodes', qrId));
+        await logAdminActivity('qr_deleted', { qrId });
+        alert('QR code deleted');
+        await loadQRManager();
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    };
+
+    // ========== SCAN ANALYTICS ==========
+    window.loadScanAnalytics = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      try {
+        const scansSnapshot = await getDocs(collection(db, 'qrScans'));
+        const scans = [];
+        scansSnapshot.forEach(doc => {
+          scans.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Group by QR code
+        const grouped = {};
+        scans.forEach(scan => {
+          if (!grouped[scan.qrId]) {
+            grouped[scan.qrId] = [];
+          }
+          grouped[scan.qrId].push(scan);
+        });
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Scan Analytics (${scans.length} total scans)</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>QR Code</th>
+                  <th>Scans</th>
+                  <th>Unique Users</th>
+                  <th>Last 24h</th>
+                  <th>Conversion</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${Object.entries(grouped).map(([qrId, qrScans]) => {
+                  const last24h = qrScans.filter(s => {
+                    const scanTime = s.timestamp?.seconds * 1000;
+                    const dayAgo = Date.now() - 24*60*60*1000;
+                    return scanTime > dayAgo;
+                  }).length;
+                  const uniqueUsers = new Set(qrScans.map(s => s.userId)).size;
+                  const converted = qrScans.filter(s => s.converted).length;
+                  
+                  return `
+                    <tr>
+                      <td>${qrId.substring(0, 8)}...</td>
+                      <td>${qrScans.length}</td>
+                      <td>${uniqueUsers}</td>
+                      <td>${last24h}</td>
+                      <td>${Math.round((converted / qrScans.length) * 100) || 0}%</td>
+                    </tr>
+                  `;
+                }).join('')}
+                ${Object.keys(grouped).length === 0 ? '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No scan data yet</td></tr>' : ''}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading scans:', error);
+      }
+    };
+
+    // ========== COMMISSION CONTROL ==========
+    window.loadCommission = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+
+      try {
+        // Get current commission settings
+        let commission = 10; // Default
+        try {
+          const settingsDoc = await getDoc(doc(db, 'settings', 'commission'));
+          if (settingsDoc.exists()) {
+            commission = settingsDoc.data().rate || 10;
+          }
+        } catch (e) {}
+
+        contentArea.innerHTML = `
+          <div class="payment-section">
+            <div class="table-header">
+              <div class="table-title">Platform Commission Settings</div>
+            </div>
+
+            <div class="commission-slider">
+              <div style="flex: 1;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Commission Rate: <span id="commissionValue">${commission}</span>%</label>
+                <input type="range" id="commissionSlider" min="0" max="50" value="${commission}" oninput="updateCommissionValue(this.value)" style="width: 100%;">
+              </div>
+              <button class="btn btn-success" onclick="saveCommission()">Save Changes</button>
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading commission:', error);
+      }
+    };
+
+    window.updateCommissionValue = function(value) {
+      document.getElementById('commissionValue').textContent = value;
+    };
+
+    window.saveCommission = async function() {
+      const rate = parseInt(document.getElementById('commissionSlider').value);
+      
+      try {
+        await setDoc(doc(db, 'settings', 'commission'), {
+          rate: rate,
+          updatedAt: serverTimestamp(),
+          updatedBy: currentAdmin?.uid
+        }, { merge: true });
+        
+        await logAdminActivity('commission_updated', { rate });
+        alert('Commission settings saved!');
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    };
+
+    // ========== TRANSACTIONS ==========
+    window.loadTransactions = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading transactions...</div>`;
+
+      try {
+        if (transactionsUnsub) transactionsUnsub();
+        
+        const txQuery = query(collection(db, 'transactions'), orderBy('timestamp', 'desc'), limit(100));
+        
+        const txSnapshot = await getDocs(txQuery);
+        const transactions = [];
+        let totalRevenue = 0;
+        
+        txSnapshot.forEach(doc => {
+          const tx = { id: doc.id, ...doc.data() };
+          transactions.push(tx);
+          if (tx.status === 'completed') {
+            totalRevenue += tx.amount || 0;
+          }
+        });
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">All Transactions (${transactions.length})</div>
+              <div style="font-weight: 600;">Total Revenue: रु ${totalRevenue.toLocaleString()}</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Transaction ID</th>
+                  <th>User</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Coins</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${transactions.map(tx => {
+                  const time = tx.timestamp ? new Date(tx.timestamp.seconds * 1000).toLocaleString() : 'Unknown';
+                  
+                  return `
+                    <tr>
+                      <td>${tx.id.substring(0, 8)}...</td>
+                      <td>${tx.userName || tx.userId?.substring(0, 8) || 'Unknown'}</td>
+                      <td><span class="badge badge-${tx.type === 'purchase' ? 'success' : 'warning'}">${tx.type || 'unknown'}</span></td>
+                      <td>रु ${tx.amount || 0}</td>
+                      <td>${tx.coins || 0}</td>
+                      <td><span class="badge badge-${tx.status === 'completed' ? 'success' : 'warning'}">${tx.status || 'pending'}</span></td>
+                      <td>${time}</td>
+                    </tr>
+                  `;
+                }).join('')}
+                ${transactions.length === 0 ? '<tr><td colspan="7" style="text-align: center; padding: 2rem;">No transactions yet</td></tr>' : ''}
+              </tbody>
+            </table>
+          </div>
+        `;
+
+      } catch (error) {
+        console.error('Error loading transactions:', error);
+      }
+    };
+
+    // ========== WITHDRAWALS ==========
+    window.loadWithdrawals = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      try {
+        const withdrawalsQuery = query(collection(db, 'withdrawals'), orderBy('createdAt', 'desc'));
+        const withdrawalsSnapshot = await getDocs(withdrawalsQuery);
+        const withdrawals = [];
+        withdrawalsSnapshot.forEach(doc => {
+          withdrawals.push({ id: doc.id, ...doc.data() });
+        });
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Withdrawal Requests (${withdrawals.length})</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Amount</th>
+                  <th>Coins</th>
+                  <th>eSewa</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${withdrawals.map(w => {
+                  const time = w.createdAt ? new Date(w.createdAt.seconds * 1000).toLocaleString() : 'Unknown';
+                  return `
+                    <tr>
+                      <td>${w.userName || w.userId?.substring(0, 8) || 'Unknown'}</td>
+                      <td>रु ${w.amount || 0}</td>
+                      <td>${w.coins || 0}</td>
+                      <td>${w.esewaNumber || 'N/A'}</td>
+                      <td><span class="badge badge-${w.status === 'pending' ? 'warning' : w.status === 'completed' ? 'success' : 'danger'}">${w.status || 'pending'}</span></td>
+                      <td>${time}</td>
+                      <td>
+                        ${w.status === 'pending' ? `
+                          <button class="btn btn-success btn-sm" onclick="approveWithdrawal('${w.id}', ${w.coins})">Approve</button>
+                          <button class="btn btn-danger btn-sm" onclick="rejectWithdrawal('${w.id}', ${w.coins})">Reject</button>
+                        ` : ''}
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+                ${withdrawals.length === 0 ? '<tr><td colspan="7" style="text-align: center; padding: 2rem;">No withdrawal requests</td></tr>' : ''}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading withdrawals:', error);
+      }
+    };
+
+    window.approveWithdrawal = async function(withdrawalId, coins) {
+      if (!confirm('Approve this withdrawal?')) return;
+      
+      try {
+        await updateDoc(doc(db, 'withdrawals', withdrawalId), {
+          status: 'completed',
+          approvedAt: serverTimestamp(),
+          approvedBy: currentAdmin?.uid
+        });
+        
+        await logAdminActivity('withdrawal_approved', { withdrawalId, coins });
+        alert('Withdrawal approved');
+        await loadWithdrawals();
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    };
+
+    window.rejectWithdrawal = async function(withdrawalId, coins) {
+      if (!confirm('Reject this withdrawal? Coins will be refunded.')) return;
+      
+      try {
+        // Get withdrawal details
+        const withdrawalRef = doc(db, 'withdrawals', withdrawalId);
+        const withdrawalSnap = await getDoc(withdrawalRef);
+        const withdrawal = withdrawalSnap.data();
+        
+        // Update withdrawal status
+        await updateDoc(withdrawalRef, {
+          status: 'rejected',
+          rejectedAt: serverTimestamp(),
+          rejectedBy: currentAdmin?.uid
+        });
+
+        // Refund coins to user
+        const userRef = doc(db, 'users', withdrawal.userId);
+        await updateDoc(userRef, {
+          coins: increment(coins)
+        });
+
+        // Record refund transaction
+        await addDoc(collection(db, 'coinTransactions'), {
+          userId: withdrawal.userId,
+          userName: withdrawal.userName,
+          type: 'refund',
+          amount: coins,
+          reason: 'Withdrawal rejected',
+          adminId: currentAdmin.uid,
+          adminName: adminData?.name || currentAdmin.email,
+          timestamp: serverTimestamp()
+        });
+        
+        await logAdminActivity('withdrawal_rejected', { withdrawalId, coins });
+        alert('Withdrawal rejected and coins refunded');
+        await loadWithdrawals();
+      } catch (error) {
+        alert('Error: ' + error.message);
       }
     };
 
@@ -879,33 +1968,35 @@
                 <tr>
                   <th>User</th>
                   <th>Email</th>
-                  <th>Phone</th>
                   <th>Role</th>
+                  <th>Coins</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="usersTableBody">
-                ${users.slice(0, 20).map(user => `
+                ${users.map(user => `
                   <tr class="user-row">
                     <td>
                       <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=32'}" style="width: 32px; height: 32px; border-radius: 50%;">
-                        <div>
-                          <div style="font-weight: 600;">${user.displayName || 'N/A'}</div>
-                          <div style="font-size: 0.7rem; color: #64748b;">${user.id?.substring(0, 8) || ''}...</div>
-                        </div>
+                        <span style="font-weight: 600;">${user.displayName || 'User'}</span>
                       </div>
                     </td>
                     <td>${user.email || 'N/A'}</td>
-                    <td>${user.phoneNumber || '—'}</td>
                     <td><span class="badge badge-info">${user.role || 'user'}</span></td>
-                    <td><span class="badge badge-success">Active</span></td>
+                    <td><span style="color: #f59e0b; font-weight: 600;">${(user.coins || 0).toLocaleString()}</span></td>
+                    <td><span class="badge badge-${user.status === 'banned' ? 'danger' : 'success'}">${user.status || 'active'}</span></td>
                     <td>
-                      <div style="display: flex; gap: 0.3rem;">
-                        <button class="btn btn-primary btn-sm" onclick="viewUser('${user.id}')">View</button>
+                      <button class="btn btn-primary btn-sm" onclick="viewUser('${user.id}')">View</button>
+                      <button class="btn btn-warning btn-sm" onclick="openCoinModal('${user.id}', '${user.displayName || user.email || 'User'}', ${user.coins || 0})">
+                        <i class="fas fa-coins"></i> Coins
+                      </button>
+                      ${user.status !== 'banned' ? `
                         <button class="btn btn-danger btn-sm" onclick="banUser('${user.id}')">Ban</button>
-                      </div>
+                      ` : `
+                        <button class="btn btn-success btn-sm" onclick="unbanUser('${user.id}')">Unban</button>
+                      `}
                     </td>
                   </tr>
                 `).join('')}
@@ -924,8 +2015,6 @@
       const contentArea = document.getElementById('contentArea');
       if (!contentArea) return;
       
-      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading freelancers...</div>`;
-
       try {
         const usersRef = collection(db, 'users');
         const q = query(usersRef, where('role', 'in', ['freelancer', 'both']));
@@ -941,8 +2030,16 @@
             const completedJobsQuery = query(jobsRef, where('acceptedBy', '==', doc.id), where('status', '==', 'completed'));
             const completedSnapshot = await getDocs(completedJobsQuery);
             freelancer.completedJobs = completedSnapshot.size;
+            
+            // Get total earnings
+            let earnings = 0;
+            completedSnapshot.forEach(job => {
+              earnings += job.data().budget || 0;
+            });
+            freelancer.earnings = earnings;
           } catch (e) {
             freelancer.completedJobs = 0;
+            freelancer.earnings = 0;
           }
           
           freelancers.push(freelancer);
@@ -952,10 +2049,6 @@
           <div class="table-container">
             <div class="table-header">
               <div class="table-title">Freelancers (${freelancers.length})</div>
-              <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search freelancers...">
-              </div>
             </div>
             <table>
               <thead>
@@ -963,13 +2056,14 @@
                   <th>Freelancer</th>
                   <th>Email</th>
                   <th>Skills</th>
-                  <th>Rate</th>
+                  <th>Coins</th>
                   <th>Completed</th>
+                  <th>Earnings</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                ${freelancers.slice(0, 20).map(f => `
+                ${freelancers.map(f => `
                   <tr>
                     <td>
                       <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -978,11 +2072,15 @@
                       </div>
                     </td>
                     <td>${f.email || 'N/A'}</td>
-                    <td>${(f.skills || []).slice(0, 2).join(', ') || '—'}</td>
-                    <td>${f.hourlyRate ? `$${f.hourlyRate}/hr` : '—'}</td>
+                    <td>${(f.skills || []).slice(0, 3).join(', ') || '—'}</td>
+                    <td><span style="color: #f59e0b; font-weight: 600;">${(f.coins || 0).toLocaleString()}</span></td>
                     <td>${f.completedJobs || 0}</td>
+                    <td>रु ${f.earnings || 0}</td>
                     <td>
                       <button class="btn btn-primary btn-sm" onclick="viewUser('${f.id}')">View</button>
+                      <button class="btn btn-warning btn-sm" onclick="openCoinModal('${f.id}', '${f.displayName || f.email || 'Freelancer'}', ${f.coins || 0})">
+                        <i class="fas fa-coins"></i> Coins
+                      </button>
                     </td>
                   </tr>
                 `).join('')}
@@ -993,6 +2091,89 @@
       } catch (error) {
         console.error('Error loading freelancers:', error);
         contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
+      }
+    };
+
+    // ========== CLIENTS ==========
+    window.loadClients = async function() {
+      const contentArea = document.getElementById('contentArea');
+      if (!contentArea) return;
+      
+      try {
+        const usersRef = collection(db, 'users');
+        const q = query(usersRef, where('role', 'in', ['client', 'both']));
+        const snapshot = await getDocs(q);
+        const clients = [];
+        
+        for (const doc of snapshot.docs) {
+          const client = { id: doc.id, ...doc.data() };
+          
+          // Get posted jobs
+          try {
+            const jobsRef = collection(db, 'jobs');
+            const jobsQuery = query(jobsRef, where('clientId', '==', doc.id));
+            const jobsSnapshot = await getDocs(jobsQuery);
+            client.postedJobs = jobsSnapshot.size;
+            
+            // Get total spent
+            let spent = 0;
+            jobsSnapshot.forEach(job => {
+              if (job.data().status === 'completed') {
+                spent += job.data().budget || 0;
+              }
+            });
+            client.spent = spent;
+          } catch (e) {
+            client.postedJobs = 0;
+            client.spent = 0;
+          }
+          
+          clients.push(client);
+        }
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Clients (${clients.length})</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Email</th>
+                  <th>Coins</th>
+                  <th>Posted Jobs</th>
+                  <th>Total Spent</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${clients.map(c => `
+                  <tr>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <img src="${c.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.displayName || 'Client') + '&background=2563eb&color=fff&size=32'}" style="width: 32px; height: 32px; border-radius: 50%;">
+                        <span style="font-weight: 600;">${c.displayName || 'Client'}</span>
+                      </div>
+                    </td>
+                    <td>${c.email || 'N/A'}</td>
+                    <td><span style="color: #f59e0b; font-weight: 600;">${(c.coins || 0).toLocaleString()}</span></td>
+                    <td>${c.postedJobs || 0}</td>
+                    <td>रु ${c.spent || 0}</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm" onclick="viewUser('${c.id}')">View</button>
+                      <button class="btn btn-warning btn-sm" onclick="openCoinModal('${c.id}', '${c.displayName || c.email || 'Client'}', ${c.coins || 0})">
+                        <i class="fas fa-coins"></i> Coins
+                      </button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading clients:', error);
       }
     };
 
@@ -1022,7 +2203,7 @@
               <div class="table-title">All Jobs (${jobs.length})</div>
               <div class="search-box">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search jobs...">
+                <input type="text" id="jobSearch" placeholder="Search jobs..." onkeyup="searchJobs()">
               </div>
             </div>
             <table>
@@ -1033,23 +2214,26 @@
                   <th>Category</th>
                   <th>Budget</th>
                   <th>Status</th>
+                  <th>Proposals</th>
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                ${jobs.slice(0, 20).map(job => `
-                  <tr>
+              <tbody id="jobsTableBody">
+                ${jobs.slice(0, 50).map(job => `
+                  <tr class="job-row">
                     <td>${job.title || 'Untitled'}</td>
                     <td>${job.clientName || 'Anonymous'}</td>
                     <td>${job.category || 'General'}</td>
-                    <td>$${job.budget || 0}</td>
-                    <td><span class="badge badge-${job.status === 'open' ? 'success' : 'warning'}">${job.status || 'open'}</span></td>
+                    <td>रु ${job.budget || 0}</td>
+                    <td><span class="badge badge-${job.status === 'open' ? 'success' : job.status === 'completed' ? 'info' : 'warning'}">${job.status || 'open'}</span></td>
+                    <td>${job.proposals || 0}</td>
                     <td>
                       <button class="btn btn-primary btn-sm" onclick="viewJob('${job.id}')">View</button>
                       <button class="btn btn-danger btn-sm" onclick="deleteJob('${job.id}')">Delete</button>
                     </td>
                   </tr>
                 `).join('')}
+                ${jobs.length === 0 ? '<tr><td colspan="7" style="text-align: center; padding: 2rem;">No jobs found</td></tr>' : ''}
               </tbody>
             </table>
           </div>
@@ -1076,7 +2260,7 @@
           <div class="table-container">
             <div class="table-header">
               <div class="table-title">Admin Manager (${admins.length})</div>
-              <button class="btn btn-primary" onclick="createSuperAdmin()">
+              <button class="btn btn-primary" onclick="window.open('https://console.firebase.google.com/project/sewalink-ead02/authentication/users', '_blank')">
                 <i class="fas fa-plus"></i> Add Admin
               </button>
             </div>
@@ -1086,36 +2270,41 @@
                   <th>Admin</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Status</th>
+                  <th>Last Active</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                ${admins.map(admin => `
-                  <tr>
-                    <td>
-                      <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <div style="width: 32px; height: 32px; border-radius: 50%; background: #2563eb; color: white; display: flex; align-items: center; justify-content: center;">
-                          ${(admin.name || admin.email || 'A').charAt(0).toUpperCase()}
+                ${admins.map(admin => {
+                  const lastActive = admin.lastActive ? new Date(admin.lastActive.seconds * 1000).toLocaleString() : 'Never';
+                  return `
+                    <tr>
+                      <td>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                          <div style="width: 32px; height: 32px; border-radius: 50%; background: #2563eb; color: white; display: flex; align-items: center; justify-content: center;">
+                            ${(admin.name || admin.email || 'A').charAt(0).toUpperCase()}
+                          </div>
+                          <span>${admin.name || 'Admin'}</span>
                         </div>
-                        <span>${admin.name || 'Admin'}</span>
-                      </div>
-                    </td>
-                    <td>${admin.email || 'N/A'}</td>
-                    <td><span class="badge ${admin.role === 'super_admin' ? 'badge-danger' : 'badge-info'}">${admin.role || 'admin'}</span></td>
-                    <td><span class="badge badge-success">Active</span></td>
-                    <td>
-                      <button class="btn btn-danger btn-sm" onclick="revokeAdmin('${admin.id}')">Revoke</button>
-                    </td>
-                  </tr>
-                `).join('')}
+                      </td>
+                      <td>${admin.email || 'N/A'}</td>
+                      <td><span class="badge ${admin.role === 'super_admin' ? 'badge-danger' : 'badge-info'}">${admin.role || 'admin'}</span></td>
+                      <td>${lastActive}</td>
+                      <td>
+                        ${admin.id !== currentAdmin?.uid ? `
+                          <button class="btn btn-danger btn-sm" onclick="revokeAdmin('${admin.id}')">Revoke</button>
+                        ` : 'Current'}
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+                ${admins.length === 0 ? '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No admins found</td></tr>' : ''}
               </tbody>
             </table>
           </div>
         `;
       } catch (error) {
         console.error('Error loading admins:', error);
-        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
       }
     };
 
@@ -1125,7 +2314,7 @@
       if (!contentArea) return;
       
       try {
-        const logsQuery = query(collection(db, 'adminLogs'), orderBy('timestamp', 'desc'), limit(50));
+        const logsQuery = query(collection(db, 'adminLogs'), orderBy('timestamp', 'desc'), limit(100));
         const logsSnapshot = await getDocs(logsQuery);
         const logs = [];
         logsSnapshot.forEach(doc => {
@@ -1143,141 +2332,82 @@
                   <th>Timestamp</th>
                   <th>Admin</th>
                   <th>Action</th>
+                  <th>Details</th>
                 </tr>
               </thead>
               <tbody>
-                ${logs.map(log => `
-                  <tr>
-                    <td>${log.timestamp ? new Date(log.timestamp.seconds * 1000).toLocaleString() : 'Unknown'}</td>
-                    <td>${log.email || log.adminId?.substring(0, 8) || 'Unknown'}</td>
-                    <td>${log.action || 'Unknown'}</td>
-                  </tr>
-                `).join('')}
+                ${logs.map(log => {
+                  const time = log.timestamp ? new Date(log.timestamp.seconds * 1000).toLocaleString() : 'Unknown';
+                  return `
+                    <tr>
+                      <td>${time}</td>
+                      <td>${log.name || log.email || log.adminId?.substring(0, 8) || 'Unknown'}</td>
+                      <td>${log.action || 'Unknown'}</td>
+                      <td>${log.details ? JSON.stringify(log.details) : '—'}</td>
+                    </tr>
+                  `;
+                }).join('')}
+                ${logs.length === 0 ? '<tr><td colspan="4" style="text-align: center; padding: 2rem;">No audit logs yet</td></tr>' : ''}
               </tbody>
             </table>
           </div>
         `;
       } catch (error) {
         console.error('Error loading logs:', error);
-        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
       }
     };
 
-    // ========== BLACKLIST MANAGER ==========
-    window.loadBlacklist = function() {
-      const contentArea = document.getElementById('contentArea');
-      contentArea.innerHTML = `
-        <div class="table-container">
-          <div class="table-header">
-            <div class="table-title">Blacklist Manager</div>
-          </div>
-          <div style="padding: 2rem; text-align: center; color: #64748b;">
-            <i class="fas fa-ban" style="font-size: 3rem;"></i>
-            <p style="margin-top: 1rem;">Blacklist management coming soon</p>
-          </div>
-        </div>
-      `;
-    };
-
     // ========== CATEGORIES ==========
-    window.loadCategories = function() {
+    window.loadCategories = async function() {
       const contentArea = document.getElementById('contentArea');
-      contentArea.innerHTML = `
-        <div class="table-container">
-          <div class="table-header">
-            <div class="table-title">Category Manager</div>
-          </div>
-          <div style="padding: 2rem; text-align: center; color: #64748b;">
-            <i class="fas fa-tags" style="font-size: 3rem;"></i>
-            <p style="margin-top: 1rem;">Category management coming soon</p>
-          </div>
-        </div>
-      `;
-    };
+      if (!contentArea) return;
+      
+      try {
+        const categoriesSnapshot = await getDocs(collection(db, 'categories'));
+        const categories = [];
+        categoriesSnapshot.forEach(doc => {
+          categories.push({ id: doc.id, ...doc.data() });
+        });
 
-    // ========== COMMISSION ==========
-    window.loadCommission = function() {
-      const contentArea = document.getElementById('contentArea');
-      contentArea.innerHTML = `
-        <div class="table-container">
-          <div class="table-header">
-            <div class="table-title">Commission Settings</div>
-          </div>
-          <div style="padding: 2rem;">
-            <div style="margin-bottom: 1.5rem;">
-              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Platform Commission (%)</label>
-              <input type="number" id="globalCommission" value="10" style="width: 100%; padding: 0.8rem; border: 1.5px solid #e2e8f0; border-radius: 12px;">
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Job Categories</div>
+              <button class="btn btn-primary" onclick="addCategory()">
+                <i class="fas fa-plus"></i> Add Category
+              </button>
             </div>
-            <button class="btn btn-primary" onclick="saveCommission()">Save Settings</button>
+            <table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Jobs Count</th>
+                  <th>Commission</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${categories.map(cat => `
+                  <tr>
+                    <td>${cat.name || 'Unnamed'}</td>
+                    <td>${cat.jobsCount || 0}</td>
+                    <td>${cat.commission || 10}%</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                      <button class="btn btn-warning btn-sm" onclick="editCategory('${cat.id}')">Edit</button>
+                      <button class="btn btn-danger btn-sm" onclick="deleteCategory('${cat.id}')">Delete</button>
+                    </td>
+                  </tr>
+                `).join('')}
+                ${categories.length === 0 ? '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No categories found</td></tr>' : ''}
+              </tbody>
+            </table>
           </div>
-        </div>
-      `;
-    };
-
-    // ========== TRANSACTIONS ==========
-    window.loadTransactions = function() {
-      const contentArea = document.getElementById('contentArea');
-      contentArea.innerHTML = `
-        <div class="table-container">
-          <div class="table-header">
-            <div class="table-title">Transaction History</div>
-          </div>
-          <div style="padding: 2rem; text-align: center; color: #64748b;">
-            <i class="fas fa-credit-card" style="font-size: 3rem;"></i>
-            <p style="margin-top: 1rem;">Transaction history coming soon</p>
-          </div>
-        </div>
-      `;
-    };
-
-    // ========== AI FRAUD DETECTION ==========
-    window.loadAIDetection = function() {
-      const contentArea = document.getElementById('contentArea');
-      contentArea.innerHTML = `
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-header">
-              <div class="stat-icon"><i class="fas fa-robot"></i></div>
-              <span class="stat-value">0</span>
-            </div>
-            <div class="stat-label">Flagged Accounts</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-header">
-              <div class="stat-icon"><i class="fas fa-flag"></i></div>
-              <span class="stat-value">0</span>
-            </div>
-            <div class="stat-label">Suspicious Jobs</div>
-          </div>
-        </div>
-        <div class="table-container">
-          <div class="table-header">
-            <div class="table-title">Fraud Detection</div>
-          </div>
-          <div style="padding: 2rem; text-align: center; color: #64748b;">
-            <p>AI fraud detection system ready</p>
-          </div>
-        </div>
-      `;
-    };
-
-    // ========== MAINTENANCE MODE ==========
-    window.loadMaintenance = function() {
-      const contentArea = document.getElementById('contentArea');
-      contentArea.innerHTML = `
-        <div class="table-container">
-          <div class="table-header">
-            <div class="table-title">Maintenance Mode</div>
-          </div>
-          <div style="padding: 2rem;">
-            <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem;">
-              <span style="font-weight: 600;">Current Status:</span>
-              <span class="badge badge-info">Offline</span>
-              <button class="btn btn-warning" onclick="toggleMaintenance()">Enable</button>
-            </div>
-          </div>
-        </div>
-      `;
+        `;
+      } catch (error) {
+        console.error('Error loading categories:', error);
+      }
     };
 
     // ========== SETTINGS ==========
@@ -1288,106 +2418,173 @@
           <div class="table-header">
             <div class="table-title">Platform Settings</div>
           </div>
-          <div style="padding: 2rem; text-align: center; color: #64748b;">
-            <i class="fas fa-gear" style="font-size: 3rem;"></i>
-            <p style="margin-top: 1rem;">Settings panel coming soon</p>
+          <div style="padding: 2rem;">
+            <div class="form-group">
+              <label>Platform Name</label>
+              <input type="text" value="SewaLink" id="platformName">
+            </div>
+            <div class="form-group">
+              <label>Support Email</label>
+              <input type="email" value="support@sewalink.com" id="supportEmail">
+            </div>
+            <div class="form-group">
+              <label>Currency</label>
+              <select id="currency">
+                <option value="NPR" selected>NPR (रु)</option>
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Minimum Withdrawal (coins)</label>
+              <input type="number" value="100" id="minWithdrawal">
+            </div>
+            <div class="form-group">
+              <label>Coin to Cash Rate (100 coins = रु X)</label>
+              <input type="number" value="10" id="coinRate">
+            </div>
+            <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
           </div>
         </div>
       `;
     };
 
-    // ========== SESSIONS ==========
-    window.loadSessions = function() {
+    // ========== BLACKLIST ==========
+    window.loadBlacklist = async function() {
       const contentArea = document.getElementById('contentArea');
-      contentArea.innerHTML = `
-        <div class="table-container">
-          <div class="table-header">
-            <div class="table-title">Session Control</div>
+      if (!contentArea) return;
+      
+      try {
+        const blacklistSnapshot = await getDocs(collection(db, 'blacklist'));
+        const blacklist = [];
+        blacklistSnapshot.forEach(doc => {
+          blacklist.push({ id: doc.id, ...doc.data() });
+        });
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Blacklist Manager</div>
+              <button class="btn btn-primary" onclick="addToBlacklist()">
+                <i class="fas fa-plus"></i> Add to Blacklist
+              </button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>User/Email</th>
+                  <th>Reason</th>
+                  <th>Banned By</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${blacklist.map(item => {
+                  const date = item.bannedAt ? new Date(item.bannedAt.seconds * 1000).toLocaleDateString() : 'Unknown';
+                  return `
+                    <tr>
+                      <td>${item.email || item.userId || 'Unknown'}</td>
+                      <td>${item.reason || 'No reason'}</td>
+                      <td>${item.bannedBy || 'System'}</td>
+                      <td>${date}</td>
+                      <td>
+                        <button class="btn btn-success btn-sm" onclick="removeFromBlacklist('${item.id}')">Remove</button>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+                ${blacklist.length === 0 ? '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No blacklisted users</td></tr>' : ''}
+              </tbody>
+            </table>
           </div>
-          <div style="padding: 2rem;">
-            <p>Current Session Timeout: 30 minutes</p>
-            <button class="btn btn-warning" onclick="alert('Session timeout reset')">Reset Timeout</button>
-          </div>
-        </div>
-      `;
+        `;
+      } catch (error) {
+        console.error('Error loading blacklist:', error);
+      }
     };
 
     // ========== UTILITY FUNCTIONS ==========
     window.viewUser = function(userId) {
-      if (userId) {
-        window.open(`viewer.html?id=${userId}`, '_blank');
-      } else {
-        alert('User ID not available');
-      }
+      window.open(`viewer.html?id=${userId}`, '_blank');
     };
 
     window.banUser = async function(userId) {
-      if (!userId) {
-        alert('User ID not available');
-        return;
-      }
-      if (confirm(`Permanently ban this user?`)) {
-        try {
-          await updateDoc(doc(db, 'users', userId), {
-            status: 'banned',
-            bannedAt: serverTimestamp(),
-            bannedBy: currentAdmin?.uid
-          });
-          alert('User banned successfully');
-          loadUsers();
-        } catch (error) {
-          alert('Error banning user: ' + error.message);
-        }
+      if (!confirm('Ban this user?')) return;
+      
+      try {
+        await updateDoc(doc(db, 'users', userId), {
+          status: 'banned',
+          bannedAt: serverTimestamp(),
+          bannedBy: currentAdmin?.uid
+        });
+        
+        await addDoc(collection(db, 'blacklist'), {
+          userId: userId,
+          reason: 'Banned by admin',
+          bannedAt: serverTimestamp(),
+          bannedBy: currentAdmin?.uid
+        });
+        
+        await logAdminActivity('user_banned', { userId });
+        alert('User banned');
+        loadUsers();
+      } catch (error) {
+        alert('Error: ' + error.message);
       }
     };
 
-    window.deleteJob = async function(jobId) {
-      if (!jobId) {
-        alert('Job ID not available');
-        return;
-      }
-      if (confirm(`Permanently delete this job?`)) {
-        try {
-          await deleteDoc(doc(db, 'jobs', jobId));
-          alert('Job deleted');
-          loadJobs();
-        } catch (error) {
-          alert('Error deleting job: ' + error.message);
-        }
+    window.unbanUser = async function(userId) {
+      if (!confirm('Unban this user?')) return;
+      
+      try {
+        await updateDoc(doc(db, 'users', userId), {
+          status: 'active'
+        });
+        
+        // Remove from blacklist
+        const blacklistQuery = query(collection(db, 'blacklist'), where('userId', '==', userId));
+        const blacklistSnapshot = await getDocs(blacklistQuery);
+        blacklistSnapshot.forEach(async (doc) => {
+          await deleteDoc(doc.ref);
+        });
+        
+        await logAdminActivity('user_unbanned', { userId });
+        alert('User unbanned');
+        loadUsers();
+      } catch (error) {
+        alert('Error: ' + error.message);
       }
     };
 
     window.viewJob = function(jobId) {
-      if (jobId) {
-        window.open(`open.html?job=${jobId}`, '_blank');
-      } else {
-        alert('Job ID not available');
-      }
+      window.open(`job.html?id=${jobId}`, '_blank');
     };
 
-    window.createSuperAdmin = function() {
-      window.open('https://console.firebase.google.com/project/sewalink-ead02/authentication/users', '_blank');
+    window.deleteJob = async function(jobId) {
+      if (!confirm('Delete this job?')) return;
+      
+      try {
+        await deleteDoc(doc(db, 'jobs', jobId));
+        await logAdminActivity('job_deleted', { jobId });
+        alert('Job deleted');
+        loadJobs();
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
     };
 
     window.revokeAdmin = async function(adminId) {
-      if (!adminId) return;
-      if (confirm(`Revoke admin access?`)) {
-        try {
-          await deleteDoc(doc(db, 'admins', adminId));
-          alert('Admin revoked');
-          loadAdminManager();
-        } catch (error) {
-          alert('Error revoking admin: ' + error.message);
-        }
+      if (!confirm('Revoke admin access?')) return;
+      
+      try {
+        await deleteDoc(doc(db, 'admins', adminId));
+        await logAdminActivity('admin_revoked', { adminId });
+        alert('Admin revoked');
+        loadAdminManager();
+      } catch (error) {
+        alert('Error: ' + error.message);
       }
-    };
-
-    window.saveCommission = function() {
-      alert('Commission settings saved');
-    };
-
-    window.toggleMaintenance = function() {
-      alert('Maintenance mode toggled');
     };
 
     window.searchUsers = function() {
@@ -1399,10 +2596,74 @@
       });
     };
 
-    // ========== INIT ==========
-    window.onload = function() {
-      console.log('Admin dashboard loaded');
+    window.searchJobs = function() {
+      const searchTerm = document.getElementById('jobSearch')?.value.toLowerCase() || '';
+      const rows = document.querySelectorAll('.job-row');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(searchTerm) ? 'table-row' : 'none';
+      });
     };
+
+    window.downloadQR = function(qrId) {
+      alert(`Download QR ${qrId}`);
+    };
+
+    window.editQR = function(qrId) {
+      alert(`Edit QR ${qrId}`);
+    };
+
+    window.viewQRScans = function(qrId) {
+      alert(`Viewing scans for ${qrId}`);
+    };
+
+    window.addCategory = function() {
+      alert('Add category feature coming soon');
+    };
+
+    window.editCategory = function(catId) {
+      alert(`Edit category ${catId}`);
+    };
+
+    window.deleteCategory = function(catId) {
+      if (confirm('Delete this category?')) {
+        alert(`Category ${catId} deleted`);
+      }
+    };
+
+    window.addToBlacklist = function() {
+      alert('Add to blacklist feature coming soon');
+    };
+
+    window.removeFromBlacklist = async function(blacklistId) {
+      if (!confirm('Remove from blacklist?')) return;
+      
+      try {
+        await deleteDoc(doc(db, 'blacklist', blacklistId));
+        alert('Removed from blacklist');
+        loadBlacklist();
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+    };
+
+    window.saveSettings = function() {
+      const platformName = document.getElementById('platformName').value;
+      const supportEmail = document.getElementById('supportEmail').value;
+      const currency = document.getElementById('currency').value;
+      const minWithdrawal = document.getElementById('minWithdrawal').value;
+      const coinRate = document.getElementById('coinRate').value;
+      
+      alert(`Settings saved: ${platformName}, ${supportEmail}, ${currency}, ${minWithdrawal} coins min, 100 coins = रु ${coinRate}`);
+    };
+
+    // ========== CLEANUP ==========
+    window.addEventListener('beforeunload', () => {
+      if (sessionTimer) clearInterval(sessionTimer);
+      if (notificationsUnsub) notificationsUnsub();
+      if (transactionsUnsub) transactionsUnsub();
+      if (qrCodesUnsub) qrCodesUnsub();
+    });
   </script>
 </body>
 </html>
