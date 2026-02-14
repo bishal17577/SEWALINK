@@ -741,9 +741,9 @@
 
         <div class="company-qr-section" onclick="openEsewaPayment(${selectedPackage.price})">
           <div class="qr-image">
-            <img src="${qrData?.qrUrl || 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=esewa://pay'}" 
+            <img src="${qrData?.qrUrl || 'https://i.ibb.co/tpLDj5Pm/Screenshot-2026-02-14-at-10-29-32-am.png'}" 
                  alt="eSewa QR"
-                 onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=esewa://pay'">
+                 onerror="this.src='https://i.ibb.co/tpLDj5Pm/Screenshot-2026-02-14-at-10-29-32-am.png'">
           </div>
           <div class="qr-info">
             <div class="qr-title">${qrData?.accountName || 'SewaLink Company'}</div>
@@ -760,12 +760,12 @@
 
           <div class="form-group">
             <label>Your eSewa Number</label>
-            <input type="tel" id="esewaNumber" placeholder="98XXXXXXXX" value="">
+            <input type="tel" id="esewaNumber" placeholder="98XXXXXXXX" >
           </div>
 
           <div class="form-group">
             <label>Transaction ID (from eSewa SMS)</label>
-            <input type="text" id="transactionId" placeholder="Enter transaction ID" value="">
+            <input type="text" id="transactionId" placeholder="Enter transaction ID" >
           </div>
 
           <div class="info-text">
