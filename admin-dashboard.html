@@ -30,6 +30,9 @@
       display: flex;
       flex-direction: column;
       transition: all 0.3s;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
     }
 
     .sidebar-header {
@@ -132,8 +135,10 @@
     /* ========== MAIN CONTENT ========== */
     .main-content {
       flex: 1;
+      margin-left: 300px;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
     }
 
     .top-bar {
@@ -143,6 +148,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .page-title {
@@ -294,6 +302,12 @@
       border-radius: 16px;
       padding: 1.5rem;
       text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .qr-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
 
     .qr-preview {
@@ -304,12 +318,37 @@
       padding: 1rem;
       border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .qr-preview img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+    }
+
+    .qr-upload-btn {
+      background: #2563eb;
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+    .qr-upload-btn:active {
+      background: #1d4ed8;
+      transform: scale(0.98);
+    }
+
+    #qrUpload {
+      display: none;
     }
 
     .qr-actions {
@@ -336,6 +375,85 @@
       padding: 1rem;
       background: #f8fafc;
       border-radius: 12px;
+    }
+
+    /* ========== CATEGORY SECTION ========== */
+    .category-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 2rem;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .category-card {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1rem;
+      border: 1px solid #f1f5f9;
+    }
+
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .category-name {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .category-stats {
+      display: flex;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+      color: #64748b;
+    }
+
+    /* ========== SETTINGS SECTION ========== */
+    .settings-section {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid #f1f5f9;
+      margin-bottom: 2rem;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .settings-card {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .settings-icon {
+      width: 48px;
+      height: 48px;
+      background: #eff6ff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .settings-icon i {
+      font-size: 1.5rem;
+      color: #2563eb;
     }
 
     /* ========== TABLES ========== */
@@ -526,137 +644,86 @@
       align-items: center;
     }
 
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .login-box {
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-logo h1 {
+      font-size: 2rem;
+      color: #1a1a2e;
+    }
+
+    .login-logo span {
+      color: #667eea;
+    }
+
+    .login-form input {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .login-form input:focus {
+      border-color: #667eea;
+      outline: none;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 1rem;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .login-btn:hover {
+      background: #5a67d8;
+      transform: translateY(-2px);
+    }
+
     @media (max-width: 768px) {
-      .admin-wrapper { flex-direction: column; }
-      .sidebar { width: 100%; }
+      .sidebar {
+        width: 0;
+        transform: translateX(-100%);
+      }
+      .sidebar.show {
+        width: 280px;
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="admin-wrapper">
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <a href="#" class="sidebar-logo">
-          <i class="fas fa-shield-hal"></i> Sewa<span>Link</span>
-        </a>
-      </div>
-
-      <div id="adminInfo" class="admin-info">
-        <div class="admin-avatar" id="adminAvatar">A</div>
-        <div class="admin-details">
-          <h4 id="adminName">Loading...</h4>
-          <p id="adminRole">Super Admin</p>
-        </div>
-      </div>
-
-      <div class="sidebar-nav">
-        <!-- SECTION A: ADMIN CORE -->
-        <div class="nav-section">
-          <div class="nav-section-title">🔐 ADMIN CORE</div>
-          <div class="nav-item active" onclick="showSection('dashboard')">
-            <i class="fas fa-chart-pie"></i> Dashboard
-          </div>
-          <div class="nav-item" onclick="showSection('admins')">
-            <i class="fas fa-user-shield"></i> Admin Manager
-          </div>
-          <div class="nav-item" onclick="showSection('audit')">
-            <i class="fas fa-history"></i> Audit Logs
-          </div>
-        </div>
-
-        <!-- SECTION B: QR CODE MANAGEMENT -->
-        <div class="nav-section">
-          <div class="nav-section-title">📱 QR CODE</div>
-          <div class="nav-item" onclick="showSection('qr')">
-            <i class="fas fa-qrcode"></i> QR Manager
-          </div>
-          <div class="nav-item" onclick="showSection('scans')">
-            <i class="fas fa-eye"></i> Scan Analytics
-          </div>
-        </div>
-
-        <!-- SECTION C: PAYMENT & COINS -->
-        <div class="nav-section">
-          <div class="nav-section-title">💰 COINS & PAYMENTS</div>
-          <div class="nav-item" onclick="showSection('coins')">
-            <i class="fas fa-coins"></i> Coin Management
-          </div>
-          <div class="nav-item" onclick="showSection('commission')">
-            <i class="fas fa-percent"></i> Commission Control
-          </div>
-          <div class="nav-item" onclick="showSection('transactions')">
-            <i class="fas fa-credit-card"></i> All Transactions
-          </div>
-          <div class="nav-item" onclick="showSection('withdrawals')">
-            <i class="fas fa-money-bill"></i> Withdrawals
-          </div>
-        </div>
-
-        <!-- SECTION D: USER MANAGEMENT -->
-        <div class="nav-section">
-          <div class="nav-section-title">👥 USERS</div>
-          <div class="nav-item" onclick="showSection('users')">
-            <i class="fas fa-users"></i> All Users
-          </div>
-          <div class="nav-item" onclick="showSection('freelancers')">
-            <i class="fas fa-briefcase"></i> Freelancers
-          </div>
-          <div class="nav-item" onclick="showSection('clients')">
-            <i class="fas fa-user-tie"></i> Clients
-          </div>
-        </div>
-
-        <!-- SECTION E: JOB CONTROL -->
-        <div class="nav-section">
-          <div class="nav-section-title">📋 JOBS</div>
-          <div class="nav-item" onclick="showSection('jobs')">
-            <i class="fas fa-briefcase"></i> All Jobs
-          </div>
-          <div class="nav-item" onclick="showSection('categories')">
-            <i class="fas fa-tags"></i> Categories
-          </div>
-        </div>
-
-        <!-- SECTION F: SYSTEM -->
-        <div class="nav-section">
-          <div class="nav-section-title">⚙️ SYSTEM</div>
-          <div class="nav-item" onclick="showSection('settings')">
-            <i class="fas fa-gear"></i> Settings
-          </div>
-          <div class="nav-item" onclick="showSection('blacklist')">
-            <i class="fas fa-ban"></i> Blacklist
-          </div>
-          <div class="nav-item logout" onclick="adminLogout()">
-            <i class="fas fa-sign-out-alt"></i> Logout
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-      <div class="top-bar">
-        <div class="page-title" id="pageTitle">Dashboard</div>
-        <div class="top-bar-actions">
-          <div class="notification-badge" onclick="showSection('notifications')">
-            <i class="fas fa-bell" style="font-size: 1.2rem; color: #64748b;"></i>
-            <span class="badge" id="notificationCount">0</span>
-          </div>
-          <div id="sessionTimer" style="color: #64748b; font-size: 0.85rem;">
-            <i class="fas fa-clock"></i> 30:00
-          </div>
-        </div>
-      </div>
-
-      <div id="contentArea" class="content-area">
-        <div style="display: flex; justify-content: center; align-items: center; height: 400px;">
-          <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #2563eb;"></i>
-          <span style="margin-left: 1rem; color: #64748b;">Loading secure dashboard...</span>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="app"></div>
 
   <!-- QR MODAL -->
   <div id="qrModal" class="modal">
@@ -673,19 +740,65 @@
           <option value="payment">Payment Link</option>
           <option value="job">Job Listing</option>
           <option value="profile">User Profile</option>
+          <option value="referral">Referral Link</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Redirect URL</label>
+        <label>QR Image</label>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <input type="file" id="qrImageUpload" accept="image/*">
+          <button class="btn btn-primary" onclick="uploadQRImage()">Upload</button>
+        </div>
+        <div id="qrImagePreview" style="margin-top: 1rem; display: none;">
+          <img src="" style="max-width: 150px; max-height: 150px; border: 1px solid #e2e8f0; border-radius: 8px;">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Or Enter URL (for auto-generated QR)</label>
         <input type="url" id="qrUrl" placeholder="https://sewalink.com/...">
       </div>
       <div class="form-group">
         <label>Commission Rate (%)</label>
         <input type="number" id="qrCommission" value="10" min="0" max="100">
       </div>
+      <div class="form-group">
+        <label>QR Code Data (optional)</label>
+        <textarea id="qrData" placeholder="Custom data to encode in QR" rows="3"></textarea>
+      </div>
       <div style="display: flex; gap: 1rem; justify-content: flex-end;">
         <button class="btn btn-danger" onclick="closeQRModal()">Cancel</button>
         <button class="btn btn-success" onclick="generateQR()">Generate QR</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY MODAL -->
+  <div id="categoryModal" class="modal">
+    <div class="modal-content">
+      <h2 style="margin-bottom: 1.5rem;" id="categoryModalTitle">Add Category</h2>
+      <div class="form-group">
+        <label>Category Name</label>
+        <input type="text" id="categoryName" placeholder="e.g., Web Development">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="categoryDescription" placeholder="Category description..." rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Commission Rate (%)</label>
+        <input type="number" id="categoryCommission" value="10" min="0" max="100">
+      </div>
+      <div class="form-group">
+        <label>Icon (Font Awesome class)</label>
+        <input type="text" id="categoryIcon" value="fa-briefcase" placeholder="e.g., fa-code">
+      </div>
+      <div class="form-group">
+        <label>Color</label>
+        <input type="color" id="categoryColor" value="#2563eb">
+      </div>
+      <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+        <button class="btn btn-danger" onclick="closeCategoryModal()">Cancel</button>
+        <button class="btn btn-success" onclick="saveCategory()">Save Category</button>
       </div>
     </div>
   </div>
@@ -725,11 +838,63 @@
     </div>
   </div>
 
+  <!-- SETTINGS MODAL -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <h2 style="margin-bottom: 1.5rem;">Edit Setting</h2>
+      <div class="form-group">
+        <label>Setting Key</label>
+        <input type="text" id="settingKey" readonly style="background: #f1f5f9;">
+      </div>
+      <div class="form-group">
+        <label>Setting Value</label>
+        <input type="text" id="settingValue" placeholder="Enter value">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="settingDescription" placeholder="Setting description..." rows="3"></textarea>
+      </div>
+      <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+        <button class="btn btn-danger" onclick="closeSettingsModal()">Cancel</button>
+        <button class="btn btn-success" onclick="saveSetting()">Save Setting</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLACKLIST MODAL -->
+  <div id="blacklistModal" class="modal">
+    <div class="modal-content">
+      <h2 style="margin-bottom: 1.5rem;">Add to Blacklist</h2>
+      <div class="form-group">
+        <label>User Email</label>
+        <input type="email" id="blacklistEmail" placeholder="user@example.com">
+      </div>
+      <div class="form-group">
+        <label>Reason</label>
+        <textarea id="blacklistReason" placeholder="Reason for banning..." rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Ban Duration</label>
+        <select id="blacklistDuration">
+          <option value="permanent">Permanent</option>
+          <option value="7">7 Days</option>
+          <option value="30">30 Days</option>
+          <option value="90">90 Days</option>
+        </select>
+      </div>
+      <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+        <button class="btn btn-danger" onclick="closeBlacklistModal()">Cancel</button>
+        <button class="btn btn-success" onclick="addToBlacklist()">Add to Blacklist</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
     // ========== FIREBASE IMPORTS ==========
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { 
       getAuth, 
+      signInWithEmailAndPassword,
       signOut,
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -748,11 +913,15 @@
       addDoc,
       setDoc,
       serverTimestamp,
-      Timestamp,
-      onSnapshot,
       increment,
-      runTransaction
+      onSnapshot
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import {
+      getStorage,
+      ref,
+      uploadBytes,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
     // ========== FIREBASE CONFIG ==========
     const firebaseConfig = {
@@ -768,145 +937,113 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    const storage = getStorage(app);
 
     // ========== ADMIN STATE ==========
     let currentAdmin = null;
     let adminData = null;
-    let sessionTimer = null;
-    let sessionTime = 30 * 60; // 30 minutes
-    let notificationsUnsub = null;
-    let transactionsUnsub = null;
-    let qrCodesUnsub = null;
+    let currentSection = 'dashboard';
+    let qrImageFile = null;
 
-    // ========== CHECK AUTH ==========
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        window.location.href = 'admin-login.html';
-        return;
-      }
+    // ========== DOM ELEMENTS ==========
+    const appDiv = document.getElementById('app');
+
+    // ========== HELPER FUNCTIONS ==========
+    function formatNPR(amount) {
+      return `रु ${Number(amount || 0).toLocaleString('en-IN')}`;
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"]/g, function(match) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;'
+        }[match];
+      });
+    }
+
+    function showAlert(message, type = 'success') {
+      const alertDiv = document.createElement('div');
+      alertDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#22c55e' : '#ef4444'};
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 9999;
+        animation: slideIn 0.3s ease;
+      `;
+      alertDiv.textContent = message;
+      document.body.appendChild(alertDiv);
+      
+      setTimeout(() => {
+        alertDiv.remove();
+      }, 3000);
+    }
+
+    // ========== RENDER LOGIN PAGE ==========
+    function renderLoginPage() {
+      appDiv.innerHTML = `
+        <div class="login-container">
+          <div class="login-box">
+            <div class="login-logo">
+              <h1>Sewa<span>Link</span></h1>
+              <p style="color: #64748b; margin-top: 0.5rem;">Admin Dashboard</p>
+            </div>
+            <div class="login-form">
+              <input type="email" id="loginEmail" placeholder="Email" value="admin@sewalink.com">
+              <input type="password" id="loginPassword" placeholder="Password" value="admin123">
+              <button class="login-btn" onclick="handleLogin()">Sign In</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ========== HANDLE LOGIN ==========
+    window.handleLogin = async function() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
 
       try {
-        // Check if admin in Firestore
-        const adminRef = doc(db, 'admins', user.uid);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        
+        // Check if user is admin
+        const adminRef = doc(db, 'admins', userCredential.user.uid);
         const adminSnap = await getDoc(adminRef);
         
         if (!adminSnap.exists()) {
           await signOut(auth);
-          window.location.href = 'admin-login.html';
+          alert('Access denied. Not an admin account.');
           return;
         }
 
-        currentAdmin = user;
-        adminData = adminSnap.data();
-        
-        // Update UI
-        const nameEl = document.getElementById('adminName');
-        const roleEl = document.getElementById('adminRole');
-        const avatarEl = document.getElementById('adminAvatar');
-        
-        if (nameEl) nameEl.textContent = adminData.name || user.email || 'Admin';
-        if (roleEl) roleEl.textContent = adminData.role || 'Super Admin';
-        if (avatarEl) avatarEl.textContent = (adminData.name || 'A').charAt(0).toUpperCase();
-        
-        // Start session timer
-        startSessionTimer();
-        
-        // Load dashboard
-        await loadDashboard();
-        
-        // Setup real-time notifications
-        setupNotifications();
-        
-        // Log activity
-        await logAdminActivity('dashboard_access');
-        
+        showAlert('Login successful!', 'success');
       } catch (error) {
-        console.error('Auth error:', error);
-        window.location.href = 'admin-login.html';
+        console.error('Login error:', error);
+        alert('Login failed: ' + error.message);
       }
-    });
-
-    // ========== SESSION MANAGEMENT ==========
-    function startSessionTimer() {
-      if (sessionTimer) clearInterval(sessionTimer);
-      
-      sessionTimer = setInterval(() => {
-        sessionTime--;
-        const minutes = Math.floor(sessionTime / 60);
-        const seconds = sessionTime % 60;
-        const timerEl = document.getElementById('sessionTimer');
-        if (timerEl) {
-          timerEl.innerHTML = `<i class="fas fa-clock"></i> ${minutes}:${seconds.toString().padStart(2, '0')}`;
-        }
-        
-        if (sessionTime <= 0) {
-          clearInterval(sessionTimer);
-          adminLogout();
-          alert('Session expired. Please login again.');
-        }
-      }, 1000);
-    }
-
-    // ========== LOG ADMIN ACTIVITY ==========
-    async function logAdminActivity(action, details = {}) {
-      if (!currentAdmin) return;
-      try {
-        await addDoc(collection(db, 'adminLogs'), {
-          adminId: currentAdmin.uid,
-          email: currentAdmin.email,
-          name: adminData?.name || currentAdmin.email,
-          action: action,
-          details: details,
-          timestamp: serverTimestamp()
-        });
-      } catch (error) {
-        console.error('Error logging activity:', error);
-      }
-    }
-
-    // ========== SETUP NOTIFICATIONS ==========
-    function setupNotifications() {
-      if (notificationsUnsub) notificationsUnsub();
-      
-      // Get pending withdrawals count
-      const withdrawalsQuery = query(
-        collection(db, 'withdrawals'),
-        where('status', '==', 'pending')
-      );
-      
-      notificationsUnsub = onSnapshot(withdrawalsQuery, (snapshot) => {
-        const count = snapshot.size;
-        const badge = document.getElementById('notificationCount');
-        if (badge) {
-          badge.textContent = count;
-          badge.style.display = count > 0 ? 'block' : 'none';
-        }
-      });
-    }
+    };
 
     // ========== ADMIN LOGOUT ==========
     window.adminLogout = async function() {
-      try {
-        await logAdminActivity('logout');
-        clearInterval(sessionTimer);
-        if (notificationsUnsub) notificationsUnsub();
-        if (transactionsUnsub) transactionsUnsub();
-        if (qrCodesUnsub) qrCodesUnsub();
-        await signOut(auth);
-        window.location.href = 'admin-login.html';
-      } catch (error) {
-        console.error('Logout error:', error);
-        window.location.href = 'admin-login.html';
-      }
+      await signOut(auth);
     };
 
     // ========== SHOW SECTION ==========
     window.showSection = async function(section) {
-      // Update active nav
+      currentSection = section;
+      
       document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
       });
-      if (event && event.currentTarget) {
+      if (event?.currentTarget) {
         event.currentTarget.classList.add('active');
       }
 
@@ -929,10 +1066,8 @@
         'blacklist': 'Blacklist Manager'
       };
       
-      const titleEl = document.getElementById('pageTitle');
-      if (titleEl) titleEl.textContent = titles[section] || 'Dashboard';
+      document.getElementById('pageTitle').textContent = titles[section] || 'Dashboard';
 
-      // Load section
       try {
         await logAdminActivity(`view_${section}`);
         
@@ -957,91 +1092,237 @@
         }
       } catch (error) {
         console.error('Error loading section:', error);
-        const contentArea = document.getElementById('contentArea');
-        if (contentArea) {
-          contentArea.innerHTML = `
-            <div style="text-align: center; padding: 4rem;">
-              <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444;"></i>
-              <h3 style="margin-top: 1rem;">Error Loading Section</h3>
-              <p style="color: #64748b;">${error.message}</p>
-              <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 1rem;">Refresh</button>
-            </div>
-          `;
-        }
+        document.getElementById('contentArea').innerHTML = `
+          <div style="text-align: center; padding: 4rem;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ef4444;"></i>
+            <h3 style="margin-top: 1rem;">Error Loading Section</h3>
+            <p style="color: #64748b;">${error.message}</p>
+            <button onclick="showSection('${section}')" class="btn btn-primary" style="margin-top: 1rem;">Try Again</button>
+          </div>
+        `;
       }
     };
 
+    // ========== LOG ADMIN ACTIVITY ==========
+    async function logAdminActivity(action, details = {}) {
+      if (!currentAdmin) return;
+      try {
+        await addDoc(collection(db, 'adminLogs'), {
+          adminId: currentAdmin.uid,
+          email: currentAdmin.email,
+          name: adminData?.name || currentAdmin.email,
+          action: action,
+          details: details,
+          timestamp: serverTimestamp()
+        });
+      } catch (error) {
+        console.error('Error logging activity:', error);
+      }
+    }
+
+    // ========== RENDER ADMIN DASHBOARD ==========
+    function renderAdminDashboard() {
+      appDiv.innerHTML = `
+        <div class="admin-wrapper">
+          <!-- SIDEBAR -->
+          <div class="sidebar">
+            <div class="sidebar-header">
+              <a href="#" class="sidebar-logo">
+                <i class="fas fa-shield-hal"></i> Sewa<span>Link</span>
+              </a>
+            </div>
+
+            <div class="admin-info">
+              <div class="admin-avatar" id="adminAvatar">${adminData?.name?.charAt(0) || 'A'}</div>
+              <div class="admin-details">
+                <h4 id="adminName">${adminData?.name || currentAdmin?.email || 'Admin'}</h4>
+                <p id="adminRole">${adminData?.role || 'Super Admin'}</p>
+              </div>
+            </div>
+
+            <div class="sidebar-nav">
+              <!-- SECTION A: ADMIN CORE -->
+              <div class="nav-section">
+                <div class="nav-section-title">🔐 ADMIN CORE</div>
+                <div class="nav-item active" onclick="showSection('dashboard')">
+                  <i class="fas fa-chart-pie"></i> Dashboard
+                </div>
+                <div class="nav-item" onclick="showSection('admins')">
+                  <i class="fas fa-user-shield"></i> Admin Manager
+                </div>
+                <div class="nav-item" onclick="showSection('audit')">
+                  <i class="fas fa-history"></i> Audit Logs
+                </div>
+              </div>
+
+              <!-- SECTION B: QR CODE MANAGEMENT -->
+              <div class="nav-section">
+                <div class="nav-section-title">📱 QR CODE</div>
+                <div class="nav-item" onclick="showSection('qr')">
+                  <i class="fas fa-qrcode"></i> QR Manager
+                </div>
+                <div class="nav-item" onclick="showSection('scans')">
+                  <i class="fas fa-eye"></i> Scan Analytics
+                </div>
+              </div>
+
+              <!-- SECTION C: PAYMENT & COINS -->
+              <div class="nav-section">
+                <div class="nav-section-title">💰 COINS & PAYMENTS</div>
+                <div class="nav-item" onclick="showSection('coins')">
+                  <i class="fas fa-coins"></i> Coin Management
+                </div>
+                <div class="nav-item" onclick="showSection('commission')">
+                  <i class="fas fa-percent"></i> Commission Control
+                </div>
+                <div class="nav-item" onclick="showSection('transactions')">
+                  <i class="fas fa-credit-card"></i> All Transactions
+                </div>
+                <div class="nav-item" onclick="showSection('withdrawals')">
+                  <i class="fas fa-money-bill"></i> Withdrawals
+                </div>
+              </div>
+
+              <!-- SECTION D: USER MANAGEMENT -->
+              <div class="nav-section">
+                <div class="nav-section-title">👥 USERS</div>
+                <div class="nav-item" onclick="showSection('users')">
+                  <i class="fas fa-users"></i> All Users
+                </div>
+                <div class="nav-item" onclick="showSection('freelancers')">
+                  <i class="fas fa-briefcase"></i> Freelancers
+                </div>
+                <div class="nav-item" onclick="showSection('clients')">
+                  <i class="fas fa-user-tie"></i> Clients
+                </div>
+              </div>
+
+              <!-- SECTION E: JOB CONTROL -->
+              <div class="nav-section">
+                <div class="nav-section-title">📋 JOBS</div>
+                <div class="nav-item" onclick="showSection('jobs')">
+                  <i class="fas fa-briefcase"></i> All Jobs
+                </div>
+                <div class="nav-item" onclick="showSection('categories')">
+                  <i class="fas fa-tags"></i> Categories
+                </div>
+              </div>
+
+              <!-- SECTION F: SYSTEM -->
+              <div class="nav-section">
+                <div class="nav-section-title">⚙️ SYSTEM</div>
+                <div class="nav-item" onclick="showSection('settings')">
+                  <i class="fas fa-gear"></i> Settings
+                </div>
+                <div class="nav-item" onclick="showSection('blacklist')">
+                  <i class="fas fa-ban"></i> Blacklist
+                </div>
+                <div class="nav-item logout" onclick="adminLogout()">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MAIN CONTENT -->
+          <div class="main-content">
+            <div class="top-bar">
+              <div class="page-title" id="pageTitle">Dashboard</div>
+              <div class="top-bar-actions">
+                <div class="notification-badge" onclick="showSection('notifications')">
+                  <i class="fas fa-bell" style="font-size: 1.2rem; color: #64748b;"></i>
+                  <span class="badge" id="notificationCount">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="contentArea" class="content-area">
+              <div style="display: flex; justify-content: center; align-items: center; height: 400px;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #2563eb;"></i>
+                <span style="margin-left: 1rem; color: #64748b;">Loading secure dashboard...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Load initial dashboard
+      showSection('dashboard');
+      setupNotifications();
+    }
+
+    // ========== SETUP NOTIFICATIONS ==========
+    async function setupNotifications() {
+      try {
+        const withdrawalsQuery = query(
+          collection(db, 'withdrawals'),
+          where('status', '==', 'pending')
+        );
+        
+        onSnapshot(withdrawalsQuery, (snapshot) => {
+          const count = snapshot.size;
+          const badge = document.getElementById('notificationCount');
+          if (badge) {
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'block' : 'none';
+          }
+        });
+      } catch (error) {
+        console.error('Notifications error:', error);
+      }
+    }
+
     // ========== DASHBOARD ==========
-    window.loadDashboard = async function() {
+    async function loadDashboard() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
       
       contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading dashboard...</div>`;
 
       try {
-        // Get real counts from Firestore
-        let totalUsers = 0, totalFreelancers = 0, totalClients = 0;
-        let totalJobs = 0, activeJobs = 0, completedJobs = 0;
-        let totalTransactions = 0, totalRevenue = 0, pendingWithdrawals = 0;
-        let totalScans = 0, totalCoins = 0;
+        // Get counts from various collections
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        const jobsSnapshot = await getDocs(collection(db, 'jobs'));
+        const transactionsSnapshot = await getDocs(collection(db, 'transactions'));
+        const categoriesSnapshot = await getDocs(collection(db, 'categories'));
+        const qrSnapshot = await getDocs(collection(db, 'qrCodes'));
 
-        // Users count
-        try {
-          const usersSnapshot = await getDocs(collection(db, 'users'));
-          totalUsers = usersSnapshot.size;
-          
-          usersSnapshot.forEach(doc => {
-            const user = doc.data();
-            if (user.role === 'freelancer' || user.role === 'both') totalFreelancers++;
-            if (user.role === 'client' || user.role === 'both') totalClients++;
-            totalCoins += user.coins || 0;
-          });
-        } catch (e) { console.log('Users collection error'); }
+        let totalCoins = 0;
+        let totalRevenue = 0;
+        let activeJobs = 0;
+        let completedJobs = 0;
+        let freelancers = 0;
+        let clients = 0;
 
-        // Jobs count
-        try {
-          const jobsSnapshot = await getDocs(collection(db, 'jobs'));
-          totalJobs = jobsSnapshot.size;
-          
-          jobsSnapshot.forEach(doc => {
-            const job = doc.data();
-            if (job.status === 'open') activeJobs++;
-            if (job.status === 'completed') completedJobs++;
-          });
-        } catch (e) { console.log('Jobs collection error'); }
+        usersSnapshot.forEach(doc => {
+          const user = doc.data();
+          totalCoins += user.coins || 0;
+          if (user.role === 'freelancer' || user.role === 'both') freelancers++;
+          if (user.role === 'client' || user.role === 'both') clients++;
+        });
 
-        // Transactions
-        try {
-          const transactionsSnapshot = await getDocs(collection(db, 'transactions'));
-          totalTransactions = transactionsSnapshot.size;
-          
-          transactionsSnapshot.forEach(doc => {
-            const tx = doc.data();
-            if (tx.status === 'completed') {
-              totalRevenue += tx.amount || 0;
-            }
-          });
-        } catch (e) { console.log('Transactions collection error'); }
+        jobsSnapshot.forEach(doc => {
+          const job = doc.data();
+          if (job.status === 'open') activeJobs++;
+          if (job.status === 'completed') completedJobs++;
+        });
 
-        // QR scans
-        try {
-          const scansSnapshot = await getDocs(collection(db, 'qrScans'));
-          totalScans = scansSnapshot.size;
-        } catch (e) { console.log('QR scans collection error'); }
+        transactionsSnapshot.forEach(doc => {
+          const tx = doc.data();
+          if (tx.status === 'completed') {
+            totalRevenue += tx.amount || 0;
+          }
+        });
 
-        // Withdrawals
-        try {
-          const withdrawalsQuery = query(collection(db, 'withdrawals'), where('status', '==', 'pending'));
-          const withdrawalsSnapshot = await getDocs(withdrawalsQuery);
-          pendingWithdrawals = withdrawalsSnapshot.size;
-        } catch (e) { console.log('Withdrawals collection error'); }
+        // Get pending withdrawals
+        const withdrawalsQuery = query(collection(db, 'withdrawals'), where('status', '==', 'pending'));
+        const withdrawalsSnapshot = await getDocs(withdrawalsQuery);
 
         contentArea.innerHTML = `
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-header">
                 <div class="stat-icon"><i class="fas fa-users"></i></div>
-                <span class="stat-value">${totalUsers}</span>
+                <span class="stat-value">${usersSnapshot.size}</span>
               </div>
               <div class="stat-label">Total Users</div>
             </div>
@@ -1055,16 +1336,16 @@
             <div class="stat-card">
               <div class="stat-header">
                 <div class="stat-icon"><i class="fas fa-briefcase"></i></div>
-                <span class="stat-value">${totalJobs}</span>
+                <span class="stat-value">${jobsSnapshot.size}</span>
               </div>
               <div class="stat-label">Total Jobs</div>
             </div>
             <div class="stat-card">
               <div class="stat-header">
-                <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
-                <span class="stat-value">रु ${totalRevenue.toLocaleString()}</span>
+                <div class="stat-icon"><i class="fas fa-tags"></i></div>
+                <span class="stat-value">${categoriesSnapshot.size}</span>
               </div>
-              <div class="stat-label">Total Revenue</div>
+              <div class="stat-label">Categories</div>
             </div>
           </div>
 
@@ -1072,21 +1353,21 @@
             <div class="status-card" onclick="showSection('users')">
               <i class="fas fa-users" style="font-size: 2rem; color: #3b82f6;"></i>
               <div>
-                <h4 style="font-size: 1.2rem;">${totalUsers}</h4>
+                <h4 style="font-size: 1.2rem;">${usersSnapshot.size}</h4>
                 <p style="color: #64748b;">Users</p>
               </div>
             </div>
             <div class="status-card" onclick="showSection('freelancers')">
               <i class="fas fa-briefcase" style="font-size: 2rem; color: #10b981;"></i>
               <div>
-                <h4 style="font-size: 1.2rem;">${totalFreelancers}</h4>
+                <h4 style="font-size: 1.2rem;">${freelancers}</h4>
                 <p style="color: #64748b;">Freelancers</p>
               </div>
             </div>
             <div class="status-card" onclick="showSection('clients')">
               <i class="fas fa-user-tie" style="font-size: 2rem; color: #8b5cf6;"></i>
               <div>
-                <h4 style="font-size: 1.2rem;">${totalClients}</h4>
+                <h4 style="font-size: 1.2rem;">${clients}</h4>
                 <p style="color: #64748b;">Clients</p>
               </div>
             </div>
@@ -1100,8 +1381,15 @@
             <div class="status-card" onclick="showSection('withdrawals')">
               <i class="fas fa-money-bill" style="font-size: 2rem; color: #ef4444;"></i>
               <div>
-                <h4 style="font-size: 1.2rem;">${pendingWithdrawals}</h4>
+                <h4 style="font-size: 1.2rem;">${withdrawalsSnapshot.size}</h4>
                 <p style="color: #64748b;">Pending Withdrawals</p>
+              </div>
+            </div>
+            <div class="status-card" onclick="showSection('qr')">
+              <i class="fas fa-qrcode" style="font-size: 2rem; color: #8b5cf6;"></i>
+              <div>
+                <h4 style="font-size: 1.2rem;">${qrSnapshot.size}</h4>
+                <p style="color: #64748b;">QR Codes</p>
               </div>
             </div>
           </div>
@@ -1111,7 +1399,7 @@
               <div class="table-header">
                 <div class="table-title">Recent Activity</div>
               </div>
-              <div id="recentActivity"></div>
+              <div id="recentActivity">Loading...</div>
             </div>
 
             <div class="table-container">
@@ -1120,15 +1408,14 @@
               </div>
               <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <button class="btn btn-primary" onclick="showSection('coins')" style="width: 100%;">Manage Coins</button>
-                <button class="btn btn-primary" onclick="showSection('qr')" style="width: 100%;">Manage QR Codes</button>
-                <button class="btn btn-primary" onclick="showSection('commission')" style="width: 100%;">Set Commission</button>
-                <button class="btn btn-warning" onclick="showSection('withdrawals')" style="width: 100%;">Pending: ${pendingWithdrawals}</button>
+                <button class="btn btn-primary" onclick="showSection('categories')" style="width: 100%;">Manage Categories</button>
+                <button class="btn btn-primary" onclick="showSection('settings')" style="width: 100%;">Platform Settings</button>
+                <button class="btn btn-warning" onclick="showSection('withdrawals')" style="width: 100%;">Pending: ${withdrawalsSnapshot.size}</button>
               </div>
             </div>
           </div>
         `;
 
-        // Load recent activity
         await loadRecentActivity();
 
       } catch (error) {
@@ -1142,12 +1429,16 @@
           </div>
         `;
       }
-    };
+    }
 
     // ========== RECENT ACTIVITY ==========
     async function loadRecentActivity() {
       try {
-        const logsQuery = query(collection(db, 'adminLogs'), orderBy('timestamp', 'desc'), limit(10));
+        const logsQuery = query(
+          collection(db, 'adminLogs'),
+          orderBy('timestamp', 'desc'),
+          limit(10)
+        );
         const logsSnapshot = await getDocs(logsQuery);
         
         let html = '<div class="activity-log">';
@@ -1176,15 +1467,283 @@
       }
     }
 
-    // ========== COIN MANAGEMENT ==========
-    window.loadCoinManagement = async function() {
+    // ========== QR CODE MANAGER ==========
+    async function loadQRManager() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
+      
+      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading QR codes...</div>`;
+
+      try {
+        const qrSnapshot = await getDocs(collection(db, 'qrCodes'));
+        const qrCodes = [];
+        qrSnapshot.forEach(doc => {
+          qrCodes.push({ id: doc.id, ...doc.data() });
+        });
+
+        contentArea.innerHTML = `
+          <div class="qr-section">
+            <div class="table-header">
+              <div class="table-title">SewaLink QR Code Manager</div>
+              <button class="btn btn-primary" onclick="openQRModal()">
+                <i class="fas fa-plus"></i> Generate New QR
+              </button>
+            </div>
+
+            <div class="qr-grid">
+              ${qrCodes.map(qr => `
+                <div class="qr-card">
+                  <h3>${escapeHTML(qr.name || 'QR Code')}</h3>
+                  <div class="qr-preview">
+                    <img src="${qr.qrImage || qr.url || 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SewaLink'}" 
+                         onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SewaLink'">
+                  </div>
+                  <div style="margin: 0.5rem 0;">
+                    <span class="badge badge-info">${qr.type || 'company'}</span>
+                    <span class="badge badge-success">${qr.scans || 0} scans</span>
+                  </div>
+                  <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">
+                    Commission: ${qr.commission || 10}%
+                  </div>
+                  <div class="qr-actions">
+                    <button class="btn btn-info btn-sm" onclick="downloadQR('${qr.id}')">
+                      <i class="fas fa-download"></i>
+                    </button>
+                    <button class="btn btn-primary btn-sm" onclick="editQR('${qr.id}')">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteQR('${qr.id}')">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+              
+              ${qrCodes.length === 0 ? `
+                <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #64748b;">
+                  <i class="fas fa-qrcode" style="font-size: 3rem;"></i>
+                  <p style="margin-top: 1rem;">No QR codes yet. Create your first one!</p>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">QR Scan Analytics</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>QR Code</th>
+                  <th>Total Scans</th>
+                  <th>Unique Users</th>
+                  <th>Last Scan</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${qrCodes.map(qr => `
+                  <tr>
+                    <td>${escapeHTML(qr.name || 'QR Code')}</td>
+                    <td>${qr.scans || 0}</td>
+                    <td>${qr.uniqueUsers || 0}</td>
+                    <td>${qr.lastScan ? new Date(qr.lastScan.seconds * 1000).toLocaleDateString() : 'Never'}</td>
+                    <td>
+                      <button class="btn btn-info btn-sm" onclick="viewQRScans('${qr.id}')">View Details</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('QR error:', error);
+        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
+      }
+    }
+
+    // ========== UPLOAD QR IMAGE ==========
+    window.uploadQRImage = async function() {
+      const file = document.getElementById('qrImageUpload').files[0];
+      if (!file) {
+        alert('Please select an image');
+        return;
+      }
+
+      try {
+        const storageRef = ref(storage, `qr-codes/${Date.now()}_${file.name}`);
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        
+        document.getElementById('qrUrl').value = url;
+        
+        const preview = document.getElementById('qrImagePreview');
+        preview.style.display = 'block';
+        preview.innerHTML = `<img src="${url}" style="max-width: 150px; max-height: 150px;">`;
+        
+        showAlert('Image uploaded successfully!', 'success');
+      } catch (error) {
+        console.error('Upload error:', error);
+        showAlert('Upload failed: ' + error.message, 'error');
+      }
+    };
+
+    // ========== QR MODAL FUNCTIONS ==========
+    window.openQRModal = function() {
+      document.getElementById('qrModal').classList.add('active');
+      document.getElementById('qrName').value = '';
+      document.getElementById('qrUrl').value = '';
+      document.getElementById('qrCommission').value = '10';
+      document.getElementById('qrData').value = '';
+      document.getElementById('qrImagePreview').style.display = 'none';
+      document.getElementById('qrImagePreview').innerHTML = '';
+    };
+
+    window.closeQRModal = function() {
+      document.getElementById('qrModal').classList.remove('active');
+    };
+
+    window.generateQR = async function() {
+      const name = document.getElementById('qrName').value;
+      const type = document.getElementById('qrType').value;
+      const url = document.getElementById('qrUrl').value;
+      const commission = document.getElementById('qrCommission').value;
+      const customData = document.getElementById('qrData').value;
+
+      if (!name) {
+        alert('Please enter QR name');
+        return;
+      }
+
+      try {
+        // Generate QR code using QR Server API
+        const qrData = customData || `https://sewalink.com/${type}/${name.toLowerCase().replace(/\s+/g, '-')}`;
+        const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
+
+        const qrCode = {
+          name: name,
+          type: type,
+          url: url || qrImageUrl,
+          qrImage: qrImageUrl,
+          data: qrData,
+          commission: parseInt(commission),
+          scans: 0,
+          uniqueUsers: 0,
+          createdAt: serverTimestamp(),
+          createdBy: currentAdmin?.uid,
+          createdByName: adminData?.name || currentAdmin?.email
+        };
+
+        await addDoc(collection(db, 'qrCodes'), qrCode);
+        
+        await logAdminActivity('qr_generated', { name, type });
+        
+        showAlert('QR Code generated successfully!', 'success');
+        closeQRModal();
+        
+        await loadQRManager();
+        
+      } catch (error) {
+        console.error('Error generating QR:', error);
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    window.deleteQR = async function(qrId) {
+      if (!confirm('Are you sure you want to delete this QR code?')) return;
+      
+      try {
+        await deleteDoc(doc(db, 'qrCodes', qrId));
+        await logAdminActivity('qr_deleted', { qrId });
+        showAlert('QR code deleted', 'success');
+        await loadQRManager();
+      } catch (error) {
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    window.downloadQR = function(qrId) {
+      // Find QR code and download
+      showAlert('Download feature coming soon', 'info');
+    };
+
+    window.editQR = function(qrId) {
+      showAlert('Edit feature coming soon', 'info');
+    };
+
+    // ========== SCAN ANALYTICS ==========
+    async function loadScanAnalytics() {
+      const contentArea = document.getElementById('contentArea');
+      
+      try {
+        const scansSnapshot = await getDocs(collection(db, 'qrScans'));
+        const scans = [];
+        scansSnapshot.forEach(doc => {
+          scans.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Group scans by QR code
+        const grouped = {};
+        scans.forEach(scan => {
+          if (!grouped[scan.qrId]) {
+            grouped[scan.qrId] = [];
+          }
+          grouped[scan.qrId].push(scan);
+        });
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Scan Analytics (${scans.length} total scans)</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>QR Code</th>
+                  <th>Scans</th>
+                  <th>Unique Users</th>
+                  <th>Last 24h</th>
+                  <th>Conversion</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${Object.entries(grouped).map(([qrId, qrScans]) => {
+                  const last24h = qrScans.filter(s => {
+                    const scanTime = s.timestamp?.seconds * 1000;
+                    const dayAgo = Date.now() - 24*60*60*1000;
+                    return scanTime > dayAgo;
+                  }).length;
+                  const uniqueUsers = new Set(qrScans.map(s => s.userId)).size;
+                  const converted = qrScans.filter(s => s.converted).length;
+                  
+                  return `
+                    <tr>
+                      <td>${qrId.substring(0, 8)}...</td>
+                      <td>${qrScans.length}</td>
+                      <td>${uniqueUsers}</td>
+                      <td>${last24h}</td>
+                      <td>${Math.round((converted / qrScans.length) * 100) || 0}%</td>
+                    </tr>
+                  `;
+                }).join('')}
+                ${Object.keys(grouped).length === 0 ? '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No scan data yet</td></tr>' : ''}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading scans:', error);
+      }
+    }
+
+    // ========== COIN MANAGEMENT ==========
+    async function loadCoinManagement() {
+      const contentArea = document.getElementById('contentArea');
       
       contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading coin data...</div>`;
 
       try {
-        // Get all users with coins
         const usersSnapshot = await getDocs(collection(db, 'users'));
         let totalCoins = 0;
         let topUsers = [];
@@ -1195,17 +1754,14 @@
           totalCoins += user.coins || 0;
           users.push(user);
           
-          // Get top 5 users by coins
           if (user.coins > 0) {
             topUsers.push(user);
           }
         }
         
-        // Sort top users by coins
         topUsers.sort((a, b) => (b.coins || 0) - (a.coins || 0));
         topUsers = topUsers.slice(0, 5);
 
-        // Get coin transactions
         const coinTxQuery = query(
           collection(db, 'coinTransactions'),
           orderBy('timestamp', 'desc'),
@@ -1246,7 +1802,7 @@
                   <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: rgba(255,255,255,0.1); border-radius: 8px;">
                     <div>
                       <span style="font-weight: 600;">${index + 1}.</span>
-                      <span>${user.displayName || user.email || 'User'}</span>
+                      <span>${escapeHTML(user.displayName || user.email || 'User')}</span>
                     </div>
                     <div style="font-weight: 700;">${(user.coins || 0).toLocaleString()} coins</div>
                   </div>
@@ -1279,14 +1835,14 @@
                     <td>
                       <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=32'}" style="width: 32px; height: 32px; border-radius: 50%;">
-                        <span style="font-weight: 600;">${user.displayName || 'User'}</span>
+                        <span style="font-weight: 600;">${escapeHTML(user.displayName || 'User')}</span>
                       </div>
                     </td>
-                    <td>${user.email || 'N/A'}</td>
+                    <td>${escapeHTML(user.email || 'N/A')}</td>
                     <td><span class="badge badge-info">${user.role || 'user'}</span></td>
                     <td><span style="font-weight: 700; color: #f59e0b;">${(user.coins || 0).toLocaleString()}</span></td>
                     <td>
-                      <button class="btn btn-primary btn-sm" onclick="openCoinModal('${user.id}', '${user.displayName || user.email || 'User'}', ${user.coins || 0})">
+                      <button class="btn btn-primary btn-sm" onclick="openCoinModal('${user.id}', '${escapeHTML(user.displayName || user.email || 'User')}', ${user.coins || 0})">
                         <i class="fas fa-coins"></i> Manage Coins
                       </button>
                     </td>
@@ -1317,14 +1873,14 @@
                   const time = tx.timestamp ? new Date(tx.timestamp.seconds * 1000).toLocaleString() : 'Unknown';
                   return `
                     <tr>
-                      <td>${tx.userName || tx.userId?.substring(0, 8) || 'Unknown'}</td>
+                      <td>${escapeHTML(tx.userName || tx.userId?.substring(0, 8) || 'Unknown')}</td>
                       <td><span class="badge badge-${tx.type === 'add' ? 'success' : tx.type === 'deduct' ? 'danger' : 'info'}">${tx.type}</span></td>
                       <td style="color: ${tx.type === 'add' ? '#22c55e' : tx.type === 'deduct' ? '#ef4444' : '#3b82f6'}; font-weight: 600;">
                         ${tx.type === 'add' ? '+' : tx.type === 'deduct' ? '-' : ''}${tx.amount}
                       </td>
                       <td>${tx.newBalance}</td>
                       <td>${tx.reason || '—'}</td>
-                      <td>${tx.adminName || tx.adminId?.substring(0, 8) || 'System'}</td>
+                      <td>${escapeHTML(tx.adminName || tx.adminId?.substring(0, 8) || 'System')}</td>
                       <td>${time}</td>
                     </tr>
                   `;
@@ -1338,7 +1894,7 @@
         console.error('Error loading coin management:', error);
         contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
       }
-    };
+    }
 
     // ========== COIN MODAL FUNCTIONS ==========
     window.openCoinModal = function(userId, userName, currentCoins) {
@@ -1398,13 +1954,11 @@
             break;
         }
 
-        // Update user coins
         await updateDoc(userRef, {
           coins: newCoins,
           updatedAt: serverTimestamp()
         });
 
-        // Record transaction
         await addDoc(collection(db, 'coinTransactions'), {
           userId: userId,
           userName: userData.displayName || userData.email || 'User',
@@ -1427,20 +1981,14 @@
           reason
         });
 
-        alert(`✅ Coins updated successfully!\nNew balance: ${newCoins} coins`);
+        showAlert(`✅ Coins updated successfully! New balance: ${newCoins} coins`, 'success');
         closeCoinModal();
         
-        // Refresh the current section
-        if (document.querySelector('.nav-item.active')) {
-          const activeSection = document.querySelector('.nav-item.active').textContent.trim().toLowerCase();
-          if (activeSection.includes('coin')) {
-            await loadCoinManagement();
-          }
-        }
+        await loadCoinManagement();
 
       } catch (error) {
         console.error('Error updating coins:', error);
-        alert('Error: ' + error.message);
+        showAlert('Error: ' + error.message, 'error');
       }
     };
 
@@ -1453,256 +2001,111 @@
       });
     };
 
-    // ========== QR CODE MANAGER ==========
-    window.loadQRManager = async function() {
-      const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
-      
-      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading QR codes...</div>`;
-
-      try {
-        // Setup real-time listener for QR codes
-        if (qrCodesUnsub) qrCodesUnsub();
-        
-        const qrQuery = query(collection(db, 'qrCodes'), orderBy('createdAt', 'desc'));
-        
-        const qrSnapshot = await getDocs(qrQuery);
-        const qrCodes = [];
-        qrSnapshot.forEach(doc => {
-          qrCodes.push({ id: doc.id, ...doc.data() });
-        });
-
-        renderQRManager(contentArea, qrCodes);
-
-      } catch (error) {
-        console.error('QR error:', error);
-        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
-      }
-    };
-
-    function renderQRManager(contentArea, qrCodes) {
-      contentArea.innerHTML = `
-        <div class="qr-section">
-          <div class="table-header">
-            <div class="table-title">SewaLink QR Code Manager</div>
-            <button class="btn btn-primary" onclick="openQRModal()">
-              <i class="fas fa-plus"></i> Generate New QR
-            </button>
-          </div>
-
-          <div class="qr-grid">
-            ${qrCodes.map(qr => `
-              <div class="qr-card">
-                <h3>${qr.name || 'QR Code'}</h3>
-                <div class="qr-preview">
-                  <img src="${qr.qrImage || 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(qr.url || 'https://sewalink.com')}">
-                </div>
-                <div style="margin: 0.5rem 0;">
-                  <span class="badge badge-info">${qr.type || 'company'}</span>
-                  <span class="badge badge-success">${qr.scans || 0} scans</span>
-                </div>
-                <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">
-                  Commission: ${qr.commission || 10}%
-                </div>
-                <div class="qr-actions">
-                  <button class="btn btn-info btn-sm" onclick="downloadQR('${qr.id}')">
-                    <i class="fas fa-download"></i>
-                  </button>
-                  <button class="btn btn-primary btn-sm" onclick="editQR('${qr.id}')">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="btn btn-danger btn-sm" onclick="deleteQR('${qr.id}')">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-              </div>
-            `).join('')}
-            
-            ${qrCodes.length === 0 ? `
-              <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #64748b;">
-                <i class="fas fa-qrcode" style="font-size: 3rem;"></i>
-                <p style="margin-top: 1rem;">No QR codes yet. Create your first one!</p>
-              </div>
-            ` : ''}
-          </div>
-        </div>
-
-        <div class="table-container">
-          <div class="table-header">
-            <div class="table-title">QR Scan Analytics</div>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>QR Code</th>
-                <th>Total Scans</th>
-                <th>Unique Users</th>
-                <th>Last Scan</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${qrCodes.map(qr => `
-                <tr>
-                  <td>${qr.name || 'QR Code'}</td>
-                  <td>${qr.scans || 0}</td>
-                  <td>${qr.uniqueUsers || 0}</td>
-                  <td>${qr.lastScan ? new Date(qr.lastScan.seconds * 1000).toLocaleDateString() : 'Never'}</td>
-                  <td>
-                    <button class="btn btn-info btn-sm" onclick="viewQRScans('${qr.id}')">View Details</button>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
-    }
-
-    // ========== QR MODAL FUNCTIONS ==========
-    window.openQRModal = function() {
-      document.getElementById('qrModal').classList.add('active');
-    };
-
-    window.closeQRModal = function() {
-      document.getElementById('qrModal').classList.remove('active');
-    };
-
-    window.generateQR = async function() {
-      const name = document.getElementById('qrName').value;
-      const type = document.getElementById('qrType').value;
-      const url = document.getElementById('qrUrl').value;
-      const commission = document.getElementById('qrCommission').value;
-
-      if (!name || !url) {
-        alert('Please fill all fields');
-        return;
-      }
-
-      try {
-        // Generate QR code URL
-        const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
-
-        // Save to Firestore
-        const qrData = {
-          name: name,
-          type: type,
-          url: url,
-          qrImage: qrImageUrl,
-          commission: parseInt(commission),
-          scans: 0,
-          uniqueUsers: 0,
-          createdAt: serverTimestamp(),
-          createdBy: currentAdmin?.uid
-        };
-
-        await addDoc(collection(db, 'qrCodes'), qrData);
-        
-        await logAdminActivity('qr_generated', { name, type });
-        
-        alert('QR Code generated successfully!');
-        closeQRModal();
-        
-        // Clear form
-        document.getElementById('qrName').value = '';
-        document.getElementById('qrUrl').value = '';
-        
-        // Refresh QR section
-        await loadQRManager();
-        
-      } catch (error) {
-        console.error('Error generating QR:', error);
-        alert('Error: ' + error.message);
-      }
-    };
-
-    window.deleteQR = async function(qrId) {
-      if (!confirm('Are you sure you want to delete this QR code?')) return;
+    // ========== APPROVE COIN PURCHASE ==========
+    window.approveCoinPurchase = async function(transactionId, userId, coins) {
+      if (!confirm('Approve this coin purchase? Coins will be added to user account.')) return;
       
       try {
-        await deleteDoc(doc(db, 'qrCodes', qrId));
-        await logAdminActivity('qr_deleted', { qrId });
-        alert('QR code deleted');
-        await loadQRManager();
+        const txRef = doc(db, 'transactions', transactionId);
+        const txSnap = await getDoc(txRef);
+        const tx = txSnap.data();
+        
+        await updateDoc(txRef, {
+          status: 'completed',
+          approvedAt: serverTimestamp(),
+          approvedBy: currentAdmin?.uid
+        });
+
+        const userRef = doc(db, 'users', userId);
+        const userSnap = await getDoc(userRef);
+        const currentCoins = userSnap.data().coins || 0;
+        
+        await updateDoc(userRef, {
+          coins: currentCoins + coins
+        });
+
+        await addDoc(collection(db, 'coinTransactions'), {
+          userId: userId,
+          userName: tx.userName,
+          type: 'purchase',
+          amount: coins,
+          oldBalance: currentCoins,
+          newBalance: currentCoins + coins,
+          reason: `Coin purchase approved - रु ${tx.amount}`,
+          adminId: currentAdmin.uid,
+          adminName: adminData?.name || currentAdmin.email,
+          transactionId: transactionId,
+          timestamp: serverTimestamp()
+        });
+
+        await logAdminActivity('coin_purchase_approved', { 
+          transactionId, 
+          userId, 
+          coins,
+          amount: tx.amount 
+        });
+        
+        showAlert(`✅ Purchase approved! ${coins} coins added to user.`, 'success');
+        
+        await loadTransactions();
+
       } catch (error) {
-        alert('Error: ' + error.message);
+        console.error('Error approving purchase:', error);
+        showAlert('Error: ' + error.message, 'error');
       }
     };
 
-    // ========== SCAN ANALYTICS ==========
-    window.loadScanAnalytics = async function() {
-      const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
+    // ========== REJECT COIN PURCHASE ==========
+    window.rejectCoinPurchase = async function(transactionId, userId, coins) {
+      if (!confirm('Reject this coin purchase? No coins will be added.')) return;
       
       try {
-        const scansSnapshot = await getDocs(collection(db, 'qrScans'));
-        const scans = [];
-        scansSnapshot.forEach(doc => {
-          scans.push({ id: doc.id, ...doc.data() });
+        const txRef = doc(db, 'transactions', transactionId);
+        const txSnap = await getDoc(txRef);
+        const tx = txSnap.data();
+        
+        await updateDoc(txRef, {
+          status: 'rejected',
+          rejectedAt: serverTimestamp(),
+          rejectedBy: currentAdmin?.uid,
+          rejectionReason: 'Admin rejected'
         });
 
-        // Group by QR code
-        const grouped = {};
-        scans.forEach(scan => {
-          if (!grouped[scan.qrId]) {
-            grouped[scan.qrId] = [];
-          }
-          grouped[scan.qrId].push(scan);
+        await addDoc(collection(db, 'coinTransactions'), {
+          userId: userId,
+          userName: tx.userName,
+          type: 'rejection',
+          amount: coins,
+          reason: `Coin purchase rejected - रु ${tx.amount}`,
+          adminId: currentAdmin.uid,
+          adminName: adminData?.name || currentAdmin.email,
+          transactionId: transactionId,
+          timestamp: serverTimestamp()
         });
 
-        contentArea.innerHTML = `
-          <div class="table-container">
-            <div class="table-header">
-              <div class="table-title">Scan Analytics (${scans.length} total scans)</div>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>QR Code</th>
-                  <th>Scans</th>
-                  <th>Unique Users</th>
-                  <th>Last 24h</th>
-                  <th>Conversion</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${Object.entries(grouped).map(([qrId, qrScans]) => {
-                  const last24h = qrScans.filter(s => {
-                    const scanTime = s.timestamp?.seconds * 1000;
-                    const dayAgo = Date.now() - 24*60*60*1000;
-                    return scanTime > dayAgo;
-                  }).length;
-                  const uniqueUsers = new Set(qrScans.map(s => s.userId)).size;
-                  const converted = qrScans.filter(s => s.converted).length;
-                  
-                  return `
-                    <tr>
-                      <td>${qrId.substring(0, 8)}...</td>
-                      <td>${qrScans.length}</td>
-                      <td>${uniqueUsers}</td>
-                      <td>${last24h}</td>
-                      <td>${Math.round((converted / qrScans.length) * 100) || 0}%</td>
-                    </tr>
-                  `;
-                }).join('')}
-                ${Object.keys(grouped).length === 0 ? '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No scan data yet</td></tr>' : ''}
-              </tbody>
-            </table>
-          </div>
-        `;
+        await logAdminActivity('coin_purchase_rejected', { 
+          transactionId, 
+          userId, 
+          coins,
+          amount: tx.amount 
+        });
+        
+        showAlert(`❌ Purchase rejected. No coins added.`, 'success');
+        
+        await loadTransactions();
+
       } catch (error) {
-        console.error('Error loading scans:', error);
+        console.error('Error rejecting purchase:', error);
+        showAlert('Error: ' + error.message, 'error');
       }
     };
 
     // ========== COMMISSION CONTROL ==========
-    window.loadCommission = async function() {
+    async function loadCommission() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
 
       try {
-        // Get current commission settings
-        let commission = 10; // Default
+        let commission = 10;
         try {
           const settingsDoc = await getDoc(doc(db, 'settings', 'commission'));
           if (settingsDoc.exists()) {
@@ -1723,12 +2126,71 @@
               </div>
               <button class="btn btn-success" onclick="saveCommission()">Save Changes</button>
             </div>
+
+            <div class="table-container" style="margin-top: 2rem;">
+              <div class="table-header">
+                <div class="table-title">Category Commission Overrides</div>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Default Commission</th>
+                    <th>Override</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="categoryCommissionTable">
+                  <tr>
+                    <td colspan="4" style="text-align: center; padding: 2rem;">Loading categories...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         `;
+
+        await loadCategoryCommissionTable();
+
       } catch (error) {
         console.error('Error loading commission:', error);
       }
-    };
+    }
+
+    async function loadCategoryCommissionTable() {
+      try {
+        const categoriesSnapshot = await getDocs(collection(db, 'categories'));
+        const categories = [];
+        categoriesSnapshot.forEach(doc => {
+          categories.push({ id: doc.id, ...doc.data() });
+        });
+
+        let html = '';
+        categories.forEach(cat => {
+          html += `
+            <tr>
+              <td>${escapeHTML(cat.name)}</td>
+              <td>${cat.commission || 10}%</td>
+              <td>
+                <input type="number" id="cat_${cat.id}" value="${cat.commission || 10}" min="0" max="100" style="width: 80px; padding: 0.3rem;">
+              </td>
+              <td>
+                <button class="btn btn-primary btn-sm" onclick="saveCategoryCommission('${cat.id}')">Save</button>
+              </td>
+            </tr>
+          `;
+        });
+
+        if (categories.length === 0) {
+          html = '<tr><td colspan="4" style="text-align: center; padding: 2rem;">No categories found</td></tr>';
+        }
+
+        document.getElementById('categoryCommissionTable').innerHTML = html;
+
+      } catch (error) {
+        console.error('Error loading category commission:', error);
+      }
+    }
 
     window.updateCommissionValue = function(value) {
       document.getElementById('commissionValue').textContent = value;
@@ -1745,23 +2207,38 @@
         }, { merge: true });
         
         await logAdminActivity('commission_updated', { rate });
-        alert('Commission settings saved!');
+        showAlert('Commission settings saved!', 'success');
       } catch (error) {
-        alert('Error: ' + error.message);
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    window.saveCategoryCommission = async function(categoryId) {
+      const rate = parseInt(document.getElementById(`cat_${categoryId}`).value);
+      
+      try {
+        await updateDoc(doc(db, 'categories', categoryId), {
+          commission: rate
+        });
+        
+        showAlert('Category commission updated!', 'success');
+      } catch (error) {
+        showAlert('Error: ' + error.message, 'error');
       }
     };
 
     // ========== TRANSACTIONS ==========
-    window.loadTransactions = async function() {
+    async function loadTransactions() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
       
       contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading transactions...</div>`;
 
       try {
-        if (transactionsUnsub) transactionsUnsub();
-        
-        const txQuery = query(collection(db, 'transactions'), orderBy('timestamp', 'desc'), limit(100));
+        const txQuery = query(
+          collection(db, 'transactions'),
+          orderBy('timestamp', 'desc'),
+          limit(100)
+        );
         
         const txSnapshot = await getDocs(txQuery);
         const transactions = [];
@@ -1779,7 +2256,7 @@
           <div class="table-container">
             <div class="table-header">
               <div class="table-title">All Transactions (${transactions.length})</div>
-              <div style="font-weight: 600;">Total Revenue: रु ${totalRevenue.toLocaleString()}</div>
+              <div style="font-weight: 600;">Total Revenue: ${formatNPR(totalRevenue)}</div>
             </div>
             <table>
               <thead>
@@ -1791,6 +2268,7 @@
                   <th>Coins</th>
                   <th>Status</th>
                   <th>Date</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -1800,16 +2278,22 @@
                   return `
                     <tr>
                       <td>${tx.id.substring(0, 8)}...</td>
-                      <td>${tx.userName || tx.userId?.substring(0, 8) || 'Unknown'}</td>
+                      <td>${escapeHTML(tx.userName || tx.userId?.substring(0, 8) || 'Unknown')}</td>
                       <td><span class="badge badge-${tx.type === 'purchase' ? 'success' : 'warning'}">${tx.type || 'unknown'}</span></td>
-                      <td>रु ${tx.amount || 0}</td>
+                      <td>${formatNPR(tx.amount)}</td>
                       <td>${tx.coins || 0}</td>
-                      <td><span class="badge badge-${tx.status === 'completed' ? 'success' : 'warning'}">${tx.status || 'pending'}</span></td>
+                      <td><span class="badge badge-${tx.status === 'completed' ? 'success' : tx.status === 'rejected' ? 'danger' : 'warning'}">${tx.status || 'pending'}</span></td>
                       <td>${time}</td>
+                      <td>
+                        ${tx.status === 'pending' && tx.type === 'purchase' ? `
+                          <button class="btn btn-success btn-sm" onclick="approveCoinPurchase('${tx.id}', '${tx.userId}', ${tx.coins})">Approve</button>
+                          <button class="btn btn-danger btn-sm" onclick="rejectCoinPurchase('${tx.id}', '${tx.userId}', ${tx.coins})">Reject</button>
+                        ` : ''}
+                      </td>
                     </tr>
                   `;
                 }).join('')}
-                ${transactions.length === 0 ? '<tr><td colspan="7" style="text-align: center; padding: 2rem;">No transactions yet</td></tr>' : ''}
+                ${transactions.length === 0 ? '<tr><td colspan="8" style="text-align: center; padding: 2rem;">No transactions yet</td></tr>' : ''}
               </tbody>
             </table>
           </div>
@@ -1818,15 +2302,17 @@
       } catch (error) {
         console.error('Error loading transactions:', error);
       }
-    };
+    }
 
     // ========== WITHDRAWALS ==========
-    window.loadWithdrawals = async function() {
+    async function loadWithdrawals() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
       
       try {
-        const withdrawalsQuery = query(collection(db, 'withdrawals'), orderBy('createdAt', 'desc'));
+        const withdrawalsQuery = query(
+          collection(db, 'withdrawals'),
+          orderBy('createdAt', 'desc')
+        );
         const withdrawalsSnapshot = await getDocs(withdrawalsQuery);
         const withdrawals = [];
         withdrawalsSnapshot.forEach(doc => {
@@ -1855,16 +2341,16 @@
                   const time = w.createdAt ? new Date(w.createdAt.seconds * 1000).toLocaleString() : 'Unknown';
                   return `
                     <tr>
-                      <td>${w.userName || w.userId?.substring(0, 8) || 'Unknown'}</td>
-                      <td>रु ${w.amount || 0}</td>
+                      <td>${escapeHTML(w.userName || w.userId?.substring(0, 8) || 'Unknown')}</td>
+                      <td>${formatNPR(w.amount)}</td>
                       <td>${w.coins || 0}</td>
                       <td>${w.esewaNumber || 'N/A'}</td>
                       <td><span class="badge badge-${w.status === 'pending' ? 'warning' : w.status === 'completed' ? 'success' : 'danger'}">${w.status || 'pending'}</span></td>
                       <td>${time}</td>
                       <td>
                         ${w.status === 'pending' ? `
-                          <button class="btn btn-success btn-sm" onclick="approveWithdrawal('${w.id}', ${w.coins})">Approve</button>
-                          <button class="btn btn-danger btn-sm" onclick="rejectWithdrawal('${w.id}', ${w.coins})">Reject</button>
+                          <button class="btn btn-success btn-sm" onclick="approveWithdrawal('${w.id}', '${w.userId}', ${w.coins})">Approve</button>
+                          <button class="btn btn-danger btn-sm" onclick="rejectWithdrawal('${w.id}', '${w.userId}', ${w.coins})">Reject</button>
                         ` : ''}
                       </td>
                     </tr>
@@ -1878,9 +2364,9 @@
       } catch (error) {
         console.error('Error loading withdrawals:', error);
       }
-    };
+    }
 
-    window.approveWithdrawal = async function(withdrawalId, coins) {
+    window.approveWithdrawal = async function(withdrawalId, userId, coins) {
       if (!confirm('Approve this withdrawal?')) return;
       
       try {
@@ -1891,41 +2377,42 @@
         });
         
         await logAdminActivity('withdrawal_approved', { withdrawalId, coins });
-        alert('Withdrawal approved');
+        showAlert('Withdrawal approved', 'success');
         await loadWithdrawals();
       } catch (error) {
-        alert('Error: ' + error.message);
+        showAlert('Error: ' + error.message, 'error');
       }
     };
 
-    window.rejectWithdrawal = async function(withdrawalId, coins) {
+    window.rejectWithdrawal = async function(withdrawalId, userId, coins) {
       if (!confirm('Reject this withdrawal? Coins will be refunded.')) return;
       
       try {
-        // Get withdrawal details
         const withdrawalRef = doc(db, 'withdrawals', withdrawalId);
         const withdrawalSnap = await getDoc(withdrawalRef);
         const withdrawal = withdrawalSnap.data();
         
-        // Update withdrawal status
         await updateDoc(withdrawalRef, {
           status: 'rejected',
           rejectedAt: serverTimestamp(),
           rejectedBy: currentAdmin?.uid
         });
 
-        // Refund coins to user
-        const userRef = doc(db, 'users', withdrawal.userId);
+        const userRef = doc(db, 'users', userId);
+        const userSnap = await getDoc(userRef);
+        const currentCoins = userSnap.data().coins || 0;
+        
         await updateDoc(userRef, {
-          coins: increment(coins)
+          coins: currentCoins + coins
         });
 
-        // Record refund transaction
         await addDoc(collection(db, 'coinTransactions'), {
-          userId: withdrawal.userId,
+          userId: userId,
           userName: withdrawal.userName,
           type: 'refund',
           amount: coins,
+          oldBalance: currentCoins,
+          newBalance: currentCoins + coins,
           reason: 'Withdrawal rejected',
           adminId: currentAdmin.uid,
           adminName: adminData?.name || currentAdmin.email,
@@ -1933,17 +2420,16 @@
         });
         
         await logAdminActivity('withdrawal_rejected', { withdrawalId, coins });
-        alert('Withdrawal rejected and coins refunded');
+        showAlert('Withdrawal rejected and coins refunded', 'success');
         await loadWithdrawals();
       } catch (error) {
-        alert('Error: ' + error.message);
+        showAlert('Error: ' + error.message, 'error');
       }
     };
 
     // ========== USERS MANAGEMENT ==========
-    window.loadUsers = async function() {
+    async function loadUsers() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
       
       contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading users...</div>`;
 
@@ -1980,16 +2466,16 @@
                     <td>
                       <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User') + '&background=2563eb&color=fff&size=32'}" style="width: 32px; height: 32px; border-radius: 50%;">
-                        <span style="font-weight: 600;">${user.displayName || 'User'}</span>
+                        <span style="font-weight: 600;">${escapeHTML(user.displayName || 'User')}</span>
                       </div>
                     </td>
-                    <td>${user.email || 'N/A'}</td>
+                    <td>${escapeHTML(user.email || 'N/A')}</td>
                     <td><span class="badge badge-info">${user.role || 'user'}</span></td>
                     <td><span style="color: #f59e0b; font-weight: 600;">${(user.coins || 0).toLocaleString()}</span></td>
                     <td><span class="badge badge-${user.status === 'banned' ? 'danger' : 'success'}">${user.status || 'active'}</span></td>
                     <td>
                       <button class="btn btn-primary btn-sm" onclick="viewUser('${user.id}')">View</button>
-                      <button class="btn btn-warning btn-sm" onclick="openCoinModal('${user.id}', '${user.displayName || user.email || 'User'}', ${user.coins || 0})">
+                      <button class="btn btn-warning btn-sm" onclick="openCoinModal('${user.id}', '${escapeHTML(user.displayName || user.email || 'User')}', ${user.coins || 0})">
                         <i class="fas fa-coins"></i> Coins
                       </button>
                       ${user.status !== 'banned' ? `
@@ -2008,12 +2494,11 @@
         console.error('Error loading users:', error);
         contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
       }
-    };
+    }
 
     // ========== FREELANCERS ==========
-    window.loadFreelancers = async function() {
+    async function loadFreelancers() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
       
       try {
         const usersRef = collection(db, 'users');
@@ -2024,14 +2509,16 @@
         for (const doc of snapshot.docs) {
           const freelancer = { id: doc.id, ...doc.data() };
           
-          // Get completed jobs
           try {
             const jobsRef = collection(db, 'jobs');
-            const completedJobsQuery = query(jobsRef, where('acceptedBy', '==', doc.id), where('status', '==', 'completed'));
+            const completedJobsQuery = query(
+              jobsRef,
+              where('acceptedBy', '==', doc.id),
+              where('status', '==', 'completed')
+            );
             const completedSnapshot = await getDocs(completedJobsQuery);
             freelancer.completedJobs = completedSnapshot.size;
             
-            // Get total earnings
             let earnings = 0;
             completedSnapshot.forEach(job => {
               earnings += job.data().budget || 0;
@@ -2068,17 +2555,17 @@
                     <td>
                       <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <img src="${f.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(f.displayName || 'Freelancer') + '&background=2563eb&color=fff&size=32'}" style="width: 32px; height: 32px; border-radius: 50%;">
-                        <span style="font-weight: 600;">${f.displayName || 'Freelancer'}</span>
+                        <span style="font-weight: 600;">${escapeHTML(f.displayName || 'Freelancer')}</span>
                       </div>
                     </td>
-                    <td>${f.email || 'N/A'}</td>
+                    <td>${escapeHTML(f.email || 'N/A')}</td>
                     <td>${(f.skills || []).slice(0, 3).join(', ') || '—'}</td>
                     <td><span style="color: #f59e0b; font-weight: 600;">${(f.coins || 0).toLocaleString()}</span></td>
                     <td>${f.completedJobs || 0}</td>
-                    <td>रु ${f.earnings || 0}</td>
+                    <td>${formatNPR(f.earnings)}</td>
                     <td>
                       <button class="btn btn-primary btn-sm" onclick="viewUser('${f.id}')">View</button>
-                      <button class="btn btn-warning btn-sm" onclick="openCoinModal('${f.id}', '${f.displayName || f.email || 'Freelancer'}', ${f.coins || 0})">
+                      <button class="btn btn-warning btn-sm" onclick="openCoinModal('${f.id}', '${escapeHTML(f.displayName || f.email || 'Freelancer')}', ${f.coins || 0})">
                         <i class="fas fa-coins"></i> Coins
                       </button>
                     </td>
@@ -2092,12 +2579,11 @@
         console.error('Error loading freelancers:', error);
         contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
       }
-    };
+    }
 
     // ========== CLIENTS ==========
-    window.loadClients = async function() {
+    async function loadClients() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
       
       try {
         const usersRef = collection(db, 'users');
@@ -2108,14 +2594,12 @@
         for (const doc of snapshot.docs) {
           const client = { id: doc.id, ...doc.data() };
           
-          // Get posted jobs
           try {
             const jobsRef = collection(db, 'jobs');
             const jobsQuery = query(jobsRef, where('clientId', '==', doc.id));
             const jobsSnapshot = await getDocs(jobsQuery);
             client.postedJobs = jobsSnapshot.size;
             
-            // Get total spent
             let spent = 0;
             jobsSnapshot.forEach(job => {
               if (job.data().status === 'completed') {
@@ -2153,16 +2637,16 @@
                     <td>
                       <div style="display: flex; align-items: center; gap: 0.5rem;">
                         <img src="${c.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(c.displayName || 'Client') + '&background=2563eb&color=fff&size=32'}" style="width: 32px; height: 32px; border-radius: 50%;">
-                        <span style="font-weight: 600;">${c.displayName || 'Client'}</span>
+                        <span style="font-weight: 600;">${escapeHTML(c.displayName || 'Client')}</span>
                       </div>
                     </td>
-                    <td>${c.email || 'N/A'}</td>
+                    <td>${escapeHTML(c.email || 'N/A')}</td>
                     <td><span style="color: #f59e0b; font-weight: 600;">${(c.coins || 0).toLocaleString()}</span></td>
                     <td>${c.postedJobs || 0}</td>
-                    <td>रु ${c.spent || 0}</td>
+                    <td>${formatNPR(c.spent)}</td>
                     <td>
                       <button class="btn btn-primary btn-sm" onclick="viewUser('${c.id}')">View</button>
-                      <button class="btn btn-warning btn-sm" onclick="openCoinModal('${c.id}', '${c.displayName || c.email || 'Client'}', ${c.coins || 0})">
+                      <button class="btn btn-warning btn-sm" onclick="openCoinModal('${c.id}', '${escapeHTML(c.displayName || c.email || 'Client')}', ${c.coins || 0})">
                         <i class="fas fa-coins"></i> Coins
                       </button>
                     </td>
@@ -2175,12 +2659,11 @@
       } catch (error) {
         console.error('Error loading clients:', error);
       }
-    };
+    }
 
     // ========== JOBS MANAGEMENT ==========
-    window.loadJobs = async function() {
+    async function loadJobs() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
       
       contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading jobs...</div>`;
 
@@ -2197,6 +2680,13 @@
           return dateB - dateA;
         });
 
+        // Get categories for filtering
+        const categoriesSnapshot = await getDocs(collection(db, 'categories'));
+        const categories = {};
+        categoriesSnapshot.forEach(doc => {
+          categories[doc.id] = doc.data().name;
+        });
+
         contentArea.innerHTML = `
           <div class="table-container">
             <div class="table-header">
@@ -2205,6 +2695,12 @@
                 <i class="fas fa-search"></i>
                 <input type="text" id="jobSearch" placeholder="Search jobs..." onkeyup="searchJobs()">
               </div>
+            </div>
+            <div class="filter-tabs" style="margin-bottom: 1rem;">
+              <button class="filter-tab active" onclick="filterJobs('all')">All</button>
+              <button class="filter-tab" onclick="filterJobs('open')">Open</button>
+              <button class="filter-tab" onclick="filterJobs('in-progress')">In Progress</button>
+              <button class="filter-tab" onclick="filterJobs('completed')">Completed</button>
             </div>
             <table>
               <thead>
@@ -2220,11 +2716,11 @@
               </thead>
               <tbody id="jobsTableBody">
                 ${jobs.slice(0, 50).map(job => `
-                  <tr class="job-row">
-                    <td>${job.title || 'Untitled'}</td>
-                    <td>${job.clientName || 'Anonymous'}</td>
-                    <td>${job.category || 'General'}</td>
-                    <td>रु ${job.budget || 0}</td>
+                  <tr class="job-row" data-status="${job.status || 'open'}">
+                    <td>${escapeHTML(job.title || 'Untitled')}</td>
+                    <td>${escapeHTML(job.clientName || 'Anonymous')}</td>
+                    <td>${categories[job.categoryId] || job.category || 'General'}</td>
+                    <td>${formatNPR(job.budget)}</td>
                     <td><span class="badge badge-${job.status === 'open' ? 'success' : job.status === 'completed' ? 'info' : 'warning'}">${job.status || 'open'}</span></td>
                     <td>${job.proposals || 0}</td>
                     <td>
@@ -2242,12 +2738,566 @@
         console.error('Error loading jobs:', error);
         contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
       }
+    }
+
+    window.filterJobs = function(status) {
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      event.currentTarget.classList.add('active');
+      
+      const rows = document.querySelectorAll('.job-row');
+      rows.forEach(row => {
+        if (status === 'all') {
+          row.style.display = 'table-row';
+        } else {
+          const rowStatus = row.dataset.status;
+          row.style.display = rowStatus === status ? 'table-row' : 'none';
+        }
+      });
+    };
+
+    // ========== CATEGORIES MANAGEMENT ==========
+    async function loadCategories() {
+      const contentArea = document.getElementById('contentArea');
+      
+      contentArea.innerHTML = `<div style="text-align: center; padding: 2rem;"><i class="fas fa-spinner fa-spin"></i> Loading categories...</div>`;
+
+      try {
+        const categoriesSnapshot = await getDocs(collection(db, 'categories'));
+        const categories = [];
+        categoriesSnapshot.forEach(doc => {
+          categories.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Get job counts per category
+        const jobsSnapshot = await getDocs(collection(db, 'jobs'));
+        const jobCounts = {};
+        jobsSnapshot.forEach(doc => {
+          const job = doc.data();
+          if (job.categoryId) {
+            jobCounts[job.categoryId] = (jobCounts[job.categoryId] || 0) + 1;
+          }
+        });
+
+        contentArea.innerHTML = `
+          <div class="category-section">
+            <div class="table-header">
+              <div class="table-title">Category Manager (${categories.length})</div>
+              <button class="btn btn-primary" onclick="openCategoryModal()">
+                <i class="fas fa-plus"></i> Add Category
+              </button>
+            </div>
+
+            <div class="category-grid">
+              ${categories.map(cat => `
+                <div class="category-card">
+                  <div class="category-header">
+                    <span class="category-name">${escapeHTML(cat.name)}</span>
+                    <div>
+                      <button class="btn btn-warning btn-sm" onclick="editCategory('${cat.id}')">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" onclick="deleteCategory('${cat.id}')">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="category-stats">
+                    <span><i class="fas fa-briefcase"></i> ${jobCounts[cat.id] || 0} jobs</span>
+                    <span><i class="fas fa-percent"></i> ${cat.commission || 10}% commission</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.5rem;">${escapeHTML(cat.description || 'No description')}</p>
+                  <div style="margin-top: 0.5rem;">
+                    <span class="badge badge-info" style="background: ${cat.color || '#2563eb'}20; color: ${cat.color || '#2563eb'};">
+                      <i class="fas ${cat.icon || 'fa-tag'}"></i> ${escapeHTML(cat.name)}
+                    </span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            ${categories.length === 0 ? `
+              <div style="text-align: center; padding: 3rem; color: #64748b;">
+                <i class="fas fa-tags" style="font-size: 3rem;"></i>
+                <p style="margin-top: 1rem;">No categories yet. Create your first category!</p>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading categories:', error);
+        contentArea.innerHTML = `<div style="color: #ef4444; padding: 2rem;">Error: ${error.message}</div>`;
+      }
+    }
+
+    window.openCategoryModal = function() {
+      currentCategoryId = null;
+      document.getElementById('categoryModalTitle').textContent = 'Add Category';
+      document.getElementById('categoryName').value = '';
+      document.getElementById('categoryDescription').value = '';
+      document.getElementById('categoryCommission').value = '10';
+      document.getElementById('categoryIcon').value = 'fa-briefcase';
+      document.getElementById('categoryColor').value = '#2563eb';
+      document.getElementById('categoryModal').classList.add('active');
+    };
+
+    window.closeCategoryModal = function() {
+      document.getElementById('categoryModal').classList.remove('active');
+    };
+
+    window.saveCategory = async function() {
+      const name = document.getElementById('categoryName').value;
+      const description = document.getElementById('categoryDescription').value;
+      const commission = parseInt(document.getElementById('categoryCommission').value);
+      const icon = document.getElementById('categoryIcon').value;
+      const color = document.getElementById('categoryColor').value;
+
+      if (!name) {
+        alert('Please enter category name');
+        return;
+      }
+
+      try {
+        const categoryData = {
+          name: name,
+          description: description,
+          commission: commission,
+          icon: icon,
+          color: color,
+          updatedAt: serverTimestamp(),
+          updatedBy: currentAdmin?.uid
+        };
+
+        if (currentCategoryId) {
+          await updateDoc(doc(db, 'categories', currentCategoryId), categoryData);
+          await logAdminActivity('category_updated', { name });
+          showAlert('Category updated successfully!', 'success');
+        } else {
+          categoryData.createdAt = serverTimestamp();
+          categoryData.createdBy = currentAdmin?.uid;
+          await addDoc(collection(db, 'categories'), categoryData);
+          await logAdminActivity('category_created', { name });
+          showAlert('Category created successfully!', 'success');
+        }
+
+        closeCategoryModal();
+        await loadCategories();
+
+      } catch (error) {
+        console.error('Error saving category:', error);
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    window.deleteCategory = async function(categoryId) {
+      if (!confirm('Delete this category? Jobs in this category will become uncategorized.')) return;
+      
+      try {
+        await deleteDoc(doc(db, 'categories', categoryId));
+        await logAdminActivity('category_deleted', { categoryId });
+        showAlert('Category deleted', 'success');
+        await loadCategories();
+      } catch (error) {
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    window.editCategory = async function(categoryId) {
+      try {
+        const categoryRef = doc(db, 'categories', categoryId);
+        const categorySnap = await getDoc(categoryRef);
+        const category = categorySnap.data();
+        
+        currentCategoryId = categoryId;
+        document.getElementById('categoryModalTitle').textContent = 'Edit Category';
+        document.getElementById('categoryName').value = category.name || '';
+        document.getElementById('categoryDescription').value = category.description || '';
+        document.getElementById('categoryCommission').value = category.commission || 10;
+        document.getElementById('categoryIcon').value = category.icon || 'fa-briefcase';
+        document.getElementById('categoryColor').value = category.color || '#2563eb';
+        document.getElementById('categoryModal').classList.add('active');
+      } catch (error) {
+        console.error('Error loading category:', error);
+        showAlert('Error loading category', 'error');
+      }
+    };
+
+    // ========== SETTINGS MANAGEMENT ==========
+    async function loadSettings() {
+      const contentArea = document.getElementById('contentArea');
+
+      try {
+        const settingsSnapshot = await getDocs(collection(db, 'settings'));
+        const settings = {};
+        settingsSnapshot.forEach(doc => {
+          settings[doc.id] = doc.data();
+        });
+
+        contentArea.innerHTML = `
+          <div class="settings-section">
+            <div class="table-header">
+              <div class="table-title">Platform Settings</div>
+            </div>
+
+            <div class="settings-grid">
+              <div class="settings-card">
+                <div class="settings-icon">
+                  <i class="fas fa-globe"></i>
+                </div>
+                <h3 style="margin-bottom: 1rem;">General Settings</h3>
+                <div class="form-group">
+                  <label>Platform Name</label>
+                  <input type="text" id="platformName" value="${settings.general?.platformName || 'SewaLink'}">
+                </div>
+                <div class="form-group">
+                  <label>Support Email</label>
+                  <input type="email" id="supportEmail" value="${settings.general?.supportEmail || 'support@sewalink.com'}">
+                </div>
+                <div class="form-group">
+                  <label>Currency</label>
+                  <select id="currency">
+                    <option value="NPR" ${settings.general?.currency === 'NPR' ? 'selected' : ''}>NPR (रु)</option>
+                    <option value="USD" ${settings.general?.currency === 'USD' ? 'selected' : ''}>USD ($)</option>
+                  </select>
+                </div>
+                <button class="btn btn-primary" onclick="saveGeneralSettings()">Save General Settings</button>
+              </div>
+
+              <div class="settings-card">
+                <div class="settings-icon">
+                  <i class="fas fa-coins"></i>
+                </div>
+                <h3 style="margin-bottom: 1rem;">Coin Settings</h3>
+                <div class="form-group">
+                  <label>Coin to Cash Rate (100 coins = रु X)</label>
+                  <input type="number" id="coinRate" value="${settings.coins?.rate || 10}">
+                </div>
+                <div class="form-group">
+                  <label>Minimum Withdrawal (coins)</label>
+                  <input type="number" id="minWithdrawal" value="${settings.coins?.minWithdrawal || 100}">
+                </div>
+                <div class="form-group">
+                  <label>Maximum Withdrawal (coins per day)</label>
+                  <input type="number" id="maxWithdrawal" value="${settings.coins?.maxWithdrawal || 5000}">
+                </div>
+                <button class="btn btn-primary" onclick="saveCoinSettings()">Save Coin Settings</button>
+              </div>
+
+              <div class="settings-card">
+                <div class="settings-icon">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 style="margin-bottom: 1rem;">Security Settings</h3>
+                <div class="form-group">
+                  <label>Session Timeout (minutes)</label>
+                  <input type="number" id="sessionTimeout" value="${settings.security?.sessionTimeout || 120}">
+                </div>
+                <div class="form-group">
+                  <label>Max Login Attempts</label>
+                  <input type="number" id="maxLoginAttempts" value="${settings.security?.maxLoginAttempts || 5}">
+                </div>
+                <button class="btn btn-primary" onclick="saveSecuritySettings()">Save Security Settings</button>
+              </div>
+
+              <div class="settings-card">
+                <div class="settings-icon">
+                  <i class="fas fa-bell"></i>
+                </div>
+                <h3 style="margin-bottom: 1rem;">Notification Settings</h3>
+                <div class="form-group">
+                  <label>
+                    <input type="checkbox" id="emailNotifications" ${settings.notifications?.email ? 'checked' : ''}>
+                    Email Notifications
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label>
+                    <input type="checkbox" id="pushNotifications" ${settings.notifications?.push ? 'checked' : ''}>
+                    Push Notifications
+                  </label>
+                </div>
+                <button class="btn btn-primary" onclick="saveNotificationSettings()">Save Notification Settings</button>
+              </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+              <h3 style="margin-bottom: 1rem;">System Information</h3>
+              <table>
+                <tr>
+                  <td>Firebase Project</td>
+                  <td>${firebaseConfig.projectId}</td>
+                </tr>
+                <tr>
+                  <td>Storage Bucket</td>
+                  <td>${firebaseConfig.storageBucket}</td>
+                </tr>
+                <tr>
+                  <td>Admin UID</td>
+                  <td>${currentAdmin?.uid || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td>Last Login</td>
+                  <td>${adminData?.lastActive ? new Date(adminData.lastActive.seconds * 1000).toLocaleString() : 'N/A'}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading settings:', error);
+      }
+    }
+
+    window.saveGeneralSettings = async function() {
+      const platformName = document.getElementById('platformName').value;
+      const supportEmail = document.getElementById('supportEmail').value;
+      const currency = document.getElementById('currency').value;
+
+      try {
+        await setDoc(doc(db, 'settings', 'general'), {
+          platformName,
+          supportEmail,
+          currency,
+          updatedAt: serverTimestamp(),
+          updatedBy: currentAdmin?.uid
+        }, { merge: true });
+
+        await logAdminActivity('settings_updated', { type: 'general' });
+        showAlert('General settings saved!', 'success');
+      } catch (error) {
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    window.saveCoinSettings = async function() {
+      const coinRate = parseInt(document.getElementById('coinRate').value);
+      const minWithdrawal = parseInt(document.getElementById('minWithdrawal').value);
+      const maxWithdrawal = parseInt(document.getElementById('maxWithdrawal').value);
+
+      try {
+        await setDoc(doc(db, 'settings', 'coins'), {
+          rate: coinRate,
+          minWithdrawal,
+          maxWithdrawal,
+          updatedAt: serverTimestamp(),
+          updatedBy: currentAdmin?.uid
+        }, { merge: true });
+
+        await logAdminActivity('settings_updated', { type: 'coins' });
+        showAlert('Coin settings saved!', 'success');
+      } catch (error) {
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    window.saveSecuritySettings = async function() {
+      const sessionTimeout = parseInt(document.getElementById('sessionTimeout').value);
+      const maxLoginAttempts = parseInt(document.getElementById('maxLoginAttempts').value);
+
+      try {
+        await setDoc(doc(db, 'settings', 'security'), {
+          sessionTimeout,
+          maxLoginAttempts,
+          updatedAt: serverTimestamp(),
+          updatedBy: currentAdmin?.uid
+        }, { merge: true });
+
+        await logAdminActivity('settings_updated', { type: 'security' });
+        showAlert('Security settings saved!', 'success');
+      } catch (error) {
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    window.saveNotificationSettings = async function() {
+      const emailNotifications = document.getElementById('emailNotifications').checked;
+      const pushNotifications = document.getElementById('pushNotifications').checked;
+
+      try {
+        await setDoc(doc(db, 'settings', 'notifications'), {
+          email: emailNotifications,
+          push: pushNotifications,
+          updatedAt: serverTimestamp(),
+          updatedBy: currentAdmin?.uid
+        }, { merge: true });
+
+        await logAdminActivity('settings_updated', { type: 'notifications' });
+        showAlert('Notification settings saved!', 'success');
+      } catch (error) {
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    // ========== BLACKLIST MANAGEMENT ==========
+    async function loadBlacklist() {
+      const contentArea = document.getElementById('contentArea');
+      
+      try {
+        const blacklistSnapshot = await getDocs(collection(db, 'blacklist'));
+        const blacklist = [];
+        blacklistSnapshot.forEach(doc => {
+          blacklist.push({ id: doc.id, ...doc.data() });
+        });
+
+        contentArea.innerHTML = `
+          <div class="table-container">
+            <div class="table-header">
+              <div class="table-title">Blacklist Manager (${blacklist.length})</div>
+              <button class="btn btn-primary" onclick="openBlacklistModal()">
+                <i class="fas fa-plus"></i> Add to Blacklist
+              </button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>User/Email</th>
+                  <th>Reason</th>
+                  <th>Banned By</th>
+                  <th>Date</th>
+                  <th>Expires</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${blacklist.map(item => {
+                  const date = item.bannedAt ? new Date(item.bannedAt.seconds * 1000).toLocaleDateString() : 'Unknown';
+                  const expiry = item.expiresAt ? new Date(item.expiresAt.seconds * 1000).toLocaleDateString() : 'Permanent';
+                  const isExpired = item.expiresAt && new Date(item.expiresAt.seconds * 1000) < new Date();
+                  
+                  return `
+                    <tr style="${isExpired ? 'opacity: 0.5;' : ''}">
+                      <td>${escapeHTML(item.email || item.userId || 'Unknown')}</td>
+                      <td>${escapeHTML(item.reason || 'No reason')}</td>
+                      <td>${escapeHTML(item.bannedBy || 'System')}</td>
+                      <td>${date}</td>
+                      <td>${expiry}</td>
+                      <td>
+                        <button class="btn btn-success btn-sm" onclick="removeFromBlacklist('${item.id}')">Remove</button>
+                        ${isExpired ? '<span class="badge badge-info">Expired</span>' : ''}
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+                ${blacklist.length === 0 ? '<tr><td colspan="6" style="text-align: center; padding: 2rem;">No blacklisted users</td></tr>' : ''}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading blacklist:', error);
+      }
+    }
+
+    window.openBlacklistModal = function() {
+      document.getElementById('blacklistEmail').value = '';
+      document.getElementById('blacklistReason').value = '';
+      document.getElementById('blacklistDuration').value = 'permanent';
+      document.getElementById('blacklistModal').classList.add('active');
+    };
+
+    window.closeBlacklistModal = function() {
+      document.getElementById('blacklistModal').classList.remove('active');
+    };
+
+    window.addToBlacklist = async function() {
+      const email = document.getElementById('blacklistEmail').value;
+      const reason = document.getElementById('blacklistReason').value;
+      const duration = document.getElementById('blacklistDuration').value;
+
+      if (!email) {
+        alert('Please enter an email');
+        return;
+      }
+
+      try {
+        // Find user by email
+        const usersQuery = query(collection(db, 'users'), where('email', '==', email));
+        const usersSnapshot = await getDocs(usersQuery);
+        
+        if (usersSnapshot.empty) {
+          alert('User not found');
+          return;
+        }
+
+        const userId = usersSnapshot.docs[0].id;
+        const userData = usersSnapshot.docs[0].data();
+
+        // Calculate expiry
+        let expiresAt = null;
+        if (duration !== 'permanent') {
+          const days = parseInt(duration);
+          expiresAt = new Date();
+          expiresAt.setDate(expiresAt.getDate() + days);
+        }
+
+        // Add to blacklist
+        await addDoc(collection(db, 'blacklist'), {
+          userId: userId,
+          email: email,
+          userName: userData.displayName || email,
+          reason: reason,
+          bannedAt: serverTimestamp(),
+          bannedBy: currentAdmin?.uid,
+          expiresAt: expiresAt,
+          duration: duration
+        });
+
+        // Update user status
+        await updateDoc(doc(db, 'users', userId), {
+          status: 'banned',
+          bannedAt: serverTimestamp(),
+          bannedBy: currentAdmin?.uid,
+          banReason: reason,
+          banExpiresAt: expiresAt
+        });
+
+        await logAdminActivity('user_banned', { userId, email, reason, duration });
+        showAlert('User added to blacklist', 'success');
+        closeBlacklistModal();
+        await loadBlacklist();
+
+      } catch (error) {
+        console.error('Error adding to blacklist:', error);
+        showAlert('Error: ' + error.message, 'error');
+      }
+    };
+
+    window.removeFromBlacklist = async function(blacklistId) {
+      if (!confirm('Remove from blacklist?')) return;
+      
+      try {
+        const blacklistRef = doc(db, 'blacklist', blacklistId);
+        const blacklistSnap = await getDoc(blacklistRef);
+        const blacklistData = blacklistSnap.data();
+
+        // Update user status
+        if (blacklistData.userId) {
+          await updateDoc(doc(db, 'users', blacklistData.userId), {
+            status: 'active',
+            unbannedAt: serverTimestamp(),
+            unbannedBy: currentAdmin?.uid
+          });
+        }
+
+        // Remove from blacklist
+        await deleteDoc(blacklistRef);
+
+        await logAdminActivity('user_unbanned', { 
+          userId: blacklistData.userId, 
+          email: blacklistData.email 
+        });
+        
+        showAlert('Removed from blacklist', 'success');
+        await loadBlacklist();
+      } catch (error) {
+        showAlert('Error: ' + error.message, 'error');
+      }
     };
 
     // ========== ADMIN MANAGER ==========
-    window.loadAdminManager = async function() {
+    async function loadAdminManager() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
       
       try {
         const adminsSnapshot = await getDocs(collection(db, 'admins'));
@@ -2284,10 +3334,10 @@
                           <div style="width: 32px; height: 32px; border-radius: 50%; background: #2563eb; color: white; display: flex; align-items: center; justify-content: center;">
                             ${(admin.name || admin.email || 'A').charAt(0).toUpperCase()}
                           </div>
-                          <span>${admin.name || 'Admin'}</span>
+                          <span>${escapeHTML(admin.name || 'Admin')}</span>
                         </div>
                       </td>
-                      <td>${admin.email || 'N/A'}</td>
+                      <td>${escapeHTML(admin.email || 'N/A')}</td>
                       <td><span class="badge ${admin.role === 'super_admin' ? 'badge-danger' : 'badge-info'}">${admin.role || 'admin'}</span></td>
                       <td>${lastActive}</td>
                       <td>
@@ -2306,15 +3356,31 @@
       } catch (error) {
         console.error('Error loading admins:', error);
       }
+    }
+
+    window.revokeAdmin = async function(adminId) {
+      if (!confirm('Revoke admin access?')) return;
+      
+      try {
+        await deleteDoc(doc(db, 'admins', adminId));
+        await logAdminActivity('admin_revoked', { adminId });
+        showAlert('Admin revoked', 'success');
+        loadAdminManager();
+      } catch (error) {
+        showAlert('Error: ' + error.message, 'error');
+      }
     };
 
     // ========== AUDIT LOGS ==========
-    window.loadAuditLogs = async function() {
+    async function loadAuditLogs() {
       const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
       
       try {
-        const logsQuery = query(collection(db, 'adminLogs'), orderBy('timestamp', 'desc'), limit(100));
+        const logsQuery = query(
+          collection(db, 'adminLogs'),
+          orderBy('timestamp', 'desc'),
+          limit(100)
+        );
         const logsSnapshot = await getDocs(logsQuery);
         const logs = [];
         logsSnapshot.forEach(doc => {
@@ -2341,7 +3407,7 @@
                   return `
                     <tr>
                       <td>${time}</td>
-                      <td>${log.name || log.email || log.adminId?.substring(0, 8) || 'Unknown'}</td>
+                      <td>${escapeHTML(log.name || log.email || log.adminId?.substring(0, 8) || 'Unknown')}</td>
                       <td>${log.action || 'Unknown'}</td>
                       <td>${log.details ? JSON.stringify(log.details) : '—'}</td>
                     </tr>
@@ -2355,154 +3421,7 @@
       } catch (error) {
         console.error('Error loading logs:', error);
       }
-    };
-
-    // ========== CATEGORIES ==========
-    window.loadCategories = async function() {
-      const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
-      
-      try {
-        const categoriesSnapshot = await getDocs(collection(db, 'categories'));
-        const categories = [];
-        categoriesSnapshot.forEach(doc => {
-          categories.push({ id: doc.id, ...doc.data() });
-        });
-
-        contentArea.innerHTML = `
-          <div class="table-container">
-            <div class="table-header">
-              <div class="table-title">Job Categories</div>
-              <button class="btn btn-primary" onclick="addCategory()">
-                <i class="fas fa-plus"></i> Add Category
-              </button>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Category</th>
-                  <th>Jobs Count</th>
-                  <th>Commission</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${categories.map(cat => `
-                  <tr>
-                    <td>${cat.name || 'Unnamed'}</td>
-                    <td>${cat.jobsCount || 0}</td>
-                    <td>${cat.commission || 10}%</td>
-                    <td><span class="badge badge-success">Active</span></td>
-                    <td>
-                      <button class="btn btn-warning btn-sm" onclick="editCategory('${cat.id}')">Edit</button>
-                      <button class="btn btn-danger btn-sm" onclick="deleteCategory('${cat.id}')">Delete</button>
-                    </td>
-                  </tr>
-                `).join('')}
-                ${categories.length === 0 ? '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No categories found</td></tr>' : ''}
-              </tbody>
-            </table>
-          </div>
-        `;
-      } catch (error) {
-        console.error('Error loading categories:', error);
-      }
-    };
-
-    // ========== SETTINGS ==========
-    window.loadSettings = function() {
-      const contentArea = document.getElementById('contentArea');
-      contentArea.innerHTML = `
-        <div class="table-container">
-          <div class="table-header">
-            <div class="table-title">Platform Settings</div>
-          </div>
-          <div style="padding: 2rem;">
-            <div class="form-group">
-              <label>Platform Name</label>
-              <input type="text" value="SewaLink" id="platformName">
-            </div>
-            <div class="form-group">
-              <label>Support Email</label>
-              <input type="email" value="support@sewalink.com" id="supportEmail">
-            </div>
-            <div class="form-group">
-              <label>Currency</label>
-              <select id="currency">
-                <option value="NPR" selected>NPR (रु)</option>
-                <option value="USD">USD ($)</option>
-                <option value="EUR">EUR (€)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Minimum Withdrawal (coins)</label>
-              <input type="number" value="100" id="minWithdrawal">
-            </div>
-            <div class="form-group">
-              <label>Coin to Cash Rate (100 coins = रु X)</label>
-              <input type="number" value="10" id="coinRate">
-            </div>
-            <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
-          </div>
-        </div>
-      `;
-    };
-
-    // ========== BLACKLIST ==========
-    window.loadBlacklist = async function() {
-      const contentArea = document.getElementById('contentArea');
-      if (!contentArea) return;
-      
-      try {
-        const blacklistSnapshot = await getDocs(collection(db, 'blacklist'));
-        const blacklist = [];
-        blacklistSnapshot.forEach(doc => {
-          blacklist.push({ id: doc.id, ...doc.data() });
-        });
-
-        contentArea.innerHTML = `
-          <div class="table-container">
-            <div class="table-header">
-              <div class="table-title">Blacklist Manager</div>
-              <button class="btn btn-primary" onclick="addToBlacklist()">
-                <i class="fas fa-plus"></i> Add to Blacklist
-              </button>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>User/Email</th>
-                  <th>Reason</th>
-                  <th>Banned By</th>
-                  <th>Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${blacklist.map(item => {
-                  const date = item.bannedAt ? new Date(item.bannedAt.seconds * 1000).toLocaleDateString() : 'Unknown';
-                  return `
-                    <tr>
-                      <td>${item.email || item.userId || 'Unknown'}</td>
-                      <td>${item.reason || 'No reason'}</td>
-                      <td>${item.bannedBy || 'System'}</td>
-                      <td>${date}</td>
-                      <td>
-                        <button class="btn btn-success btn-sm" onclick="removeFromBlacklist('${item.id}')">Remove</button>
-                      </td>
-                    </tr>
-                  `;
-                }).join('')}
-                ${blacklist.length === 0 ? '<tr><td colspan="5" style="text-align: center; padding: 2rem;">No blacklisted users</td></tr>' : ''}
-              </tbody>
-            </table>
-          </div>
-        `;
-      } catch (error) {
-        console.error('Error loading blacklist:', error);
-      }
-    };
+    }
 
     // ========== UTILITY FUNCTIONS ==========
     window.viewUser = function(userId) {
@@ -2513,7 +3432,11 @@
       if (!confirm('Ban this user?')) return;
       
       try {
-        await updateDoc(doc(db, 'users', userId), {
+        const userRef = doc(db, 'users', userId);
+        const userSnap = await getDoc(userRef);
+        const userData = userSnap.data();
+
+        await updateDoc(userRef, {
           status: 'banned',
           bannedAt: serverTimestamp(),
           bannedBy: currentAdmin?.uid
@@ -2521,16 +3444,18 @@
         
         await addDoc(collection(db, 'blacklist'), {
           userId: userId,
+          email: userData.email,
+          userName: userData.displayName || userData.email,
           reason: 'Banned by admin',
           bannedAt: serverTimestamp(),
           bannedBy: currentAdmin?.uid
         });
         
         await logAdminActivity('user_banned', { userId });
-        alert('User banned');
+        showAlert('User banned', 'success');
         loadUsers();
       } catch (error) {
-        alert('Error: ' + error.message);
+        showAlert('Error: ' + error.message, 'error');
       }
     };
 
@@ -2539,10 +3464,11 @@
       
       try {
         await updateDoc(doc(db, 'users', userId), {
-          status: 'active'
+          status: 'active',
+          unbannedAt: serverTimestamp(),
+          unbannedBy: currentAdmin?.uid
         });
         
-        // Remove from blacklist
         const blacklistQuery = query(collection(db, 'blacklist'), where('userId', '==', userId));
         const blacklistSnapshot = await getDocs(blacklistQuery);
         blacklistSnapshot.forEach(async (doc) => {
@@ -2550,10 +3476,10 @@
         });
         
         await logAdminActivity('user_unbanned', { userId });
-        alert('User unbanned');
+        showAlert('User unbanned', 'success');
         loadUsers();
       } catch (error) {
-        alert('Error: ' + error.message);
+        showAlert('Error: ' + error.message, 'error');
       }
     };
 
@@ -2567,23 +3493,10 @@
       try {
         await deleteDoc(doc(db, 'jobs', jobId));
         await logAdminActivity('job_deleted', { jobId });
-        alert('Job deleted');
+        showAlert('Job deleted', 'success');
         loadJobs();
       } catch (error) {
-        alert('Error: ' + error.message);
-      }
-    };
-
-    window.revokeAdmin = async function(adminId) {
-      if (!confirm('Revoke admin access?')) return;
-      
-      try {
-        await deleteDoc(doc(db, 'admins', adminId));
-        await logAdminActivity('admin_revoked', { adminId });
-        alert('Admin revoked');
-        loadAdminManager();
-      } catch (error) {
-        alert('Error: ' + error.message);
+        showAlert('Error: ' + error.message, 'error');
       }
     };
 
@@ -2605,64 +3518,40 @@
       });
     };
 
-    window.downloadQR = function(qrId) {
-      alert(`Download QR ${qrId}`);
-    };
-
-    window.editQR = function(qrId) {
-      alert(`Edit QR ${qrId}`);
-    };
-
     window.viewQRScans = function(qrId) {
-      alert(`Viewing scans for ${qrId}`);
+      showSection('scans');
     };
 
-    window.addCategory = function() {
-      alert('Add category feature coming soon');
-    };
+    // ========== AUTH STATE HANDLER ==========
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          // Check if user is admin
+          const adminRef = doc(db, 'admins', user.uid);
+          const adminSnap = await getDoc(adminRef);
+          
+          if (!adminSnap.exists()) {
+            await signOut(auth);
+            renderLoginPage();
+            return;
+          }
 
-    window.editCategory = function(catId) {
-      alert(`Edit category ${catId}`);
-    };
+          currentAdmin = user;
+          adminData = adminSnap.data();
 
-    window.deleteCategory = function(catId) {
-      if (confirm('Delete this category?')) {
-        alert(`Category ${catId} deleted`);
+          // Update last active
+          await updateDoc(adminRef, {
+            lastActive: serverTimestamp()
+          });
+
+          renderAdminDashboard();
+        } catch (error) {
+          console.error('Admin check error:', error);
+          renderLoginPage();
+        }
+      } else {
+        renderLoginPage();
       }
-    };
-
-    window.addToBlacklist = function() {
-      alert('Add to blacklist feature coming soon');
-    };
-
-    window.removeFromBlacklist = async function(blacklistId) {
-      if (!confirm('Remove from blacklist?')) return;
-      
-      try {
-        await deleteDoc(doc(db, 'blacklist', blacklistId));
-        alert('Removed from blacklist');
-        loadBlacklist();
-      } catch (error) {
-        alert('Error: ' + error.message);
-      }
-    };
-
-    window.saveSettings = function() {
-      const platformName = document.getElementById('platformName').value;
-      const supportEmail = document.getElementById('supportEmail').value;
-      const currency = document.getElementById('currency').value;
-      const minWithdrawal = document.getElementById('minWithdrawal').value;
-      const coinRate = document.getElementById('coinRate').value;
-      
-      alert(`Settings saved: ${platformName}, ${supportEmail}, ${currency}, ${minWithdrawal} coins min, 100 coins = रु ${coinRate}`);
-    };
-
-    // ========== CLEANUP ==========
-    window.addEventListener('beforeunload', () => {
-      if (sessionTimer) clearInterval(sessionTimer);
-      if (notificationsUnsub) notificationsUnsub();
-      if (transactionsUnsub) transactionsUnsub();
-      if (qrCodesUnsub) qrCodesUnsub();
     });
   </script>
 </body>
