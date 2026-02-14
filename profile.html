@@ -1589,12 +1589,12 @@
           </div>
           <div class="qr-content">
             <div class="qr-image">
-              <img src="${qrData?.qrUrl || 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SewaLink'}" alt="Payment QR">
+              <img src="${qrData?.qrUrl || 'https://i.ibb.co/tpLDj5Pm/Screenshot-2026-02-14-at-10-29-32-am.png'}" alt="Payment QR">
             </div>
             <div class="qr-info">
               <div class="qr-title">${escapeHTML(qrData?.accountName || 'SewaLink Company')}</div>
-              <div class="qr-description">${escapeHTML(qrData?.instructions || 'Scan to pay with eSewa')}</div>
-              <span class="qr-badge"><i class="fas fa-mobile-alt"></i> ${escapeHTML(qrData?.accountNumber || '9841234567')}</span>
+              <div class="qr-description">${escapeHTML(qrData?.instructions || 'Scan to pay and support sewalink')}</div>
+              <span class="qr-badge"><i class="fas fa-mobile-alt"></i> ${escapeHTML(qrData?.accountNumber || '9761614027')}</span>
             </div>
           </div>
         </div>
@@ -1763,12 +1763,12 @@
             <h2><i class="fas fa-share-alt"></i> Social Links</h2>
             <div class="form-grid">
               <div class="form-group">
-                <label><i class="fab fa-linkedin"></i> LinkedIn</label>
-                <input type="url" id="linkedin" value="${escapeHTML(userData.linkedin || '')}" placeholder="https://linkedin.com/in/...">
+                <label><i class="fab fa-facebook"></i> LinkedIn</label>
+                <input type="url" id="facebook" value="${escapeHTML(userData.facebook || '')}" placeholder="https://facebook.com/in/...">
               </div>
               <div class="form-group">
-                <label><i class="fab fa-github"></i> GitHub</label>
-                <input type="url" id="github" value="${escapeHTML(userData.github || '')}" placeholder="https://github.com/...">
+                <label><i class="fab fa-whatsapp"></i> GitHub</label>
+                <input type="url" id="whatsapp" value="${escapeHTML(userData.whatsapp || '')}" placeholder="https://whatsapp.com/...">
               </div>
             </div>
           </div>
