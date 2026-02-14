@@ -181,11 +181,18 @@
       display: flex;
       align-items: center;
       gap: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .company-qr-section:hover, .company-qr-section:active {
+      border-color: #f59e0b;
+      background: #fef3c7;
     }
 
     .qr-image {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       background: white;
       border-radius: 12px;
       padding: 0.5rem;
@@ -218,9 +225,26 @@
     }
 
     .qr-number {
-      font-size: 0.9rem;
-      font-weight: 600;
+      font-size: 1rem;
+      font-weight: 700;
       color: #f59e0b;
+      letter-spacing: 1px;
+    }
+
+    .qr-instructions {
+      background: #fff3e0;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid #f59e0b;
+    }
+
+    .qr-instructions p {
+      color: #854d0e;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .esewa-section {
@@ -321,6 +345,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      margin-top: 1rem;
     }
 
     .transaction-history {
@@ -440,7 +465,8 @@
       where,
       getDocs,
       orderBy,
-      serverTimestamp
+      serverTimestamp,
+      increment
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -461,24 +487,65 @@
     let userCoins = 0;
     let selectedPackage = { coins: 100, price: 100, bonus: 10 };
 
-    // Load company QR code
+    // Load company QR code from settings
     async function loadCompanyQR() {
       try {
-        const qrRef = doc(db, 'company', 'payment');
+        const qrRef = doc(db, 'settings', 'payment');
         const qrSnap = await getDoc(qrRef);
         if (qrSnap.exists()) {
           return qrSnap.data();
         }
+        
+        // Try to get from qrCodes collection as fallback
+        const qrCodesQuery = query(collection(db, 'qrCodes'), where('type', '==', 'payment'), limit(1));
+        const qrCodesSnapshot = await getDocs(qrCodesQuery);
+        if (!qrCodesSnapshot.empty) {
+          const qrData = qrCodesSnapshot.docs[0].data();
+          return {
+            qrUrl: qrData.qrImage || qrData.url,
+            accountName: qrData.name || 'SewaLink Company',
+            accountNumber: qrData.accountNumber || '9841234567',
+            instructions: 'Scan this QR with eSewa app to pay'
+          };
+        }
+        
+        // Default fallback - eSewa merchant QR format
         return {
-          qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SewaLink',
+          qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=esewa://pay?amt=100&pid=SEWALINK&scd=PAYMENT',
           accountName: 'SewaLink Company',
           accountNumber: '9841234567',
-          instructions: 'Scan to pay with eSewa'
+          instructions: 'Scan this QR with eSewa app to pay'
         };
       } catch (error) {
         console.error('Error loading QR:', error);
-        return null;
+        return {
+          qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=esewa://pay?amt=100&pid=SEWALINK&scd=PAYMENT',
+          accountName: 'SewaLink Company',
+          accountNumber: '9841234567',
+          instructions: 'Scan this QR with eSewa app to pay'
+        };
       }
+    }
+
+    // Open eSewa app with payment
+    function openEsewaPayment(qrData, amount) {
+      // eSewa deep link format
+      const esewaUrl = `esewa://pay?amt=${amount}&pid=SEWALINK${Date.now()}&scd=PAYMENT`;
+      
+      // Try to open eSewa app
+      window.location.href = esewaUrl;
+      
+      // Fallback: Copy number to clipboard
+      setTimeout(() => {
+        const userConfirmed = confirm('If eSewa app did not open, would you like to copy the merchant number to clipboard?');
+        if (userConfirmed) {
+          navigator.clipboard.writeText(qrData.accountNumber).then(() => {
+            alert('Merchant number copied! Please open eSewa app and send payment manually.');
+          }).catch(() => {
+            alert(`Please send payment to eSewa number: ${qrData.accountNumber}`);
+          });
+        }
+      }, 500);
     }
 
     // Load transaction history
@@ -488,8 +555,8 @@
           collection(db, 'transactions'),
           where('userId', '==', userId),
           where('type', '==', 'purchase'),
-          orderBy('createdAt', 'desc'),
-          orderBy('__name__', 'desc')
+          orderBy('timestamp', 'desc'),
+          limit(10)
         );
         const snap = await getDocs(q);
         const transactions = [];
@@ -546,8 +613,8 @@
                 <i class="fas fa-coins"></i>
               </div>
               <div class="history-details">
-                <div class="history-amount">+${t.coins} coins (रु ${t.amount})</div>
-                <div class="history-time">${formatTime(t.createdAt)}</div>
+                <div class="history-amount">+${t.coins || t.amount*10} coins (रु ${t.amount})</div>
+                <div class="history-time">${formatTime(t.timestamp)}</div>
               </div>
             </div>
             <span class="history-status">Completed</span>
@@ -591,13 +658,30 @@
           </div>
         </div>
 
-        <div class="company-qr-section">
+        <div class="qr-instructions">
+          <p>
+            <i class="fas fa-mobile-alt"></i>
+            <strong>Step 1:</strong> Tap the QR code below to open eSewa app
+          </p>
+          <p style="margin-top: 0.5rem; padding-left: 1.8rem;">
+            <i class="fas fa-arrow-right"></i>
+            <strong>Step 2:</strong> Complete payment in eSewa
+          </p>
+          <p style="margin-top: 0.5rem; padding-left: 1.8rem;">
+            <i class="fas fa-arrow-right"></i>
+            <strong>Step 3:</strong> Enter transaction ID below
+          </p>
+        </div>
+
+        <div class="company-qr-section" onclick="openEsewaPayment(${selectedPackage.price})">
           <div class="qr-image">
-            <img src="${qrData?.qrUrl}" alt="Payment QR">
+            <img src="${qrData?.qrUrl || 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=esewa://pay'}" 
+                 alt="eSewa QR"
+                 onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=esewa://pay'">
           </div>
           <div class="qr-info">
             <div class="qr-title">${qrData?.accountName || 'SewaLink Company'}</div>
-            <div class="qr-desc">${qrData?.instructions || 'Scan to pay with eSewa'}</div>
+            <div class="qr-desc">${qrData?.instructions || 'Tap to pay with eSewa'}</div>
             <div class="qr-number">${qrData?.accountNumber || '9841234567'}</div>
           </div>
         </div>
@@ -605,7 +689,7 @@
         <div class="esewa-section">
           <div class="esewa-header">
             <i class="fab fa-cc-visa"></i>
-            <span>Confirm Your eSewa</span>
+            <span>Confirm Your Payment</span>
           </div>
 
           <div class="form-group">
@@ -614,13 +698,13 @@
           </div>
 
           <div class="form-group">
-            <label>Transaction ID (from eSewa)</label>
+            <label>Transaction ID (from eSewa SMS)</label>
             <input type="text" id="transactionId" placeholder="Enter transaction ID">
           </div>
 
           <div class="info-text">
             <i class="fas fa-shield-alt"></i>
-            After scanning QR and paying, enter the transaction ID
+            After payment, enter the transaction ID from your SMS
           </div>
         </div>
 
@@ -655,6 +739,20 @@
       document.getElementById('payAmount').textContent = price;
     };
 
+    window.openEsewaPayment = function(amount) {
+      // Create eSewa deep link
+      const transactionId = 'SEWA' + Date.now();
+      const esewaUrl = `esewa://pay?amt=${amount}&pid=${transactionId}&scd=SEWALINK`;
+      
+      // Try to open eSewa app
+      window.location.href = esewaUrl;
+      
+      // Show instructions
+      setTimeout(() => {
+        alert(`📱 If eSewa app didn't open:\n\n1. Open eSewa app manually\n2. Send रु ${amount} to merchant: 9841234567\n3. Enter transaction ID below`);
+      }, 1000);
+    };
+
     window.processPayment = async function() {
       const esewaNumber = document.getElementById('esewaNumber').value;
       const transactionId = document.getElementById('transactionId').value;
@@ -665,7 +763,7 @@
       }
       
       if (!transactionId) {
-        alert('Please enter the transaction ID from eSewa');
+        alert('Please enter the transaction ID from eSewa SMS');
         return;
       }
 
@@ -677,8 +775,10 @@
         // Record transaction
         const totalCoins = selectedPackage.coins + selectedPackage.bonus;
         
+        // Save to transactions collection
         await addDoc(collection(db, 'transactions'), {
           userId: currentUser.uid,
+          userName: currentUser.displayName || currentUser.email,
           type: 'purchase',
           amount: selectedPackage.price,
           coins: totalCoins,
@@ -687,21 +787,21 @@
           esewaNumber,
           transactionId,
           status: 'completed',
-          createdAt: serverTimestamp()
+          timestamp: serverTimestamp()
         });
 
         // Update user coins
         const userRef = doc(db, 'users', currentUser.uid);
         await updateDoc(userRef, {
-          coins: userCoins + totalCoins
+          coins: increment(totalCoins)
         });
 
-        alert(`✅ Payment Successful!\nYou received ${totalCoins} coins (${selectedPackage.coins} + ${selectedPackage.bonus} bonus)`);
+        alert(`✅ Payment Successful!\n\nYou received ${totalCoins} coins (${selectedPackage.coins} + ${selectedPackage.bonus} bonus)`);
         window.location.href = 'profile.html';
 
       } catch (error) {
         console.error('Payment error:', error);
-        alert('Payment failed. Please try again.');
+        alert('❌ Payment failed. Please try again.');
         btn.innerHTML = '<i class="fas fa-lock"></i> Pay रु ' + selectedPackage.price;
         btn.disabled = false;
       }
