@@ -578,7 +578,7 @@
       margin-top: 1.5rem;
     }
 
-    .btn-contact, .btn-message {
+    .btn-contact, .btn-message, .btn-gift {
       width: 100%;
       padding: 0.9rem;
       border: none;
@@ -601,7 +601,11 @@
       background: #2563eb;
       color: white;
     }
-    .btn-contact:active, .btn-message:active {
+    .btn-gift {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+    }
+    .btn-contact:active, .btn-message:active, .btn-gift:active {
       transform: scale(0.98);
     }
 
@@ -827,6 +831,10 @@
       }
       .contact-actions {
         flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .btn-contact, .btn-message, .btn-gift {
+        flex: 1;
       }
       .portfolio-grid, .screenshots-grid {
         grid-template-columns: repeat(4, 1fr);
@@ -1002,6 +1010,22 @@
       imgElement.parentNode.appendChild(fallback);
     }
 
+    // ========== SEND GIFT FUNCTION ==========
+    window.sendGift = function(receiverId, receiverName) {
+      if (!currentUser) {
+        showAlert('Please sign in to send gifts', 'error');
+        window.location.href = 'sign-in.html?redirect=send-gift.html?id=' + receiverId;
+        return;
+      }
+      
+      if (currentUser.uid === receiverId) {
+        showAlert("You can't send a gift to yourself!", 'error');
+        return;
+      }
+      
+      window.location.href = `send-gift.html?id=${receiverId}`;
+    };
+
     // ========== AUTH UI ==========
     async function renderAuthUI(user) {
       if (user) {
@@ -1017,6 +1041,7 @@
             photoURL: user.photoURL || '',
             role: 'freelancer',
             favorites: [],
+            coins: 100, // Give new users 100 coins
             createdAt: new Date()
           });
         }
@@ -1033,6 +1058,7 @@
               <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
               <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
               <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+              <a href="send-gift.html" class="dropdown-item"><i class="fas fa-gift"></i> Send Gift</a>
               <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
           </div>
@@ -1403,7 +1429,7 @@
           });
         }
 
-        // Render profile
+        // Render profile with SEND GIFT button
         profileViewerContainer.innerHTML = `
           <div class="profile-card">
             <div class="profile-header">
@@ -1575,7 +1601,7 @@
               </div>
             ` : ''}
 
-            <!-- CONTACT ACTIONS -->
+            <!-- CONTACT ACTIONS with SEND GIFT BUTTON -->
             ${!isOwnProfile && currentUser ? `
               <div class="contact-actions">
                 ${userData.phoneNumber ? `
@@ -1585,6 +1611,17 @@
                 ` : ''}
                 <a href="messages.html?user=${userId}" class="btn-message">
                   <i class="fas fa-comment"></i> Message
+                </a>
+                <button class="btn-gift" onclick="sendGift('${userId}', '${escapeHTML(userData.displayName || 'User')}')">
+                  <i class="fas fa-gift"></i> Send Gift
+                </button>
+              </div>
+            ` : ''}
+
+            ${isOwnProfile ? `
+              <div class="contact-actions">
+                <a href="send-gift.html" class="btn-gift">
+                  <i class="fas fa-gift"></i> Send a Gift
                 </a>
               </div>
             ` : ''}
@@ -1629,6 +1666,7 @@
     // ========== EXPOSE GLOBALS ==========
     window.toggleFavorite = toggleFavorite;
     window.openImageModal = openImageModal;
+    window.sendGift = sendGift;
   </script>
 </body>
 </html>
