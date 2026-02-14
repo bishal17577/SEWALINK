@@ -26,7 +26,7 @@
     }
 
     body {
-      background: #ffffff;
+      background: #f8fafc;
       color: #0f172a;
       line-height: 1.5;
       padding-bottom: env(safe-area-inset-bottom);
@@ -120,6 +120,20 @@
       font-weight: 600;
       font-size: 0.8rem;
       text-decoration: none;
+    }
+
+    /* ========== ADMIN BADGE ========== */
+    .admin-badge {
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      color: white;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-left: 0.5rem;
     }
 
     /* ========== PROFILE DROPDOWN ========== */
@@ -287,6 +301,10 @@
       font-weight: 700;
       color: #0f172a;
       margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
     }
 
     .profile-title p {
@@ -344,6 +362,163 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+    }
+
+    /* ========== COIN SECTION ========== */
+    .coin-section {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      padding: 1.2rem;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+      color: white;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+    }
+    
+    .coin-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .coin-header i {
+      font-size: 1.3rem;
+    }
+    
+    .coin-balance {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+    
+    .coin-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    
+    .coin-label {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    
+    .coin-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    
+    .btn-coin {
+      padding: 0.8rem;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    
+    .btn-payment {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .btn-withdraw {
+      background: white;
+      color: #f59e0b;
+    }
+    
+    .btn-payment:active {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(0.98);
+    }
+    
+    .btn-withdraw:active {
+      background: #fef3c7;
+      transform: scale(0.98);
+    }
+    
+    .coin-info {
+      font-size: 0.7rem;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    /* ========== QR CODE SECTION ========== */
+    .qr-section {
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      padding: 1.2rem;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+      color: white;
+    }
+
+    .qr-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .qr-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .qr-image {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 12px;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .qr-info {
+      flex: 1;
+    }
+
+    .qr-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .qr-description {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+
+    .qr-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.65rem;
+      display: inline-block;
     }
 
     /* ========== FRIEND SECTION ========== */
@@ -858,11 +1033,6 @@
       }
     }
 
-    /* Hidden debug panel - only visible to developers */
-    #debugPanel {
-      display: none;
-    }
-
     @media (min-width: 768px) {
       .bottom-nav {
         max-width: 400px;
@@ -891,11 +1061,7 @@
     <div id="authUI" class="auth-buttons"></div>
   </header>
   
-
   <div id="alertContainer"></div>
-
-  <!-- Hidden Debug Panel (only visible in console) -->
-  <div id="debugPanel" style="display: none;"></div>
 
   <!-- Main Container -->
   <div class="container">
@@ -958,7 +1124,9 @@
       collection,
       query,
       where,
-      serverTimestamp
+      serverTimestamp,
+      orderBy,
+      limit
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     // ========== FIREBASE CONFIG ==========
@@ -991,6 +1159,8 @@
     let portfolioImages = [];
     let cvFiles = [];
     let screenshotFiles = [];
+    let userCoins = 0;
+    let isAdmin = false;
 
     // ========== CURRENCY FORMATTER ==========
     function formatNPR(amount) {
@@ -1066,7 +1236,6 @@
           throw new Error(result.error?.message || 'Upload failed');
         }
 
-        // Clean the data to remove any undefined values
         const imageData = {
           url: result.data.url || null,
           display_url: result.data.display_url || null,
@@ -1076,12 +1245,10 @@
           name: file.name
         };
 
-        // Only add thumb if it exists
         if (result.data.thumb?.url) {
           imageData.thumb = result.data.thumb.url;
         }
 
-        // Only add delete_hash if it exists
         if (result.data.delete_hash) {
           imageData.delete_hash = result.data.delete_hash;
         }
@@ -1107,10 +1274,64 @@
       }
     }
 
+    // ========== LOAD COMPANY QR CODE ==========
+    async function loadCompanyQR() {
+      try {
+        const qrRef = doc(db, 'company', 'payment');
+        const qrSnap = await getDoc(qrRef);
+        if (qrSnap.exists()) {
+          return qrSnap.data();
+        }
+        return {
+          qrUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SewaLink',
+          accountName: 'SewaLink Company',
+          accountNumber: '9841234567',
+          instructions: 'Scan to pay with eSewa'
+        };
+      } catch (error) {
+        console.error('Error loading QR:', error);
+        return null;
+      }
+    }
+
+    // ========== CHECK IF USER IS ADMIN ==========
+    async function checkIfAdmin(userId) {
+      try {
+        const userRef = doc(db, 'users', userId);
+        const userSnap = await getDoc(userRef);
+        return userSnap.exists() && userSnap.data().role === 'admin';
+      } catch (error) {
+        console.error('Error checking admin:', error);
+        return false;
+      }
+    }
+
+    // ========== LOAD USER COINS ==========
+    async function loadUserCoins(userId) {
+      try {
+        const userRef = doc(db, 'users', userId);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists() && userSnap.data().coins !== undefined) {
+          userCoins = userSnap.data().coins;
+        } else {
+          // Initialize coins if not exists
+          await updateDoc(userRef, { coins: 0 }, { merge: true });
+          userCoins = 0;
+        }
+        return userCoins;
+      } catch (error) {
+        console.error('Error loading coins:', error);
+        return 0;
+      }
+    }
+
     // ========== AUTH UI ==========
     async function renderAuthUI(user) {
       if (user) {
         currentUser = user;
+        
+        // Check if admin
+        isAdmin = await checkIfAdmin(user.uid);
         
         authUI.innerHTML = `
           <div class="profile-container">
@@ -1124,6 +1345,11 @@
               <a href="dashboard.html" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
               <a href="favorites.html" class="dropdown-item"><i class="fas fa-heart"></i> Favorites</a>
               <a href="messages.html" class="dropdown-item"><i class="fas fa-envelope"></i> Messages</a>
+              ${isAdmin ? `
+                <a href="admin.html" class="dropdown-item" style="color: #8b5cf6;">
+                  <i class="fas fa-crown"></i> Admin Panel
+                </a>
+              ` : ''}
               <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
           </div>
@@ -1206,7 +1432,8 @@
       try {
         const q = query(
           collection(db, 'portfolio'),
-          where('userId', '==', userId)
+          where('userId', '==', userId),
+          orderBy('createdAt', 'desc')
         );
         const snap = await getDocs(q);
         portfolioImages = [];
@@ -1225,7 +1452,8 @@
       try {
         const q = query(
           collection(db, 'cv'),
-          where('userId', '==', userId)
+          where('userId', '==', userId),
+          orderBy('createdAt', 'desc')
         );
         const snap = await getDocs(q);
         cvFiles = [];
@@ -1244,7 +1472,8 @@
       try {
         const q = query(
           collection(db, 'screenshots'),
-          where('userId', '==', userId)
+          where('userId', '==', userId),
+          orderBy('createdAt', 'desc')
         );
         const snap = await getDocs(q);
         screenshotFiles = [];
@@ -1281,6 +1510,10 @@
       
       currentSkills = userData.skills || [];
       
+      // Load coins and QR code
+      const coins = await loadUserCoins(currentUser.uid);
+      const qrData = await loadCompanyQR();
+      
       const [stats, friendCount] = await Promise.all([
         loadUserStats(currentUser.uid),
         loadFriendCount(currentUser.uid)
@@ -1312,12 +1545,56 @@
             ` : ''}
           </div>
           <div class="profile-title">
-            <h1 id="profileName">${escapeHTML(currentUser.displayName || 'User')}</h1>
+            <h1 id="profileName">
+              ${escapeHTML(currentUser.displayName || 'User')}
+              ${isAdmin ? '<span class="admin-badge"><i class="fas fa-crown"></i> Admin</span>' : ''}
+            </h1>
             <p>${escapeHTML(currentUser.email || '')}</p>
             <div style="margin-top: 0.8rem;">
               <span class="profile-badge"><i class="fas fa-calendar-alt"></i> ${memberSince}</span>
-              <span class="profile-badge"><i class="fas ${userData.role === 'freelancer' ? 'fa-briefcase' : 'fa-user-tie'}"></i> ${escapeHTML(userData.role || 'freelancer')}</span>
+              <span class="profile-badge"><i class="fas ${userData.role === 'freelancer' ? 'fa-briefcase' : userData.role === 'client' ? 'fa-user-tie' : 'fa-users'}"></i> ${escapeHTML(userData.role || 'freelancer')}</span>
               ${userData.phoneNumber ? `<span class="phone-verified"><i class="fas fa-check-circle"></i> Verified</span>` : ''}
+            </div>
+          </div>
+        </div>
+
+        <!-- Coin Section -->
+        <div class="coin-section">
+          <div class="coin-header">
+            <i class="fas fa-coins"></i>
+            <span>Game Coins</span>
+          </div>
+          <div class="coin-balance">
+            <span class="coin-value" id="coinBalance">${coins.toLocaleString()}</span>
+            <span class="coin-label">coins</span>
+          </div>
+          <div class="coin-actions">
+            <a href="payment.html" class="btn-coin btn-payment">
+              <i class="fas fa-plus-circle"></i> Buy Coins
+            </a>
+            <a href="withdraw.html" class="btn-coin btn-withdraw">
+              <i class="fas fa-exchange-alt"></i> Withdraw
+            </a>
+          </div>
+          <div class="coin-info">
+            <i class="fas fa-info-circle"></i> 100 coins = रु 10 (withdraw to eSewa)
+          </div>
+        </div>
+
+        <!-- QR Code Section (Company Payment QR) -->
+        <div class="qr-section">
+          <div class="qr-header">
+            <i class="fas fa-qrcode"></i>
+            <span>Company Payment QR</span>
+          </div>
+          <div class="qr-content">
+            <div class="qr-image">
+              <img src="${qrData?.qrUrl || 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=SewaLink'}" alt="Payment QR">
+            </div>
+            <div class="qr-info">
+              <div class="qr-title">${escapeHTML(qrData?.accountName || 'SewaLink Company')}</div>
+              <div class="qr-description">${escapeHTML(qrData?.instructions || 'Scan to pay with eSewa')}</div>
+              <span class="qr-badge"><i class="fas fa-mobile-alt"></i> ${escapeHTML(qrData?.accountNumber || '9841234567')}</span>
             </div>
           </div>
         </div>
@@ -1360,7 +1637,7 @@
         ${userData.role === 'freelancer' || userData.role === 'both' ? `
           <div class="earnings-section">
             <div class="earnings-title">
-              <i class="fas fa-coins"></i> Earnings
+              <i class="fas fa-coins"></i> Job Earnings
             </div>
             <div class="earnings-grid">
               <div class="earnings-item">
@@ -1704,7 +1981,6 @@
                 
                 const imageData = await uploadToImgBB(files[i]);
                 
-                // Try to save to Firestore, but don't fail if permissions issue
                 try {
                   const docRef = await addDoc(collection(db, 'portfolio'), {
                     userId: currentUser.uid,
@@ -1715,7 +1991,6 @@
                   successCount++;
                 } catch (firestoreError) {
                   console.error('Firestore error:', firestoreError);
-                  // Still consider it a success since image uploaded to ImgBB
                   portfolioImages.push({ id: 'temp-' + Date.now(), ...imageData });
                   successCount++;
                 }
@@ -1773,7 +2048,6 @@
                 };
               }
 
-              // Try to save to Firestore, but don't fail if permissions issue
               try {
                 const docRef = await addDoc(collection(db, 'cv'), {
                   userId: currentUser.uid,
@@ -1833,7 +2107,6 @@
                 
                 const imageData = await uploadToImgBB(files[i]);
                 
-                // Try to save to Firestore, but don't fail if permissions issue
                 try {
                   const docRef = await addDoc(collection(db, 'screenshots'), {
                     userId: currentUser.uid,
@@ -1930,6 +2203,7 @@
               website: document.getElementById('website')?.value.trim() || '',
               linkedin: document.getElementById('linkedin')?.value.trim() || '',
               github: document.getElementById('github')?.value.trim() || '',
+              coins: userCoins,
               updatedAt: serverTimestamp()
             }, { merge: true });
 
@@ -2013,7 +2287,6 @@
           await deleteFromImgBB(image.delete_url);
         }
         
-        // Try to delete from Firestore, but don't fail if permissions issue
         try {
           await deleteDoc(doc(db, 'portfolio', imageId));
         } catch (firestoreError) {
@@ -2041,7 +2314,6 @@
           await deleteFromImgBB(cv.delete_url);
         }
         
-        // Try to delete from Firestore, but don't fail if permissions issue
         try {
           await deleteDoc(doc(db, 'cv', cvId));
         } catch (firestoreError) {
@@ -2069,7 +2341,6 @@
           await deleteFromImgBB(screenshot.delete_url);
         }
         
-        // Try to delete from Firestore, but don't fail if permissions issue
         try {
           await deleteDoc(doc(db, 'screenshots', screenshotId));
         } catch (firestoreError) {
