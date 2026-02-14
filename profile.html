@@ -136,6 +136,21 @@
       margin-left: 0.5rem;
     }
 
+    /* ========== SHOP BADGE ========== */
+    .shop-badge {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-left: 0.5rem;
+      text-decoration: none;
+    }
+
     /* ========== PROFILE DROPDOWN ========== */
     .profile-container {
       position: relative;
@@ -305,6 +320,7 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
     .profile-title p {
@@ -362,6 +378,101 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+    }
+
+    /* ========== SHOP SECTION ========== */
+    .shop-section {
+      background: linear-gradient(135deg, #fef3c7, #fff);
+      padding: 1.2rem;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+      border: 1px solid #fbbf24;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .shop-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+    
+    .shop-info {
+      flex: 1;
+    }
+    
+    .shop-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 0.2rem;
+    }
+    
+    .shop-status {
+      font-size: 0.8rem;
+      color: #b45309;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    .shop-status i {
+      font-size: 0.5rem;
+    }
+    
+    .shop-status.open i {
+      color: #10b981;
+    }
+    
+    .shop-status.closed i {
+      color: #ef4444;
+    }
+    
+    .btn-manage-shop {
+      background: white;
+      color: #f59e0b;
+      border: 1px solid #f59e0b;
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-manage-shop:active {
+      background: #f59e0b;
+      color: white;
+    }
+    
+    .btn-add-shop {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+    .btn-add-shop:active {
+      transform: scale(0.98);
     }
 
     /* ========== COIN SECTION ========== */
@@ -1083,9 +1194,9 @@
       <i class="fas fa-home"></i>
       <span>Home</span>
     </a>
-    <a href="services.html" class="nav-item">
-      <i class="fas fa-cogs"></i>
-      <span>Services</span>
+    <a href="shop.html" class="nav-item">
+      <i class="fas fa-store"></i>
+      <span>Shop</span>
     </a>
     <a href="jobs.html" class="nav-item">
       <i class="fas fa-briefcase"></i>
@@ -1161,6 +1272,7 @@
     let screenshotFiles = [];
     let userCoins = 0;
     let isAdmin = false;
+    let userShop = null;
 
     // ========== CURRENCY FORMATTER ==========
     function formatNPR(amount) {
@@ -1303,6 +1415,23 @@
       } catch (error) {
         console.error('Error checking admin:', error);
         return false;
+      }
+    }
+
+    // ========== LOAD USER SHOP ==========
+    async function loadUserShop(userId) {
+      try {
+        const shopsQuery = query(collection(db, 'shops'), where('ownerId', '==', userId));
+        const shopsSnap = await getDocs(shopsQuery);
+        if (!shopsSnap.empty) {
+          userShop = { id: shopsSnap.docs[0].id, ...shopsSnap.docs[0].data() };
+        } else {
+          userShop = null;
+        }
+        return userShop;
+      } catch (error) {
+        console.error('Error loading user shop:', error);
+        return null;
       }
     }
 
@@ -1500,6 +1629,23 @@
       ).join('');
     }
 
+    // ========== CHECK IF SHOP IS OPEN ==========
+    function isShopOpen(openTime, closeTime) {
+      if (!openTime || !closeTime) return true;
+      const now = new Date();
+      const currentHour = now.getHours();
+      const currentMin = now.getMinutes();
+      const currentTime = currentHour * 60 + currentMin;
+      
+      const [openHour, openMin] = openTime.split(':').map(Number);
+      const [closeHour, closeMin] = closeTime.split(':').map(Number);
+      
+      const openMinutes = openHour * 60 + openMin;
+      const closeMinutes = closeHour * 60 + closeMin;
+      
+      return currentTime >= openMinutes && currentTime <= closeMinutes;
+    }
+
     // ========== RENDER PROFILE ==========
     async function renderProfile() {
       if (!currentUser) return;
@@ -1510,9 +1656,10 @@
       
       currentSkills = userData.skills || [];
       
-      // Load coins and QR code
+      // Load coins, QR code, and user shop
       const coins = await loadUserCoins(currentUser.uid);
       const qrData = await loadCompanyQR();
+      await loadUserShop(currentUser.uid);
       
       const [stats, friendCount] = await Promise.all([
         loadUserStats(currentUser.uid),
@@ -1528,6 +1675,31 @@
       const memberSince = currentUser.metadata.creationTime 
         ? new Date(currentUser.metadata.creationTime).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
         : 'Recently';
+
+      // Shop section HTML
+      const shopSection = userShop ? `
+        <div class="shop-section">
+          <div class="shop-icon">
+            <i class="fas fa-store"></i>
+          </div>
+          <div class="shop-info">
+            <div class="shop-name">${escapeHTML(userShop.shopName)}</div>
+            <div class="shop-status ${isShopOpen(userShop.openTime, userShop.closeTime) ? 'open' : 'closed'}">
+              <i class="fas fa-circle"></i> ${isShopOpen(userShop.openTime, userShop.closeTime) ? 'Open Now' : 'Closed'}
+            </div>
+          </div>
+          <a href="view-shop.html?id=${userShop.id}" class="btn-manage-shop">
+            <i class="fas fa-eye"></i> View
+          </a>
+          <a href="edit-shop.html?id=${userShop.id}" class="btn-manage-shop" style="margin-left: 0.5rem;">
+            <i class="fas fa-edit"></i> Manage
+          </a>
+        </div>
+      ` : `
+        <a href="add-shop.html" class="btn-add-shop">
+          <i class="fas fa-plus-circle"></i> Open Your Shop
+        </a>
+      `;
 
       profileContent.innerHTML = `
         <!-- Profile Header -->
@@ -1548,6 +1720,7 @@
             <h1 id="profileName">
               ${escapeHTML(currentUser.displayName || 'User')}
               ${isAdmin ? '<span class="admin-badge"><i class="fas fa-crown"></i> Admin</span>' : ''}
+              ${userShop ? '<a href="view-shop.html?id=' + userShop.id + '" class="shop-badge"><i class="fas fa-store"></i> Shop Owner</a>' : ''}
             </h1>
             <p>${escapeHTML(currentUser.email || '')}</p>
             <div style="margin-top: 0.8rem;">
@@ -1557,6 +1730,9 @@
             </div>
           </div>
         </div>
+
+        <!-- Shop Section -->
+        ${shopSection}
 
         <!-- Coin Section -->
         <div class="coin-section">
@@ -1763,12 +1939,12 @@
             <h2><i class="fas fa-share-alt"></i> Social Links</h2>
             <div class="form-grid">
               <div class="form-group">
-                <label><i class="fab fa-facebook"></i> LinkedIn</label>
-                <input type="url" id="facebook" value="${escapeHTML(userData.facebook || '')}" placeholder="https://facebook.com/in/...">
+                <label><i class="fab fa-linkedin"></i> LinkedIn</label>
+                <input type="url" id="linkedin" value="${escapeHTML(userData.linkedin || '')}" placeholder="https://linkedin.com/in/...">
               </div>
               <div class="form-group">
-                <label><i class="fab fa-whatsapp"></i> GitHub</label>
-                <input type="url" id="whatsapp" value="${escapeHTML(userData.whatsapp || '')}" placeholder="https://whatsapp.com/...">
+                <label><i class="fab fa-github"></i> GitHub</label>
+                <input type="url" id="github" value="${escapeHTML(userData.github || '')}" placeholder="https://github.com/...">
               </div>
             </div>
           </div>
@@ -2207,7 +2383,7 @@
               updatedAt: serverTimestamp()
             }, { merge: true });
 
-            document.getElementById('profileName').textContent = displayName;
+            document.getElementById('profileName').firstChild.textContent = displayName;
             
             messageDiv.className = 'message success show';
             messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> Profile updated successfully!';
